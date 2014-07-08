@@ -1,8 +1,19 @@
 require('es6-shim/es6-shim');
 var stackTrace = require('stack-trace');
 var fs = require('fs');
-var path = require('path');
 var sourceMap = require("source-map");
+
+class ParsedError {
+    constructor(err) {
+        this.name = err.name;
+        this.message = err.message;
+        this.originalStack = err.stack;
+    }
+
+    toString() {
+        return this.name + ': ' + this.message + "\n" + this.stack.toString();
+    }
+}
 
 class StackTrace {
     constructor() {
@@ -43,16 +54,17 @@ class StackTraceItem {
         this.typeName = item.typeName;
         this.methodName = item.methodName;
         this.native = item.native;
+        this.file = item.file;
     }
 
     getFileName() {
-        return this.fileName; 
+        return this.fileName;
     }
     getLineNumber() {
-        return this.line; 
+        return this.line;
     }
     getColumnNumber() {
-        return this.column + 1; 
+        return this.column + 1;
     }
     getScriptNameOrSourceURL() {
         return this.fileName;
@@ -65,8 +77,10 @@ class StackTraceItem {
  * @return {StackTrace}
  */
 exports.parse = function(err) {
+    var parsedError = new ParsedError(err);
     var stack = stackTrace.parse(err);
     var finalStack = new StackTrace();
+    parsedError.stack = finalStack;
 
     var files = new Map();
     stack.forEach((line) => {
@@ -80,7 +94,7 @@ exports.parse = function(err) {
         if (fileName.startsWith('/')) {
             try {
                 var fileNameMap = fileName + '.map';
-                var fileContent = fs.readFileSync(fileName);
+                var fileContent = fs.readFileSync(fileName).toString();
                 var match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
                 if (match && match[1] && match[1][0] === '/') {
                     fileNameMap = match[1];
@@ -88,13 +102,14 @@ exports.parse = function(err) {
                 var contents = fs.readFileSync(fileNameMap).toString();
                 file.map = new sourceMap.SourceMapConsumer(contents);
                 if (file.map.sourcesContent) {
-                    var sourceIndex = file.map.sources.indexOf(fileName);
+                    var sourceIndex = file.map.sources.indexOf(file.map.file);
                     file.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
+                }
+                if (!file.contents) {
+                    file.contents = fs.readFileSync(file.map.sourceRoot + file.map.file).toString();
                 }
                 // TODO lazy loading
                 //, path.resolve(file.map.sourceRoot, original.source)
-                file.contents = file.contents || fs.readFileSync(path.resolve(file.map.sourceRoot, file.map.file))
-                                                                                                        .toString();
             } catch(e) {
                 //console.log(e.stack);
             }
@@ -118,5 +133,17 @@ exports.parse = function(err) {
         }
         finalStack.items.push(new StackTraceItem(line));
     });
-    return finalStack;
+
+    return parsedError;
+};
+
+
+/**
+ * Parse then log an error with logger.error
+ * @param  {Error} err
+ */
+exports.log = function(err) {
+    /* global logger */
+    var parsedError = exports.parse(err);
+    logger.error(parsedError.toString());
 };

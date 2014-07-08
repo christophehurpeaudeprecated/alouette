@@ -2,6 +2,7 @@
 /src
 /example
 /test/src
+/lib/**/*.map
 
 /.settings
 .project

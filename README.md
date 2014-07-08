@@ -1,13 +1,22 @@
-springbokjs-library-skeleton
+springbokjs-stack-trace
 ============================
 
-A skeleton for a springbokjs library with compilation from es6 and tests
-
+Parse a stack trace, apply source maps and render it in console or in html
 
 ## Use
 
 ```
-git clone git@github.com:christophehurpeau/springbokjs-library-skeleton.git YOUR_PROJECT_NAME
-cd YOUR_PROJECT_NAME
-rm -Rf .git
+var stackParser = require('springbokjs-stack-trace');
+var HtmlStackRenderer = require('springbokjs-stack-trace/htmlRenderer');
+var htmlStackRenderer = new HtmlStackRenderer();
+
+function(req, res) {
+    try {
+        //...
+    } catch (err) {
+        var parsedStack = stackParser.parse(err.stack);
+        htmlStackRenderer.render(parsedStack);
+    }
+}
+
 ```

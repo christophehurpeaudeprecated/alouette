@@ -1,4 +1,5 @@
-var hljs = require('highlight.js');
+/* jshint maxlen: 200 */
+var highlight = require('eshighlight-harmony');
 var escape = function(text) {
     return String(text)
         .replace(/&(?!\w+;)/g, '&amp;')
@@ -9,62 +10,74 @@ var escape = function(text) {
 
 var parser = require('./index');
 
-export default class HtmlRenderer {
-    construct(options) {
-        this.options = options;
+class HtmlRenderer {
+    constructor(options) {
+        this.options = options || {};
     }
 
-    openLocalFile(filePath, lineNumber) {
+    openLocalFile(filePath, lineNumber, columnNumber) {
         if (this.openLocalFile.generatedPath && this.openLocalFile.sourcePath
                      && filePath.startsWith(this.openLocalFile.generatedPath)) {
             filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
         }
-        return '<a href="openlocalfile://' + escape(filePath) + ( lineNumber && '?' + lineNumber) + '">';
+        return '<a href="openlocalfile://' + escape(filePath) + ( lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
     }
 
     replaceAppInFilePath(filePath) {
         if (this.openLocalFile.generatedPath) {
             filePath = 'APP/' + filePath.substr(this.openLocalFile.generatedPath.length);
         }
+        return filePath;
     }
 
     render(error) {
         var str = '<div style="text-align: left">';
-        str += '<h4>' + error.name + '</h4>';
-        str += '<pre style="background:#FFF;color:#222;border:0;font-size:1em;white-space:pre-wrap;word-wrap:break-word">';
-        str += escape(error.message);
-        str += '</pre>';
+        str += '<h4>' + error.name + '</h4>' + "\n";
+        if (error.message) {
+            str += '<pre style="background:#FFF;color:#222;border:0;font-size:1em;white-space:pre-wrap;word-wrap:break-word">';
+            str += escape(error.message);
+            str += '</pre>';
+        }
 
-        str += '<h5 style="background:#FFDDAA;color:#333;border:1px solid #E07308;padding:1px 2px;">Call Stack:</h5>';
-        str += '<pre style="background:#FFF;color:#222;border:0">' + this.renderStack(error.stack) + '</pre>';
-
-
+        str += '<h5 style="background:#FFDDAA;color:#333;border:1px solid #E07308;padding:1px 2px;">Call Stack:</h5>' + "\n";
 
         if (!this.options.production) {
-
+            str += '<pre style="background:#FFF;color:#222;border:0">' + this.renderStack(error) + '</pre>';
         }
+        return str;
     }
 
     renderStack(stackTrace) {
         if (!stackTrace) {
             return;
         }
-        if (typeof stackTrace === 'string') {
-            stackTrace = parser.parse(stackTrace);
-        }
+        stackTrace = parser.parse(stackTrace);
 
-        var str = '';
+        var str = '<style>.string{ color: #EC7600; }\
+.keyword, .null{ font-weight: bold; color: #93C763; }\
+.numeric{ color: #FACD22; }\
+.line-comment{ color: #66747B; }\
+.identifier{ }\
+.control-flow{ color: #93C763; }\
+.azerty1{ color: #66747B; }\
+.azerty2{ color: #678CB1; }\
+.azerty5{ color: #F1F2F3; }\
+.azerty6{ color: #8AC763; }\
+.azerty7{ color: #E0E2E4; }\
+.azerty9{ color: purple; }\
+</style>';
         stackTrace.forEach((item, i) => {
-            if (item.contents) {
-                str += '<div><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" onclick="var el=this.parentNode.parentNode.children[1]; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
+            if (item.file && item.file.contents) {
+                str += '<span><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" '
+                        +'onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
             }
             str += '#' + i + ' ';
-            if (item.fileName) {
+            if (item.fileName && item.fileName.startsWith('/')) {
                 str += this.openLocalFile(item.fileName, item.lineNumber, item.columnNumber);
             }
             str += this.replaceAppInFilePath(item.fileName)  + ':' + item.lineNumber + ':' + item.columnNumber;
             if (item.fileName) {
-                str += '</a>';
+                str += '</a> ';
             }
 
             if (item.native) {
@@ -77,31 +90,34 @@ export default class HtmlRenderer {
             if (item.methodName) {
                 str += item.methodName;
             }
-            if (item.contents && !this.options.production) {
-                str += '</a></div>';
+            if (item.file && item.file.contents) {
+                str += '</a></span>';
                 str += '<div style="margin-top:5px;display:none">';
                 str += '<b>File content :</b><br />';
-                str += this.highlightLine(item.contents, item.lineNumber, item.columnNumber);
+                str += this.highlightLine(item.file.contents, item.lineNumber, item.columnNumber);
                 str += '</div>';
             }
+            str += "\n";
+
         });
+        return str;
     }
 
     highlightLine(contents, lineNumber, columnNumber) {
-        var style = 'background:#3F1F1F';
+        var style = 'background:#3F1F1F;';
         var withLineNumbers = true;
         var minmax = 4;
 
-        var hcontents = hljs.highlight('javascript', contents).value;
-        hcontents.split("\n");
+        var hcontents = highlight(contents);
+        hcontents = hcontents.split(/\r\n|\n\r|\n|\r/);
 
         var ok = lineNumber <= hcontents.length;
         var firstLine, start, lineContent, end;
         if (ok) {
             firstLine = Math.max(0, minmax ? lineNumber -1 -minmax : 0);
-            start = hcontents.substring(firstLine, lineNumber -1 -firstLine);
+            start = hcontents.slice(firstLine, lineNumber -1);
             lineContent = lineNumber === 0 ? '' : hcontents[lineNumber - 1];
-            end = hcontents.substring(lineNumber, minmax);
+            end = hcontents.slice(lineNumber, lineNumber + minmax);
         } else {
             start = hcontents;
         }
@@ -121,9 +137,9 @@ export default class HtmlRenderer {
         return this.tag('pre', preAttrs, content, false);
     }
 
-    lines(withLineNumbers, startNumber, lines) {
+    lines(withLineNumbers, startNumber, _lines) {
         var content = '';
-        lines.forEach((line) => {
+        _lines.forEach((line) => {
             content += this.line(withLineNumbers, startNumber++, {}, line);
         });
         return content;
@@ -148,10 +164,11 @@ export default class HtmlRenderer {
         for (var key in attributes) {
             str += ' ' + key;
             if (attributes[key]) {
-                str += '="' + (attributes[key] === true ? key : escape(attributes[key]));
+                str += '="' + (attributes[key] === true ? key : escape(attributes[key])) + '"';
             }
         }
         return '<' + tagName + str + (content == null ? '/>' :
                         ('>' + (contentEscape ? escape(content) : content) + '</' + tagName + '>'));
     }
 }
+module.exports = HtmlRenderer;

@@ -1,29 +1,30 @@
 {
-  "name": "springbokjs-stack-trace",
-  "description": "Stack trace debugging",
+  "name": "springbokjs-errors",
+  "description": "Error and stack trace parser and renderers",
   "keywords": [
     "springbokjs"
   ],
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "springbokjs.org",
   "license": "MIT",
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
-  "repository": "git@github.com:christophehurpeau/springbokjs-stack-trace.git",
+  "repository": "git@github.com:christophehurpeau/springbokjs-errors.git",
   "scripts": {
     "test": "node_modules/.bin/mocha -u tdd tests/lib"
   },
   "main": "./lib/index.js",
   "dependencies": {
+    "cat-js": "0.0.3",
     "es6-shim": "^0.13.0",
-    "highlight.js": "^8.0.0",
-    "source-map": "^0.1.34",
+    "eshighlight-harmony": "^0.3.0",
+    "source-map": "^0.1",
     "springbokjs-utils": "^0.3.23",
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
-    "gulp": "^3.8.5",
-    "mocha": "~1.20.1",
-    "proclaim": "^2.0.0",
-    "springbokjs-library": "^2.4.5"
+    "gulp": "^3.8",
+    "mocha": "^1.20",
+    "proclaim": "^2.0",
+    "springbokjs-library": "^2.4"
   }
 }
