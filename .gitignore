@@ -2,6 +2,7 @@
 /dist
 node_modules
 /lib/**/*.map
+/tests/lib/**/*.map
 
 /.settings
 .project

@@ -8,7 +8,7 @@ test('should have parsed the stack trace', function() {
             unknownFunction(); // jshint ignore:line
         })();
     } catch (err) {
-        var stack = parser.parse(err);
+        var stack = parser.parseErrorStack(err);
         var firstItem = stack.items[0];
         expect(firstItem.fileName, __filename.replace('/lib/', '/src/'));
         expect(firstItem.lineNumber, 8);

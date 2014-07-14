@@ -47,11 +47,8 @@ class HtmlRenderer {
         return str;
     }
 
-    renderStack(stackTrace) {
-        if (!stackTrace) {
-            return;
-        }
-        stackTrace = parser.parse(stackTrace);
+    renderStack(error) {
+        var stackTrace = parser.parseErrorStack(error);
 
         var str = '<style>.string{ color: #EC7600; }\
 .keyword, .null{ font-weight: bold; color: #93C763; }\

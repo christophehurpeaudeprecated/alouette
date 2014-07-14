@@ -78,9 +78,13 @@ class StackTraceItem {
  */
 exports.parse = function(err) {
     var parsedError = new ParsedError(err);
-    var stack = stackTrace.parse(err);
+    parsedError.stack = exports.parseErrorStack(err);
+    return parsedError;
+};
+
+exports.parseErrorStack = function(err) {
     var finalStack = new StackTrace();
-    parsedError.stack = finalStack;
+    var stack = stackTrace.parse(err);
 
     var files = new Map();
     stack.forEach((line) => {
@@ -134,7 +138,7 @@ exports.parse = function(err) {
         finalStack.items.push(new StackTraceItem(line));
     });
 
-    return parsedError;
+    return finalStack;
 };
 
 
