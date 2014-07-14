@@ -38,3 +38,5 @@ function(req, res) {
 [npm-url]: https://npmjs.org/package/springbokjs-errors
 [droneio-image]: https://drone.io/github.com/christophehurpeau/springbokjs-errors/status.png
 [droneio-url]: https://drone.io/github.com/christophehurpeau/springbokjs-errors/latest
+
+See the [auto-generated docs](http://christophehurpeau.github.io/springbokjs-errors/docs/global.html)
