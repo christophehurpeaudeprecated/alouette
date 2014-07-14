@@ -75,7 +75,7 @@ class StackTraceItem {
 /**
  * Parse an error and extract its stack trace
  * @param  {Error} err
- * @return {StackTrace}
+ * @return {ParsedError}
  */
 exports.parse = function(err) {
     var parsedError = new ParsedError(err);
@@ -83,6 +83,11 @@ exports.parse = function(err) {
     return parsedError;
 };
 
+/**
+ * Parse an error and extract its stack trace
+ * @param  {Error} err
+ * @return {StackTrace}
+ */
 exports.parseErrorStack = function(err) {
     var finalStack = new StackTrace();
     var stack = stackTrace.parse(err);
