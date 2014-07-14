@@ -1,9 +1,5 @@
 /dist
-/src
 /example
-/test/src
-/lib/**/*.map
-/tests/lib/**/*.map
 
 /.settings
 .project

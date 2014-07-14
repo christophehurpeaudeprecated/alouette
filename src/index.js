@@ -1,6 +1,7 @@
 require('es6-shim/es6-shim');
 var stackTrace = require('stack-trace');
 var fs = require('fs');
+var path = require('path');
 var sourceMap = require("source-map");
 
 class ParsedError {
@@ -110,7 +111,12 @@ exports.parseErrorStack = function(err) {
                     file.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
                 }
                 if (!file.contents) {
-                    file.contents = fs.readFileSync(file.map.sourceRoot + file.map.file).toString();
+                    var sourceRoot = path.resolve(path.dirname(fileName), file.map.sourceRoot);
+                    if (sourceRoot.slice(-1) !== '/') {
+                        sourceRoot += '/';
+                    }
+                    file.sourceFileName = sourceRoot + file.map.file;
+                    file.contents = fs.readFileSync(file.sourceFileName).toString();
                 }
                 // TODO lazy loading
                 //, path.resolve(file.map.sourceRoot, original.source)
@@ -126,7 +132,7 @@ exports.parseErrorStack = function(err) {
             var original = file.map.originalPositionFor({ line: line.lineNumber, column: line.columnNumber });
             if (original.source) {
                 //, path.resolve(file.map.sourceRoot, original.source)
-                line.fileName = original.source;
+                line.fileName = file.sourceFileName;
                 line.lineNumber = original.line;
                 line.columnNumber = original.column;
                 if (original.name) {
