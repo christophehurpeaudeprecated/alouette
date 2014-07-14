@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="springbokjs-errors : " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>springbokjs-errors</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/christophehurpeau/springbokjs-errors">View on GitHub</a>
+
+          <h1 id="project_title">springbokjs-errors</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/christophehurpeau/springbokjs-errors/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/christophehurpeau/springbokjs-errors/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="springbokjs-errors---" class="anchor" href="#springbokjs-errors---"><span class="octicon octicon-link"></span></a>springbokjs-errors  <a href="https://npmjs.org/package/springbokjs-errors"><img src="https://img.shields.io/npm/v/springbokjs-errors.svg?style=flat" alt="NPM version"></a> <a href="https://drone.io/github.com/christophehurpeau/springbokjs-errors/latest"><img src="https://drone.io/github.com/christophehurpeau/springbokjs-errors/status.png" alt="Drone.io Status"></a>
+</h1>
+
+<p>Parse an error with its stack trace, apply source maps and render it in console or in html</p>
+
+<h2>
+<a name="use" class="anchor" href="#use"><span class="octicon octicon-link"></span></a>Use</h2>
+
+<h3>
+<a name="for-console" class="anchor" href="#for-console"><span class="octicon octicon-link"></span></a>For console</h3>
+
+<pre><code>var stackParser = require('springbokjs-stack-trace');
+
+try {
+    //...
+} catch (err) {
+    console.error(stackParser.parse(err).toString());
+}
+</code></pre>
+
+<h3>
+<a name="html-rendering" class="anchor" href="#html-rendering"><span class="octicon octicon-link"></span></a>Html rendering</h3>
+
+<pre><code>var HtmlStackRenderer = require('springbokjs-stack-trace/htmlRenderer');
+var htmlStackRenderer = new HtmlStackRenderer();
+
+function(req, res) {
+    try {
+        //...
+    } catch (err) {
+        res.send(500, htmlStackRenderer.render(err));
+    }
+}
+
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">springbokjs-errors maintained by <a href="https://github.com/christophehurpeau">christophehurpeau</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
