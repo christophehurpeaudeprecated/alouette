@@ -1,8 +1,7 @@
 /docs
 /dist
 node_modules
-/lib/**/*.map
-/tests/lib/**/*.map
+/lib-cov
 
 /.settings
 .project

@@ -1,5 +1,6 @@
 /dist
 /example
+/lib-cov
 
 /.settings
 .project
