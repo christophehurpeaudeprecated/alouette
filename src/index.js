@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var sourceMap = require("source-map");
 
+
 class ParsedError {
     constructor(err) {
         this.name = err.name;
@@ -160,5 +161,5 @@ exports.parseErrorStack = function(err) {
 exports.log = function(err) {
     /* global logger */
     var parsedError = exports.parse(err);
-    logger.error(parsedError.toString());
+    [global.logger && logger.error || console.error](parsedError.toString());
 };
