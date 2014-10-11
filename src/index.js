@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var sourceMap = require("source-map");
 
+var sourceMapping;
 
 class ParsedError {
     constructor(err) {
@@ -36,7 +37,7 @@ class StackTrace {
 
     render(log) {
         this.forEach((line) => {
-            var fullPath = line.fileName + ':' + line.lineNumber + ':' + line.columnNumber;
+            var fullPath = line.sourceRealPath + ':' + line.lineNumber + ':' + line.columnNumber;
             log(
                 '    at '
                  + ( line.methodName || line.typeName ? (line.typeName && line.typeName + '.')
@@ -57,6 +58,13 @@ class StackTraceItem {
         this.methodName = item.methodName;
         this.native = item.native;
         this.file = item.file;
+
+        if (sourceMapping && item.fileName && item.fileName.startsWith(sourceMapping.current)) {
+            this.realFileName = sourceMapping.source
+                                    + item.fileName.substr(sourceMapping.current.length);
+        } else {
+            this.realFileName = item.fileName;
+        }
     }
 
     getFileName() {
@@ -72,6 +80,18 @@ class StackTraceItem {
         return this.fileName;
     }
 }
+
+
+
+/**
+ * Set path mapping, for instance when you have a vm or docker
+ *
+ * @param {String} currentPath
+ * @param {String} sourcePath
+ */
+exports.setPathMapping = function(currentPath, sourcePath) {
+    sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });
+};
 
 /**
  * Parse an error and extract its stack trace
@@ -146,6 +166,7 @@ exports.parseErrorStack = function(err) {
                 }
             }
             line.file = file;
+
         }
         finalStack.items.push(new StackTraceItem(line));
     });
@@ -160,6 +181,10 @@ exports.parseErrorStack = function(err) {
  */
 exports.log = function(err) {
     /* global logger */
-    var parsedError = exports.parse(err);
-    [global.logger && logger.error || console.error](parsedError.toString());
+    if (typeof err !== 'object') {
+        (global.logger && logger.error || console.error)(err.message || err);
+    } else {
+        var parsedError = exports.parse(err);
+        (global.logger && logger.error || console.error)(parsedError.toString());
+    }
 };

@@ -15,12 +15,12 @@ class HtmlRenderer {
         this.options = options || {};
     }
 
-    openLocalFile(filePath, lineNumber, columnNumber) {
+    openLocalFile(filePath, lineNumber, columnNumber, realFilePath) {
         if (this.openLocalFile.generatedPath && this.openLocalFile.sourcePath
                      && filePath.startsWith(this.openLocalFile.generatedPath)) {
             filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
         }
-        return '<a href="openlocalfile://' + escape(filePath) + ( lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
+        return '<a href="openlocalfile://' + escape(realFilePath || filePath) + ( lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
     }
 
     replaceAppInFilePath(filePath) {
@@ -70,9 +70,9 @@ class HtmlRenderer {
             }
             str += '#' + i + ' ';
             if (item.fileName && item.fileName.startsWith('/')) {
-                str += this.openLocalFile(item.fileName, item.lineNumber, item.columnNumber);
+                str += this.openLocalFile(item.fileName, item.lineNumber, item.columnNumber, item.realFileName);
             }
-            str += this.replaceAppInFilePath(item.fileName)  + ':' + item.lineNumber + ':' + item.columnNumber;
+            str += this.replaceAppInFilePath(item.realFileName || item.fileName)  + ':' + item.lineNumber + ':' + item.columnNumber;
             if (item.fileName) {
                 str += '</a> ';
             }
