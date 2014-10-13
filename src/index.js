@@ -37,13 +37,7 @@ class StackTrace {
 
     render(log) {
         this.forEach((line) => {
-            var fullPath = line.sourceRealPath + ':' + line.lineNumber + ':' + line.columnNumber;
-            log(
-                '    at '
-                 + ( line.methodName || line.typeName ? (line.typeName && line.typeName + '.')
-                 + (line.methodName || '<anonymous>')
-                 + ' (' + fullPath + ')' : fullPath));
-            //line.native
+            line.render(log);
         });
     }
 }
@@ -78,6 +72,16 @@ class StackTraceItem {
     }
     getScriptNameOrSourceURL() {
         return this.fileName;
+    }
+
+    render(log) {
+        var fullPath = this.realFileName + ':' + this.lineNumber + ':' + this.columnNumber;
+        log(
+            '    at '
+             + ( this.methodName || this.typeName ? (this.typeName && this.typeName + '.')
+             + (this.methodName || '<anonymous>')
+             + ' (' + fullPath + ')' : fullPath));
+        //line.native
     }
 }
 
