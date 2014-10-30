@@ -105,7 +105,12 @@ class HtmlRenderer {
         var withLineNumbers = true;
         var minmax = 4;
 
-        var hcontents = highlight(contents);
+        var hcontents;
+        try {
+            hcontents = highlight(contents);
+        } catch (err) {
+            hcontents = contents;
+        }
         hcontents = hcontents.split(/\r\n|\n\r|\n|\r/);
 
         var ok = lineNumber <= hcontents.length;
