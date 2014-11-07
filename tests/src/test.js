@@ -1,5 +1,4 @@
 var assert = require('proclaim');
-var expect = assert.strictEqual;
 var parser = require('../../lib/index.js');
 
 test('should have parsed the stack trace', function() {
@@ -10,8 +9,8 @@ test('should have parsed the stack trace', function() {
     } catch (err) {
         var stack = parser.parseErrorStack(err);
         var firstItem = stack.items[0];
-        expect(firstItem.fileName, __filename.replace('/lib/', '/src/'));
-        expect(firstItem.lineNumber, 8);
-        expect(firstItem.columnNumber, 12);
+        assert.strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
+        assert.strictEqual(firstItem.lineNumber, 7);
+        assert.strictEqual(firstItem.columnNumber, 13);
     }
 });
