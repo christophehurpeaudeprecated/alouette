@@ -1,4 +1,3 @@
-require('es6-shim/es6-shim');
 var stackTrace = require('stack-trace');
 var fs = require('fs');
 var path = require('path');
@@ -53,11 +52,20 @@ class StackTraceItem {
         this.native = item.native;
         this.file = item.file;
 
+        this.compiledFileName = item.compiledFileName;
+        this.compiledLineNumber = item.compiledLineNumber;
+        this.compiledColumnNumber = item.compiledColumnNumber;
+
         if (sourceMapping && item.fileName && item.fileName.startsWith(sourceMapping.current)) {
             this.realFileName = sourceMapping.source
                                     + item.fileName.substr(sourceMapping.current.length);
+            if (this.compiledFileName) {
+                this.realCompiledFileName = sourceMapping.source
+                                    + item.fileName.substr(sourceMapping.current.length);
+            }
         } else {
             this.realFileName = item.fileName;
+            this.realCompiledFileName = item.compiledFileName;
         }
     }
 
@@ -162,6 +170,10 @@ exports.parseErrorStack = function(err) {
             var original = file.map.originalPositionFor({ line: line.lineNumber, column: line.columnNumber });
             if (original.source) {
                 //, path.resolve(file.map.sourceRoot, original.source)
+                line.compiledFileName = line.fileName;
+                line.compiledLineNumber = line.lineNumber;
+                line.compiledColumnNumber = line.columnNumber;
+
                 line.fileName = file.sourceFileName;
                 line.lineNumber = original.line;
                 line.columnNumber = original.column;

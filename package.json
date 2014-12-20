@@ -4,8 +4,8 @@
   "keywords": [
     "springbokjs"
   ],
-  "version": "0.2.3",
-  "homepage": "springbokjs.org",
+  "version": "1.0.0",
+  "homepage": "http://springbokjs.org",
   "license": "MIT",
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
   "repository": "git@github.com:christophehurpeau/springbokjs-errors.git",
@@ -15,7 +15,7 @@
   "main": "./lib/index.js",
   "dependencies": {
     "cat-js": "0.0.3",
-    "es6-shim": "^0.20.2",
+    "es6-shim": "^0.22.1",
     "eshighlight-harmony": "^0.3.0",
     "source-map": "^0.1",
     "stack-trace": "0.0.9"
@@ -24,6 +24,6 @@
     "gulp": "^3.8",
     "mocha": "^2.0",
     "proclaim": "^2.0",
-    "springbokjs-library": "^3.2.1"
+    "springbokjs-library": "^3.3.3"
   }
 }

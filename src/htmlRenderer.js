@@ -50,19 +50,19 @@ class HtmlRenderer {
     renderStack(error) {
         var stackTrace = parser.parseErrorStack(error);
 
-        var str = '<style>.string{ color: #EC7600; }\
-.keyword, .null{ font-weight: bold; color: #93C763; }\
-.numeric{ color: #FACD22; }\
-.line-comment{ color: #66747B; }\
-.identifier{ }\
-.control-flow{ color: #93C763; }\
-.azerty1{ color: #66747B; }\
-.azerty2{ color: #678CB1; }\
-.azerty5{ color: #F1F2F3; }\
-.azerty6{ color: #8AC763; }\
-.azerty7{ color: #E0E2E4; }\
-.azerty9{ color: purple; }\
-</style>';
+        var str = `<style>.string{ color: #EC7600; }
+.keyword, .null{ font-weight: bold; color: #93C763; }
+.numeric{ color: #FACD22; }
+.line-comment{ color: #66747B; }
+.identifier{ }
+.control-flow{ color: #93C763; }
+.azerty1{ color: #66747B; }
+.azerty2{ color: #678CB1; }
+.azerty5{ color: #F1F2F3; }
+.azerty6{ color: #8AC763; }
+.azerty7{ color: #E0E2E4; }
+.azerty9{ color: purple; }
+</style>`;
         stackTrace.forEach((item, i) => {
             if (item.file && item.file.contents) {
                 str += '<span><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" '
@@ -90,6 +90,14 @@ class HtmlRenderer {
             if (item.file && item.file.contents) {
                 str += '</a></span>';
                 str += '<div style="margin-top:5px;display:none">';
+                if (item.compiledFileName) {
+                    str += '<div>';
+                    if (item.realCompiledFileName && item.realCompiledFileName.startsWith('/')) {
+                        str += this.openLocalFile(item.compiledFileName, item.compiledLineNumber, item.compiledColumnNumber, item.realCompiledFileName);
+                    }
+                    str += this.replaceAppInFilePath(item.realCompiledFileName)  + ':' + item.compiledLineNumber + ':' + item.compiledColumnNumber;
+                    str += '</a></div>';
+                }
                 str += '<b>File content :</b><br />';
                 str += this.highlightLine(item.file.contents, item.lineNumber, item.columnNumber);
                 str += '</div>';
@@ -109,7 +117,7 @@ class HtmlRenderer {
         try {
             hcontents = highlight(contents);
         } catch (err) {
-            hcontents = contents;
+            hcontents = escape(contents);
         }
         hcontents = hcontents.split(/\r\n|\n\r|\n|\r/);
 

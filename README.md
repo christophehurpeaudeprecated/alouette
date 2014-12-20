@@ -9,6 +9,7 @@ Parse an error with its stack trace, apply source maps and render it in console 
 ### For console
 
 ```
+require('es6-shim/es6-shim');
 var stackParser = require('springbokjs-stack-trace');
 
 try {
@@ -21,6 +22,7 @@ try {
 ### Html rendering
 
 ```
+require('es6-shim/es6-shim');
 var HtmlStackRenderer = require('springbokjs-stack-trace/htmlRenderer');
 var htmlStackRenderer = new HtmlStackRenderer();
 
