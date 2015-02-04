@@ -4,7 +4,7 @@
   "keywords": [
     "springbokjs"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "http://springbokjs.org",
   "license": "MIT",
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
@@ -15,15 +15,15 @@
   "main": "./lib/index.js",
   "dependencies": {
     "cat-js": "0.0.3",
-    "es6-shim": "^0.22.1",
+    "es6-shim": "^0.23.0",
     "eshighlight-harmony": "^0.3.0",
-    "source-map": "^0.1",
+    "source-map": "^0.2",
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
     "gulp": "^3.8",
-    "mocha": "^2.0",
+    "mocha": "^2.1",
     "proclaim": "^2.0",
-    "springbokjs-library": "^3.3.3"
+    "springbokjs-library": "^3.4.0"
   }
 }
