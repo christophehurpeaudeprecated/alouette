@@ -101,27 +101,27 @@ class StackTraceItem {
  * @param {String} currentPath
  * @param {String} sourcePath
  */
-exports.setPathMapping = function(currentPath, sourcePath) {
+export function setPathMapping(currentPath, sourcePath) {
     sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });
-};
+}
 
 /**
  * Parse an error and extract its stack trace
  * @param  {Error} err
  * @return {ParsedError}
  */
-exports.parse = function(err) {
+export function parse(err) {
     var parsedError = new ParsedError(err);
     parsedError.stack = exports.parseErrorStack(err);
     return parsedError;
-};
+}
 
 /**
  * Parse an error and extract its stack trace
  * @param  {Error} err
  * @return {StackTrace}
  */
-exports.parseErrorStack = function(err) {
+export function parseErrorStack(err) {
     var finalStack = new StackTrace();
     var stack = stackTrace.parse(err);
 
@@ -188,14 +188,14 @@ exports.parseErrorStack = function(err) {
     });
 
     return finalStack;
-};
+}
 
 
 /**
  * Parse then log an error with logger.error
  * @param  {Error} err
  */
-exports.log = function(err) {
+export function log(err) {
     /* global logger */
     if (typeof err !== 'object') {
         (global.logger && logger.error || console.error)(err.message || err);
@@ -203,4 +203,4 @@ exports.log = function(err) {
         var parsedError = exports.parse(err);
         (global.logger && logger.error || console.error)(parsedError.toString());
     }
-};
+}
