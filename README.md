@@ -21,7 +21,7 @@ try {
 ### Html rendering
 
 ```
-var HtmlStackRenderer = require('springbokjs-stack-trace/lib/HtmlRenderer').HtmlRenderer;
+var HtmlStackRenderer = require('springbokjs-stack-trace/lib/HtmlRenderer');
 var htmlStackRenderer = new HtmlStackRenderer();
 
 function(req, res) {

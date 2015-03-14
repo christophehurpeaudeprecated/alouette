@@ -10,7 +10,7 @@ var escape = function(text) {
 
 var parser = require('./index');
 
-export class HtmlRenderer {
+export default class HtmlRenderer {
     constructor(options) {
         this.options = options || {};
     }
