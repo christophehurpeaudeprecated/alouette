@@ -84,11 +84,16 @@ class StackTraceItem {
 
     render(log) {
         var fullPath = this.realFileName + ':' + this.lineNumber + ':' + this.columnNumber;
+        var compiledPath = this.compiledFileName && this.compiledFileName !== this.realFileName ?
+                    this.compiledFileName + ':' + this.compiledLineNumber + ':' + this.compiledColumnNumber
+                    : null;
         log(
             '    at '
              + ( this.methodName || this.typeName ? (this.typeName && this.typeName + '.')
              + (this.methodName || '<anonymous>')
-             + ' (' + fullPath + ')' : fullPath));
+             + ' (' + fullPath + ')' : fullPath)
+             + (compiledPath ? ' (compiled= ' + compiledPath + ')' : '')
+        );
         //line.native
     }
 }
@@ -144,22 +149,22 @@ export function parseErrorStack(err) {
                 }
                 var contents = fs.readFileSync(fileNameMap).toString();
                 file.map = new sourceMap.SourceMapConsumer(contents);
+                var sourceRoot = !file.map.sourceRoot ? '' : path.resolve(path.dirname(fileName), file.map.sourceRoot);
+                file.sourceFileName = sourceRoot + file.map.file;
                 if (file.map.sourcesContent) {
                     var sourceIndex = file.map.sources.indexOf(file.map.file);
                     file.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
                 }
                 if (!file.contents) {
-                    var sourceRoot = path.resolve(path.dirname(fileName), file.map.sourceRoot);
                     if (sourceRoot.slice(-1) !== '/') {
                         sourceRoot += '/';
                     }
-                    file.sourceFileName = sourceRoot + file.map.file;
                     file.contents = fs.readFileSync(file.sourceFileName).toString();
                 }
                 // TODO lazy loading
                 //, path.resolve(file.map.sourceRoot, original.source)
             } catch(e) {
-                //console.log(e.stack);
+                // console.log(e.stack);
             }
         }
     });

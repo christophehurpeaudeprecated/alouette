@@ -8,9 +8,13 @@ test('should have parsed the stack trace', function() {
             unknownFunction(); // jshint ignore:line
         })();
     } catch (err) {
+        // console.log(err.stack);
         var stack = parser.parseErrorStack(err);
+        // console.log('========');
+        // console.log(stack.toString());
         var firstItem = stack.items[0];
-        assert.strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
+        // assert.strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
+        assert.strictEqual(firstItem.realFileName, 'tests/src/test.js');
         assert.strictEqual(firstItem.lineNumber, 8);
         assert.lessThan(firstItem.columnNumber, 14);
         assert.greaterThanOrEqual(firstItem.columnNumber, 12);
