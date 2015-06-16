@@ -9,7 +9,7 @@ Parse an error with its stack trace, apply source maps and render it in console 
 ### For console
 
 ```
-var stackParser = require('springbokjs-stack-trace');
+var stackParser = require('springbokjs-errors');
 
 try {
     //...
@@ -21,7 +21,7 @@ try {
 ### Html rendering
 
 ```
-var HtmlStackRenderer = require('springbokjs-stack-trace/lib/HtmlRenderer');
+var HtmlStackRenderer = require('springbokjs-errors/lib/HtmlRenderer');
 var htmlStackRenderer = new HtmlStackRenderer();
 
 function(req, res) {
