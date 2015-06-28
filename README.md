@@ -8,19 +8,19 @@ Parse an error with its stack trace, apply source maps and render it in console 
 
 ### For console
 
-```
-var stackParser = require('springbokjs-errors');
+```js
+var errorParser = require('springbokjs-errors');
 
 try {
     //...
 } catch (err) {
-    console.error(stackParser.parse(err).toString());
+    console.error(errorParser.parse(err).toString());
 }
 ```
 
 ### Html rendering
 
-```
+```js
 var HtmlStackRenderer = require('springbokjs-errors/lib/HtmlRenderer');
 var htmlStackRenderer = new HtmlStackRenderer();
 
