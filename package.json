@@ -1,10 +1,12 @@
 {
   "name": "alouette",
-  "description": "Error and stack trace parser and renderers",
+  "description": "Error and stack trace parser with renderers",
   "keywords": [
-    "springbokjs"
+    "error",
+    "stacktrace",
+    "babel"
   ],
-  "version": "2.1.0",
+  "version": "2.1.1",
   "homepage": "https://github.com/christophehurpeau/alouette#readme",
   "license": "MIT",
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
@@ -15,9 +17,8 @@
   "engines" : { "node" : ">=0.12" },
   "main": "./lib/index.js",
   "dependencies": {
-    "cat-js": "0.0.3",
     "eshighlight-harmony": "^0.3.0",
-    "source-map": "^0.4.2",
+    "source-map": "^0.4.4",
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
