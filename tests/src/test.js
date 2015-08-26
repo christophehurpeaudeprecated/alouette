@@ -13,9 +13,8 @@ test('should have parsed the stack trace', function() {
         // console.log('========');
         // console.log(stack.toString());
         var firstItem = stack.items[0];
-        // assert.strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
-        assert.strictEqual(firstItem.fileName, 'src/test.js');
-        assert.strictEqual(firstItem.realFileName, 'src/test.js');
+        assert.strictEqual(firstItem.fileName, __filename.replace('/lib/', '/src/'));
+        assert.strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
         assert.strictEqual(firstItem.lineNumber, 8);
         assert.lessThan(firstItem.columnNumber, 14);
         assert.greaterThanOrEqual(firstItem.columnNumber, 12);
