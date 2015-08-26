@@ -1,14 +1,14 @@
 {
-  "name": "springbokjs-errors",
+  "name": "alouette",
   "description": "Error and stack trace parser and renderers",
   "keywords": [
     "springbokjs"
   ],
   "version": "2.1.0",
-  "homepage": "http://springbokjs.org",
+  "homepage": "https://github.com/christophehurpeau/alouette#readme",
   "license": "MIT",
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
-  "repository": "git@github.com:christophehurpeau/springbokjs-errors.git",
+  "repository": "christophehurpeau/alouette",
   "scripts": {
     "test": "node_modules/.bin/mocha -u tdd tests/lib"
   },
