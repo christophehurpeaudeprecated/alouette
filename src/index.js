@@ -1,7 +1,7 @@
 var stackTrace = require('stack-trace');
 var fs = require('fs');
 var path = require('path');
-var sourceMap = require("source-map");
+var sourceMap = require('source-map');
 
 var sourceMapping;
 
@@ -13,7 +13,7 @@ class ParsedError {
     }
 
     toString() {
-        return this.name + ': ' + this.message + "\n" + this.stack.toString();
+        return this.name + ': ' + this.message + '\n' + this.stack.toString();
     }
 }
 
@@ -29,7 +29,7 @@ class StackTrace {
     toString() {
         var str = '';
         this.render(function(string) {
-            str += string + "\n";
+            str += string + '\n';
         });
         return str;
     }
@@ -41,12 +41,12 @@ class StackTrace {
     }
 }
 
-
 class StackTraceItem {
     constructor(item) {
         this.fileName = item.fileName;
         this.lineNumber = item.lineNumber;
         this.columnNumber = item.columnNumber;
+        this.functionName = item.functionName;
         this.typeName = item.typeName;
         this.methodName = item.methodName;
         this.native = item.native;
@@ -72,33 +72,44 @@ class StackTraceItem {
     getFileName() {
         return this.fileName;
     }
+
     getLineNumber() {
         return this.line;
     }
+
     getColumnNumber() {
         return this.column + 1;
     }
+
     getScriptNameOrSourceURL() {
         return this.fileName;
     }
 
     render(log) {
-        var fullPath = this.realFileName + ':' + this.lineNumber + ':' + this.columnNumber;
-        var compiledPath = this.compiledFileName && this.compiledFileName !== this.realFileName ?
-                    this.compiledFileName + ':' + this.compiledLineNumber + ':' + this.compiledColumnNumber
-                    : null;
-        log(
-            '    at '
-             + ( this.methodName || this.typeName ? (this.typeName && this.typeName + '.')
-             + (this.methodName || '<anonymous>')
-             + ' (' + fullPath + ')' : fullPath)
-             + (compiledPath ? ' (compiled= ' + compiledPath + ')' : '')
-        );
-        //line.native
+        let str = '    at ';
+        if (this.functionName) {
+            str += this.functionName;
+        } else if (this.typeName) {
+            str += this.typeName + '.' + (this.methodName || '<anonymous>');
+        }
+
+        if (this.native) {
+            str += ' [native]';
+        } else {
+            const fullPath = this.realFileName + ':' + this.lineNumber + ':' + this.columnNumber;
+            str += ' (' + fullPath + ')';
+
+            if (this.compiledFileName && this.compiledFileName !== this.realFileName) {
+                const compiledPath = this.compiledFileName + ':' +
+                                     this.compiledLineNumber + ':' +
+                                     this.compiledColumnNumber;
+                str += ' (compiled= ' + compiledPath + ')';
+            }
+        }
+
+        log(str);
     }
 }
-
-
 
 /**
  * Set path mapping, for instance when you have a vm or docker
@@ -112,6 +123,7 @@ export function setPathMapping(currentPath, sourcePath) {
 
 /**
  * Parse an error and extract its stack trace
+ *
  * @param  {Error} err
  * @return {ParsedError}
  */
@@ -123,6 +135,7 @@ export function parse(err) {
 
 /**
  * Parse an error and extract its stack trace
+ *
  * @param  {Error} err
  * @return {StackTrace}
  */
@@ -130,74 +143,101 @@ export function parseErrorStack(err) {
     var finalStack = new StackTrace();
     var stack = stackTrace.parse(err);
 
-    var files = new Map();
-    stack.forEach((line) => {
-        if (!line.fileName || files.has(line.fileName)) {
-            return;
-        }
-        files.set(line.fileName, {});
-    });
+    const libFiles = new Map();
+    const sourceFiles = new Map();
 
-    files.forEach((file, fileName) => {
-        if (fileName.startsWith('/')) {
-            try {
-                var fileNameMap = fileName + '.map';
-                var fileContent = fs.readFileSync(fileName).toString();
-                var match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
-                if (match && match[1] && match[1][0] === '/') {
-                    fileNameMap = match[1];
-                }
-                var contents = fs.readFileSync(fileNameMap).toString();
-                file.map = new sourceMap.SourceMapConsumer(contents);
-                var sourceRoot = !file.map.sourceRoot ? '' : path.resolve(path.dirname(fileName), file.map.sourceRoot);
-                file.sourceFileName = sourceRoot + file.map.file;
-                if (file.map.sourcesContent) {
-                    var sourceIndex = file.map.sources.indexOf(file.map.file);
-                    file.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
-                }
-                if (!file.contents) {
-                    if (sourceRoot.slice(-1) !== '/') {
-                        sourceRoot += '/';
+    stack.forEach((line) => {
+        const fileName = line.fileName;
+        let file;
+
+        if (fileName && fileName.startsWith('/')) {
+            if (libFiles.has(fileName)) {
+                file = libFiles.get(fileName);
+            } else {
+                try {
+                    file = {};
+                    let fileNameMap = fileName + '.map';
+                    const fileContent = fs.readFileSync(fileName).toString();
+                    const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
+                    if (match && match[1] && match[1][0] === '/') {
+                        fileNameMap = match[1];
                     }
-                    file.contents = fs.readFileSync(file.sourceFileName).toString();
+
+                    const contents = fs.readFileSync(fileNameMap).toString();
+                    file.map = new sourceMap.SourceMapConsumer(contents);
+
+                    if (file.map.sourceRoot) {
+                        file.sourceRoot = path.resolve(path.dirname(fileName), file.map.sourceRoot);
+                    } else {
+                        file.sourceRoot = path.dirname(fileName);
+                    }
+
+                    libFiles.set(fileName, file);
+                } catch (e) {
+                    libFiles.set(fileName, file = false);
                 }
-                // TODO lazy loading
-                //, path.resolve(file.map.sourceRoot, original.source)
-            } catch(e) {
-                // console.log(e.stack);
             }
         }
-    });
 
-    stack.forEach((line) => {
-        var file = files.get(line.fileName);
         if (file && file.map) {
-            var original = file.map.originalPositionFor({ line: line.lineNumber, column: line.columnNumber });
+            const original = file.map.originalPositionFor({ line: line.lineNumber, column: line.columnNumber });
+            let originalFile;
+
             if (original.source) {
-                //, path.resolve(file.map.sourceRoot, original.source)
+                const originalFilePath = path.resolve(file.sourceRoot, original.source);
+
+                if (sourceFiles.has(originalFilePath)) {
+                    originalFile = sourceFiles.get(originalFilePath);
+                } else {
+                    originalFile = { fileName: original.source, filePath: originalFilePath };
+                    sourceFiles.set(originalFilePath, originalFile);
+
+                    if (file.map.sourcesContent) {
+                        const sourceIndex = file.map.sources.indexOf(original.source);
+                        originalFile.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
+                    }
+
+                    if (!file.contents) {
+                        Object.defineProperty(originalFile, 'contents', {
+                            configurable: true,
+                            get: function get() {
+                                let contents;
+                                try {
+                                    contents = fs.readFileSync(originalFilePath).toString();
+                                } catch (err) {}
+
+                                Object.defineProperty(originalFile, 'contents', { value: contents });
+                                return contents;
+                            },
+                        });
+                    }
+                }
+
                 line.compiledFileName = line.fileName;
                 line.compiledLineNumber = line.lineNumber;
                 line.compiledColumnNumber = line.columnNumber;
 
-                line.fileName = file.sourceFileName;
+                line.fileName = originalFile.filePath;
                 line.lineNumber = original.line;
                 line.columnNumber = original.column;
                 if (original.name) {
                     line.methodName = original.name;
                 }
             }
+
             line.file = file;
 
         }
+
         finalStack.items.push(new StackTraceItem(line));
     });
 
     return finalStack;
 }
 
-
 /**
  * Parse then log an error with logger.error
+ *
  * @param  {Error} err
  */
 export function log(err) {

@@ -20,30 +20,33 @@ export default class HtmlRenderer {
                      && filePath.startsWith(this.openLocalFile.generatedPath)) {
             filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
         }
-        return '<a href="openlocalfile://' + escape(realFilePath || filePath) + ( lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
+
+        return '<a href="openlocalfile://' + escape(realFilePath || filePath) + (lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
     }
 
     replaceAppInFilePath(filePath) {
         if (this.openLocalFile.generatedPath) {
             filePath = 'APP/' + filePath.substr(this.openLocalFile.generatedPath.length);
         }
+
         return filePath;
     }
 
     render(error) {
         var str = '<div style="text-align: left">';
-        str += '<h4>' + error.name + '</h4>' + "\n";
+        str += '<h4>' + error.name + '</h4>' + '\n';
         if (error.message) {
             str += '<pre style="background:#FFF;color:#222;border:0;font-size:1em;white-space:pre-wrap;word-wrap:break-word">';
             str += escape(error.message);
             str += '</pre>';
         }
 
-        str += '<h5 style="background:#FFDDAA;color:#333;border:1px solid #E07308;padding:1px 2px;">Call Stack:</h5>' + "\n";
+        str += '<h5 style="background:#FFDDAA;color:#333;border:1px solid #E07308;padding:1px 2px;">Call Stack:</h5>' + '\n';
 
         if (!this.options.production) {
             str += '<pre style="background:#FFF;color:#222;border:0">' + this.renderStack(error) + '</pre>';
         }
+
         return str;
     }
 
@@ -66,27 +69,29 @@ export default class HtmlRenderer {
         stackTrace.forEach((item, i) => {
             if (item.file && item.file.contents) {
                 str += '<span><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" '
-                        +'onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
+                        + 'onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
             }
+
             str += '#' + i + ' ';
             if (item.fileName && item.fileName.startsWith('/')) {
                 str += this.openLocalFile(item.fileName, item.lineNumber, item.columnNumber, item.realFileName);
             }
+
             str += this.replaceAppInFilePath(item.realFileName || item.fileName)  + ':' + item.lineNumber + ':' + item.columnNumber;
             if (item.fileName) {
                 str += '</a> ';
             }
 
-            if (item.native) {
-                str += '[native] ';
+            if (item.functionName) {
+                str += item.functionName;
+            } else if (this.item.typeName) {
+                str += this.typeName + '.' + (this.methodName || '<anonymous>');
             }
 
-            if (item.typeName) {
-                str += item.typeName + '.';
+            if (item.native) {
+                str += ' [native]';
             }
-            if (item.methodName) {
-                str += item.methodName;
-            }
+
             if (item.file && item.file.contents) {
                 str += '</a></span>';
                 str += '<div style="margin-top:5px;display:none">';
@@ -95,14 +100,17 @@ export default class HtmlRenderer {
                     if (item.realCompiledFileName && item.realCompiledFileName.startsWith('/')) {
                         str += this.openLocalFile(item.compiledFileName, item.compiledLineNumber, item.compiledColumnNumber, item.realCompiledFileName);
                     }
+
                     str += this.replaceAppInFilePath(item.realCompiledFileName)  + ':' + item.compiledLineNumber + ':' + item.compiledColumnNumber;
                     str += '</a></div>';
                 }
+
                 str += '<b>File content :</b><br />';
                 str += this.highlightLine(item.file.contents, item.lineNumber, item.columnNumber);
                 str += '</div>';
             }
-            str += "\n";
+
+            str += '\n';
 
         });
         return str;
@@ -119,13 +127,14 @@ export default class HtmlRenderer {
         } catch (err) {
             hcontents = escape(contents);
         }
+
         hcontents = hcontents.split(/\r\n|\n\r|\n|\r/);
 
         var ok = lineNumber <= hcontents.length;
         var firstLine, start, lineContent, end;
         if (ok) {
-            firstLine = Math.max(0, minmax ? lineNumber -1 -minmax : 0);
-            start = hcontents.slice(firstLine, lineNumber -1);
+            firstLine = Math.max(0, minmax ? lineNumber - 1 - minmax : 0);
+            start = hcontents.slice(firstLine, lineNumber - 1);
             lineContent = lineNumber === 0 ? '' : hcontents[lineNumber - 1];
             end = hcontents.slice(lineNumber, lineNumber + minmax);
         } else {
@@ -136,11 +145,11 @@ export default class HtmlRenderer {
             //$withLineNumbers = '%'.strlen((string)($ok ? $line+$minmax : $minmax+1)).'d';
         }
 
-        var content = this.lines(withLineNumbers, ok ? firstLine +1 : 1, start);
+        var content = this.lines(withLineNumbers, ok ? firstLine + 1 : 1, start);
         if (ok) {
             var attributes = { style: style };
             content += this.line(withLineNumbers, lineNumber, attributes, lineContent);
-            content += this.lines(withLineNumbers, lineNumber +1, end);
+            content += this.lines(withLineNumbers, lineNumber + 1, end);
         }
 
         var preAttrs = { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' };
@@ -165,6 +174,7 @@ export default class HtmlRenderer {
                             + lineNumber + '</i>'
                             + contentLine;
         }
+
         return this.tag('div', attributes, contentLine);
     }
 
@@ -177,6 +187,7 @@ export default class HtmlRenderer {
                 str += '="' + (attributes[key] === true ? key : escape(attributes[key])) + '"';
             }
         }
+
         return '<' + tagName + str + (content == null ? '/>' :
                         ('>' + (contentEscape ? escape(content) : content) + '</' + tagName + '>'));
     }

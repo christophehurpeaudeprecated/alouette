@@ -6,26 +6,35 @@
     "stacktrace",
     "babel"
   ],
-  "version": "2.1.1",
+  "version": "3.0.0",
   "homepage": "https://github.com/christophehurpeau/alouette#readme",
   "license": "MIT",
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
   "repository": "christophehurpeau/alouette",
   "scripts": {
-    "test": "node_modules/.bin/mocha -u tdd tests/lib"
+    "test": "make tests",
+    "build": "make build",
+    "postpublish": "make post-publish",
+    "prepublish": "make pre-publish",
+    "preversion": "make pre-version",
+    "version": "make version",
+    "watch": "make watch"
   },
-  "engines" : { "node" : ">=0.12" },
+  "engines": {
+    "node": ">=0.12"
+  },
   "main": "./lib/index.js",
   "dependencies": {
-    "eshighlight-harmony": "^0.3.0",
+    "babel-runtime": "^5.8.20",
+    "eshighlight-harmony": "^0.3.1",
     "source-map": "^0.4.4",
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
-    "es6-shim": "^0.27.1",
-    "gulp": "^3.8.11",
-    "mocha": "^2.2.1",
-    "proclaim": "^3.1.0",
-    "springbokjs-library": "^4.0.1"
+    "es6-shim": "^0.33.1",
+    "gulp": "^3.9.0",
+    "mocha": "^2.2.5",
+    "proclaim": "^3.3.1",
+    "springbokjs-library": "^9.0.0"
   }
 }
