@@ -1,6 +1,6 @@
 require('es6-shim/es6-shim');
-var assert = require('proclaim');
-var parser = require('../../lib/index.js');
+import { strictEqual, lessThan, greaterThanOrEqual } from 'proclaim';
+import { parseErrorStack } from '../../lib/index.js';
 
 test('should have parsed the stack trace', function() {
     try {
@@ -9,14 +9,14 @@ test('should have parsed the stack trace', function() {
         })();
     } catch (err) {
         // console.log(err.stack);
-        var stack = parser.parseErrorStack(err);
+        let stack = parseErrorStack(err);
         // console.log('========');
         // console.log(stack.toString());
-        var firstItem = stack.items[0];
-        assert.strictEqual(firstItem.fileName, __filename.replace('/lib/', '/src/'));
-        assert.strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
-        assert.strictEqual(firstItem.lineNumber, 8);
-        assert.lessThan(firstItem.columnNumber, 14);
-        assert.greaterThanOrEqual(firstItem.columnNumber, 12);
+        let firstItem = stack.items[0];
+        strictEqual(firstItem.fileName, __filename.replace('/lib/', '/src/'));
+        strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
+        strictEqual(firstItem.lineNumber, 8);
+        lessThan(firstItem.columnNumber, 14);
+        greaterThanOrEqual(firstItem.columnNumber, 12);
     }
 });

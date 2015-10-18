@@ -1,9 +1,9 @@
-var stackTrace = require('stack-trace');
-var fs = require('fs');
-var path = require('path');
-var sourceMap = require('source-map');
+const stackTrace = require('stack-trace');
+const fs = require('fs');
+const path = require('path');
+const sourceMap = require('source-map');
 
-var sourceMapping;
+let sourceMapping;
 
 class ParsedError {
     constructor(err) {
@@ -27,7 +27,7 @@ class StackTrace {
     }
 
     toString() {
-        var str = '';
+        let str = '';
         this.render(function(string) {
             str += string + '\n';
         });
@@ -128,7 +128,7 @@ export function setPathMapping(currentPath, sourcePath) {
  * @return {ParsedError}
  */
 export function parse(err) {
-    var parsedError = new ParsedError(err);
+    let parsedError = new ParsedError(err);
     parsedError.stack = exports.parseErrorStack(err);
     return parsedError;
 }
@@ -140,8 +140,8 @@ export function parse(err) {
  * @return {StackTrace}
  */
 export function parseErrorStack(err) {
-    var finalStack = new StackTrace();
-    var stack = stackTrace.parse(err);
+    let finalStack = new StackTrace();
+    let stack = stackTrace.parse(err);
 
     const libFiles = new Map();
     const sourceFiles = new Map();
@@ -205,7 +205,9 @@ export function parseErrorStack(err) {
                                 let contents;
                                 try {
                                     contents = fs.readFileSync(originalFilePath).toString();
-                                } catch (err) {}
+                                } catch (err) {
+                                    err; // noting to do, to remove !
+                                }
 
                                 Object.defineProperty(originalFile, 'contents', { value: contents });
                                 return contents;
@@ -227,7 +229,6 @@ export function parseErrorStack(err) {
             }
 
             line.file = file;
-
         }
 
         finalStack.items.push(new StackTraceItem(line));
@@ -246,7 +247,7 @@ export function log(err) {
     if (typeof err !== 'object') {
         (global.logger && logger.error || console.error)(err.message || err);
     } else {
-        var parsedError = exports.parse(err);
+        let parsedError = exports.parse(err);
         (global.logger && logger.error || console.error)(parsedError.toString());
     }
 }

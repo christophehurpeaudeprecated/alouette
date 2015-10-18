@@ -1,14 +1,8 @@
-/* jshint maxlen: 200 */
-var highlight = require('eshighlight-harmony');
-var escape = function(text) {
-    return String(text)
-        .replace(/&(?!\w+;)/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-};
+// jscs:disable maximumLineLength
 
-var parser = require('./index');
+import escape from 'escape-html';
+import highlight from 'eshighlight-harmony';
+import { parseErrorStack } from './index';
 
 export default class HtmlRenderer {
     constructor(options) {
@@ -34,7 +28,7 @@ export default class HtmlRenderer {
     }
 
     render(error) {
-        var str = '<div style="text-align: left">';
+        let str = '<div style="text-align: left">';
         str += '<h4>' + error.name + '</h4>' + '\n';
         if (error.message) {
             str += '<pre style="background:#FFF;color:#222;border:0;font-size:1em;white-space:pre-wrap;word-wrap:break-word">';
@@ -52,9 +46,9 @@ export default class HtmlRenderer {
     }
 
     renderStack(error) {
-        var stackTrace = parser.parseErrorStack(error);
+        let stackTrace = parseErrorStack(error);
 
-        var str = `<style>.string{ color: #EC7600; }
+        let str = `<style>.string{ color: #EC7600; }
 .keyword, .null{ font-weight: bold; color: #93C763; }
 .numeric{ color: #FACD22; }
 .line-comment{ color: #66747B; }
@@ -118,17 +112,17 @@ export default class HtmlRenderer {
             }
 
             str += '\n';
-
         });
+
         return str;
     }
 
-    highlightLine(contents, lineNumber, columnNumber) {
-        var style = 'background:#3F1F1F;';
-        var withLineNumbers = true;
-        var minmax = 4;
+    highlightLine(contents, lineNumber /* , columnNumber */) {
+        let style = 'background:#3F1F1F;';
+        let withLineNumbers = true;
+        let minmax = 4;
 
-        var hcontents;
+        let hcontents;
         try {
             hcontents = highlight(contents);
         } catch (err) {
@@ -137,8 +131,12 @@ export default class HtmlRenderer {
 
         hcontents = hcontents.split(/\r\n|\n\r|\n|\r/);
 
-        var ok = lineNumber <= hcontents.length;
-        var firstLine, start, lineContent, end;
+        let ok = lineNumber <= hcontents.length;
+        let firstLine;
+        let start;
+        let lineContent;
+        let end;
+
         if (ok) {
             firstLine = Math.max(0, minmax ? lineNumber - 1 - minmax : 0);
             start = hcontents.slice(firstLine, lineNumber - 1);
@@ -148,23 +146,23 @@ export default class HtmlRenderer {
             start = hcontents;
         }
 
-        if (withLineNumbers) {
-            //$withLineNumbers = '%'.strlen((string)($ok ? $line+$minmax : $minmax+1)).'d';
-        }
+        /* if (withLineNumbers) {
+            // $withLineNumbers = '%'.strlen((string)($ok ? $line+$minmax : $minmax+1)).'d';
+        } */
 
-        var content = this.lines(withLineNumbers, ok ? firstLine + 1 : 1, start);
+        let content = this.lines(withLineNumbers, ok ? firstLine + 1 : 1, start);
         if (ok) {
-            var attributes = { style: style };
+            let attributes = { style: style };
             content += this.line(withLineNumbers, lineNumber, attributes, lineContent);
             content += this.lines(withLineNumbers, lineNumber + 1, end);
         }
 
-        var preAttrs = { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' };
+        let preAttrs = { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' };
         return this.tag('pre', preAttrs, content, false);
     }
 
     lines(withLineNumbers, startNumber, _lines) {
-        var content = '';
+        let content = '';
         _lines.forEach((line) => {
             content += this.line(withLineNumbers, startNumber++, {}, line);
         });
@@ -187,8 +185,8 @@ export default class HtmlRenderer {
 
     tag(tagName, attributes, content, contentEscape) {
         attributes = attributes || {};
-        var str = '';
-        for (var key in attributes) {
+        let str = '';
+        for (let key in attributes) {
             str += ' ' + key;
             if (attributes[key]) {
                 str += '="' + (attributes[key] === true ? key : escape(attributes[key])) + '"';
