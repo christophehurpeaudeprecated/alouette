@@ -1,8 +1,10 @@
 'use strict';
 
+var _proclaim = require('proclaim');
+
+var _libIndexJs = require('../../lib/index.js');
+
 require('es6-shim/es6-shim');
-var assert = require('proclaim');
-var parser = require('../../lib/index.js');
 
 test('should have parsed the stack trace', /** @function */function () {
     try {
@@ -11,15 +13,15 @@ test('should have parsed the stack trace', /** @function */function () {
         })();
     } catch (err) {
         // console.log(err.stack);
-        var stack = parser.parseErrorStack(err);
+        let stack = (0, _libIndexJs.parseErrorStack)(err);
         // console.log('========');
         // console.log(stack.toString());
-        var firstItem = stack.items[0];
-        assert.strictEqual(firstItem.fileName, __filename.replace('/lib/', '/src/'));
-        assert.strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
-        assert.strictEqual(firstItem.lineNumber, 8);
-        assert.lessThan(firstItem.columnNumber, 14);
-        assert.greaterThanOrEqual(firstItem.columnNumber, 12);
+        let firstItem = stack.items[0];
+        (0, _proclaim.strictEqual)(firstItem.fileName, __filename.replace('/lib/', '/src/'));
+        (0, _proclaim.strictEqual)(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
+        (0, _proclaim.strictEqual)(firstItem.lineNumber, 8);
+        (0, _proclaim.lessThan)(firstItem.columnNumber, 14);
+        (0, _proclaim.greaterThanOrEqual)(firstItem.columnNumber, 12);
     }
 });
 //# sourceMappingURL=test.js.map
