@@ -21,7 +21,8 @@ export default class HtmlRenderer {
             filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
         }
 
-        return '<a href="openlocalfile://' + escape(realFilePath || filePath) + (lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
+        return '<a href="openlocalfile://' + escape(realFilePath || filePath)
+               + (lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
     }
 
     replaceAppInFilePath(filePath) {
@@ -77,15 +78,19 @@ export default class HtmlRenderer {
                 str += this.openLocalFile(item.fileName, item.lineNumber, item.columnNumber, item.realFileName);
             }
 
-            str += this.replaceAppInFilePath(item.realFileName || item.fileName)  + ':' + item.lineNumber + ':' + item.columnNumber;
+            if (!item.native) {
+                str += this.replaceAppInFilePath(item.realFileName || item.fileName)
+                                + ':' + item.lineNumber + ':' + item.columnNumber;
+            }
+
             if (item.fileName) {
                 str += '</a> ';
             }
 
             if (item.functionName) {
                 str += item.functionName;
-            } else if (this.item.typeName) {
-                str += this.typeName + '.' + (this.methodName || '<anonymous>');
+            } else if (item.typeName) {
+                str += item.typeName + '.' + (item.methodName || '<anonymous>');
             }
 
             if (item.native) {
@@ -98,10 +103,12 @@ export default class HtmlRenderer {
                 if (item.compiledFileName) {
                     str += '<div>';
                     if (item.realCompiledFileName && item.realCompiledFileName.startsWith('/')) {
-                        str += this.openLocalFile(item.compiledFileName, item.compiledLineNumber, item.compiledColumnNumber, item.realCompiledFileName);
+                        str += this.openLocalFile(item.compiledFileName, item.compiledLineNumber,
+                                item.compiledColumnNumber, item.realCompiledFileName);
                     }
 
-                    str += this.replaceAppInFilePath(item.realCompiledFileName)  + ':' + item.compiledLineNumber + ':' + item.compiledColumnNumber;
+                    str += this.replaceAppInFilePath(item.realCompiledFileName)  + ':' +
+                           item.compiledLineNumber + ':' + item.compiledColumnNumber;
                     str += '</a></div>';
                 }
 
