@@ -3,6 +3,7 @@
 import escape from 'escape-html';
 import highlight from 'eshighlight-harmony';
 import { parseErrorStack } from './index';
+import StackTrace from './StackTrace';
 
 export default class HtmlRenderer {
     constructor(options) {
@@ -46,7 +47,7 @@ export default class HtmlRenderer {
     }
 
     renderStack(error) {
-        let stackTrace = parseErrorStack(error);
+        let stackTrace = error.stack instanceof StackTrace ? error.stack : parseErrorStack(error);
 
         let str = `<style>.string{ color: #EC7600; }
 .keyword, .null{ font-weight: bold; color: #93C763; }
