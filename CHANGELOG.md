@@ -1,3 +1,7 @@
+### v3.1.1
+
+- [`2310967`](https://github.com/christophehurpeau/alouette/commit/2310967d934739e95267b40579eef023b2da6311) avoir reparse in HtmlRenderer when error is already parsed (Christophe Hurpeau)
+
 ### v3.1.0
 
 - [`7a71298`](https://github.com/christophehurpeau/alouette/commit/7a71298507d681719c5161b6648b2a3d61f5661f) update springbokjs-library and handle previous errors (Christophe Hurpeau)
