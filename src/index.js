@@ -56,26 +56,32 @@ export function parseErrorStack(err) {
             if (libFiles.has(fileName)) {
                 file = libFiles.get(fileName);
             } else {
+                file = {};
+                const dirname = path.dirname(fileName);
                 try {
-                    file = {};
-                    const dirname = path.dirname(fileName);
-                    let fileNameMap = fileName + '.map';
                     const fileContent = fs.readFileSync(fileName).toString();
-                    const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
-                    if (match && match[1] && match[1][0] === '/') {
-                        fileNameMap = path.resolve(dirname, match[1]);
-                    }
-
-                    const contents = fs.readFileSync(fileNameMap).toString();
-                    file.map = new sourceMap.SourceMapConsumer(contents);
-
-                    if (file.map.sourceRoot) {
-                        file.sourceRoot = path.resolve(dirname, file.map.sourceRoot);
-                    } else {
-                        file.sourceRoot = path.dirname(fileName);
-                    }
-
+                    file.fileName = fileName;
+                    file.contents = fileContent;
                     libFiles.set(fileName, file);
+
+                    try {
+                        let fileNameMap = fileName + '.map';
+                        const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
+                        if (match && match[1] && match[1][0] === '/') {
+                            fileNameMap = path.resolve(dirname, match[1]);
+                        }
+
+                        const contents = fs.readFileSync(fileNameMap).toString();
+                        file.fileNameMap = fileNameMap;
+                        file.map = new sourceMap.SourceMapConsumer(contents);
+
+                        if (file.map.sourceRoot) {
+                            file.sourceRoot = path.resolve(dirname, file.map.sourceRoot);
+                        } else {
+                            file.sourceRoot = path.dirname(fileName);
+                        }
+                    } catch (e) {
+                    }
                 } catch (e) {
                     libFiles.set(fileName, file = false);
                 }
@@ -100,7 +106,7 @@ export function parseErrorStack(err) {
                         originalFile.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
                     }
 
-                    if (!file.contents) {
+                    if (!originalFile.contents) {
                         Object.defineProperty(originalFile, 'contents', {
                             configurable: true,
                             get: function get() {
@@ -121,6 +127,7 @@ export function parseErrorStack(err) {
                 line.compiledLineNumber = line.lineNumber;
                 line.compiledColumnNumber = line.columnNumber;
 
+                line.file = originalFile;
                 line.fileName = originalFile.filePath;
                 line.lineNumber = original.line;
                 line.columnNumber = original.column;
@@ -128,8 +135,14 @@ export function parseErrorStack(err) {
                     line.methodName = original.name;
                 }
             }
+        }
 
-            line.file = file;
+        if (!line.file && file && file.contents) {
+            line.file = {
+                fileName: file.fileName,
+                filePath: file.fileName,
+                contents: file.contents,
+            };
         }
 
         finalStack.items.push(new StackTraceItem(line, sourceMapping));

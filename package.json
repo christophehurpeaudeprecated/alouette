@@ -28,8 +28,8 @@
   "dependencies": {
     "babel-runtime": "^5.8.20",
     "escape-html": "^1.0.3",
-    "eshighlight-harmony": "^0.3.1",
-    "source-map": "^0.4.4",
+    "eshighlight-fb": "^1.0.0",
+    "source-map": "^0.5.3",
     "stack-trace": "0.0.9"
   },
   "devDependencies": {

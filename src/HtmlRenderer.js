@@ -1,7 +1,7 @@
 // jscs:disable maximumLineLength
 
 import escape from 'escape-html';
-import highlight from 'eshighlight-harmony';
+import highlight from 'eshighlight-fb';
 import { parseErrorStack } from './index';
 import StackTrace from './StackTrace';
 
@@ -63,7 +63,7 @@ export default class HtmlRenderer {
 .azerty9{ color: purple; }
 </style>`;
         stackTrace.forEach((item, i) => {
-            if (item.file && item.file.contents) {
+            if ((item.file && item.file.contents) || item.compiledFileName) {
                 str += '<span><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" '
                         + 'onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
             }
@@ -92,11 +92,12 @@ export default class HtmlRenderer {
                 str += ' [native]';
             }
 
-            if (item.file && item.file.contents) {
+            if ((item.file && item.file.contents) || item.compiledFileName) {
                 str += '</a></span>';
-                str += '<div style="margin-top:5px;display:none">';
+                str += '<div style="display:none">';
                 if (item.compiledFileName) {
-                    str += '<div>';
+                    str += '<div style="margin-top: 5px">';
+                    str += '<b>Compiled path :</b><br />';
                     if (item.realCompiledFileName && item.realCompiledFileName.startsWith('/')) {
                         str += this.openLocalFile(item.compiledFileName, item.compiledLineNumber,
                                 item.compiledColumnNumber, item.realCompiledFileName);
@@ -104,11 +105,20 @@ export default class HtmlRenderer {
 
                     str += this.replaceAppInFilePath(item.realCompiledFileName) + ':' +
                            item.compiledLineNumber + ':' + item.compiledColumnNumber;
-                    str += '</a></div>';
+                    if (item.realCompiledFileName && item.realCompiledFileName.startsWith('/')) {
+                        str += '</a>';
+                    }
+
+                    str += '</div>';
                 }
 
-                str += '<b>File content :</b><br />';
-                str += this.highlightLine(item.file.contents, item.lineNumber, item.columnNumber);
+                if (item.file && item.file.contents) {
+                    str += '<div style="margin-top: 5px">';
+                    str += '<b>File content :</b><br />';
+                    str += this.highlightLine(item.file.contents, item.lineNumber, item.columnNumber);
+                    str += '</div>';
+                }
+
                 str += '</div>';
             }
 
