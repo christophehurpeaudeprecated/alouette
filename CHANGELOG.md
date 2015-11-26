@@ -1,3 +1,7 @@
+### v3.2.0
+
+- [`449d29f`](https://github.com/christophehurpeau/alouette/commit/449d29fac044f346aec770e07a91050612167eec) use eshighlight-fb and fix contents display (Christophe Hurpeau)
+
 ### v3.1.1
 
 - [`2310967`](https://github.com/christophehurpeau/alouette/commit/2310967d934739e95267b40579eef023b2da6311) avoir reparse in HtmlRenderer when error is already parsed (Christophe Hurpeau)
