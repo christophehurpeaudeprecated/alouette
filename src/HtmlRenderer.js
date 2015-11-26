@@ -101,7 +101,7 @@ export default class HtmlRenderer {
                                 item.compiledColumnNumber, item.realCompiledFileName);
                     }
 
-                    str += this.replaceAppInFilePath(item.realCompiledFileName)  + ':' +
+                    str += this.replaceAppInFilePath(item.realCompiledFileName) + ':' +
                            item.compiledLineNumber + ':' + item.compiledColumnNumber;
                     str += '</a></div>';
                 }

@@ -18,7 +18,8 @@
     "prepublish": "make pre-publish",
     "preversion": "make pre-version",
     "version": "make version",
-    "watch": "make watch"
+    "watch": "make watch",
+    "lint": "make lint"
   },
   "engines": {
     "node": ">=0.12"
@@ -32,10 +33,9 @@
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
-    "es6-shim": "^0.33.1",
     "gulp": "^3.9.0",
     "mocha": "^2.2.5",
     "proclaim": "^3.3.1",
-    "springbokjs-library": "^9.0.0"
+    "springbokjs-library": "^11.5.0"
   }
 }

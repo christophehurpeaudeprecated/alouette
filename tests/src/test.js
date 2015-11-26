@@ -1,11 +1,13 @@
-require('es6-shim/es6-shim');
+/* global test */
 import { strictEqual, lessThan, greaterThanOrEqual } from 'proclaim';
 import { parseErrorStack } from '../../lib/index.js';
 
 test('should have parsed the stack trace', function() {
     try {
         (function() {
-            unknownFunction(); // jshint ignore:line
+            /* jshint ignore:start*//*eslint-disable */
+            unknownFunction();
+            /* jshint ignore:end *//*eslint-enable */
         })();
     } catch (err) {
         // console.log(err.stack);
@@ -15,7 +17,7 @@ test('should have parsed the stack trace', function() {
         let firstItem = stack.items[0];
         strictEqual(firstItem.fileName, __filename.replace('/lib/', '/src/'));
         strictEqual(firstItem.realFileName, __filename.replace('/lib/', '/src/'));
-        strictEqual(firstItem.lineNumber, 8);
+        strictEqual(firstItem.lineNumber, 9);
         lessThan(firstItem.columnNumber, 14);
         greaterThanOrEqual(firstItem.columnNumber, 12);
     }

@@ -2,114 +2,11 @@ const stackTrace = require('stack-trace');
 const fs = require('fs');
 const path = require('path');
 const sourceMap = require('source-map');
+import ParsedError from './ParsedError';
+import StackTrace from './StackTrace';
+import StackTraceItem from './StackTraceItem';
 
 let sourceMapping;
-
-class ParsedError {
-    constructor(err) {
-        this.name = err.name;
-        this.message = err.message;
-        this.originalStack = err.stack;
-    }
-
-    toString() {
-        return this.name + ': ' + this.message + '\n' + this.stack.toString();
-    }
-}
-
-class StackTrace {
-    constructor() {
-        this.items = [];
-    }
-
-    forEach() {
-        return this.items.forEach.apply(this.items, arguments);
-    }
-
-    toString() {
-        let str = '';
-        this.render(function(string) {
-            str += string + '\n';
-        });
-        return str;
-    }
-
-    render(log) {
-        this.forEach((line) => {
-            line.render(log);
-        });
-    }
-}
-
-class StackTraceItem {
-    constructor(item) {
-        this.fileName = item.fileName;
-        this.lineNumber = item.lineNumber;
-        this.columnNumber = item.columnNumber;
-        this.functionName = item.functionName;
-        this.typeName = item.typeName;
-        this.methodName = item.methodName;
-        this.native = item.native;
-        this.file = item.file;
-
-        this.compiledFileName = item.compiledFileName;
-        this.compiledLineNumber = item.compiledLineNumber;
-        this.compiledColumnNumber = item.compiledColumnNumber;
-
-        if (sourceMapping && item.fileName && item.fileName.startsWith(sourceMapping.current)) {
-            this.realFileName = sourceMapping.source
-                                    + item.fileName.substr(sourceMapping.current.length);
-            if (this.compiledFileName) {
-                this.realCompiledFileName = sourceMapping.source
-                                    + item.fileName.substr(sourceMapping.current.length);
-            }
-        } else {
-            this.realFileName = item.fileName;
-            this.realCompiledFileName = item.compiledFileName;
-        }
-    }
-
-    getFileName() {
-        return this.fileName;
-    }
-
-    getLineNumber() {
-        return this.line;
-    }
-
-    getColumnNumber() {
-        return this.column + 1;
-    }
-
-    getScriptNameOrSourceURL() {
-        return this.fileName;
-    }
-
-    render(log) {
-        let str = '    at ';
-        if (this.functionName) {
-            str += this.functionName;
-        } else if (this.typeName) {
-            str += this.typeName + '.' + (this.methodName || '<anonymous>');
-        }
-
-        if (this.native) {
-            str += ' [native]';
-        } else {
-            const fullPath = this.realFileName + ':' + this.lineNumber + ':' + this.columnNumber;
-            str += ' (' + fullPath + ')';
-
-            if (this.compiledFileName && this.compiledFileName !== this.realFileName) {
-                const compiledPath = this.compiledFileName + ':' +
-                                     this.compiledLineNumber + ':' +
-                                     this.compiledColumnNumber;
-                str += ' (compiled= ' + compiledPath + ')';
-            }
-        }
-
-        log(str);
-    }
-}
 
 /**
  * Set path mapping, for instance when you have a vm or docker
@@ -130,6 +27,11 @@ export function setPathMapping(currentPath, sourcePath) {
 export function parse(err) {
     let parsedError = new ParsedError(err);
     parsedError.stack = exports.parseErrorStack(err);
+
+    if (err.previous) {
+        parsedError.previous = parse(err.previous);
+    }
+
     return parsedError;
 }
 
@@ -206,7 +108,6 @@ export function parseErrorStack(err) {
                                 try {
                                     contents = fs.readFileSync(originalFilePath).toString();
                                 } catch (err) {
-                                    err; // noting to do, to remove !
                                 }
 
                                 Object.defineProperty(originalFile, 'contents', { value: contents });
@@ -231,7 +132,7 @@ export function parseErrorStack(err) {
             line.file = file;
         }
 
-        finalStack.items.push(new StackTraceItem(line));
+        finalStack.items.push(new StackTraceItem(line, sourceMapping));
     });
 
     return finalStack;
@@ -240,7 +141,7 @@ export function parseErrorStack(err) {
 /**
  * Parse then log an error with logger.error
  *
- * @param  {Error} err
+ * @param {Error} err
  */
 export function log(err) {
     /* global logger */
