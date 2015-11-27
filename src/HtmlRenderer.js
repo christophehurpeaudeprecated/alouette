@@ -7,7 +7,9 @@ import StackTrace from './StackTrace';
 
 export default class HtmlRenderer {
     constructor(options) {
-        this.options = options || {};
+        this.options = Object.assign({
+            fileProtocol: 'file',
+        }, options);
     }
 
     openLocalFile(filePath, lineNumber, columnNumber, realFilePath) {
@@ -16,7 +18,7 @@ export default class HtmlRenderer {
             filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
         }
 
-        return '<a href="openlocalfile://' + escape(realFilePath || filePath)
+        return '<a download href="' + this.options.fileProtocol + '://' + escape(realFilePath || filePath)
                + (lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
     }
 

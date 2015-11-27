@@ -24,7 +24,7 @@ try {
 ```js
 import HtmlStackRenderer from 'alouette/lib/HtmlRenderer';
 // es5: var HtmlStackRenderer = require('alouette/lib/HtmlRenderer');
-var htmlStackRenderer = new HtmlStackRenderer();
+const htmlStackRenderer = new HtmlStackRenderer();
 
 function(req, res) {
     try {
@@ -35,6 +35,26 @@ function(req, res) {
 }
 
 ```
+
+### Open local files
+
+You can use [this firefox extension](https://addons.mozilla.org/en-US/firefox/addon/locallink/) to open in a new tab.
+
+To open in your editor, you can follow this below: (only works with linux)
+
+```
+sudo wget https://raw.github.com/christophehurpeau/ppa/master/openlocalfile/openlocalfile -o /usr/bin/openlocalfile
+sudo wget https://raw.github.com/christophehurpeau/ppa/master/openlocalfile/openlocalfile.desktop -o /usr/share/applications/openlocalfile.desktop
+sudo xdg-mime default openlocalfile.desktop x-scheme-handler/openlocalfile
+```
+
+And pass the `fileProtocol` option:
+```js
+const htmlStackRenderer = new HtmlStackRenderer({ fileProtocol: 'openlocalfile' });
+```
+
+You can modify /usr/bin/openlocalfile to change the editor.
+
 
 [npm-image]: https://img.shields.io/npm/v/alouette.svg?style=flat
 [npm-url]: https://npmjs.org/package/alouette
