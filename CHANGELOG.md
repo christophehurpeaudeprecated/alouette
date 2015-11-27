@@ -1,3 +1,7 @@
+### v3.3.0
+
+- [`b3453b9`](https://github.com/christophehurpeau/alouette/commit/b3453b917f03c49ce1ba23da15b72092b6996d05) fileProtocol and doc (Christophe Hurpeau)
+
 ### v3.2.0
 
 - [`449d29f`](https://github.com/christophehurpeau/alouette/commit/449d29fac044f346aec770e07a91050612167eec) use eshighlight-fb and fix contents display (Christophe Hurpeau)
