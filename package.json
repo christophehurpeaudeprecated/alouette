@@ -36,6 +36,6 @@
     "gulp": "^3.9.0",
     "mocha": "^2.2.5",
     "proclaim": "^3.3.1",
-    "springbokjs-library": "^11.5.0"
+    "springbokjs-library": "^13.0.0"
   }
 }
