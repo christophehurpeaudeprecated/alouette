@@ -1,3 +1,7 @@
+### v3.4.0
+
+- [`023171b`](https://github.com/christophehurpeau/alouette/commit/023171bf42a261810d12eae6c71d1c4ac2f7e043) upgrade dependencies, lint (Christophe Hurpeau)
+
 ### v3.3.0
 
 - [`b3453b9`](https://github.com/christophehurpeau/alouette/commit/b3453b917f03c49ce1ba23da15b72092b6996d05) fileProtocol and doc (Christophe Hurpeau)
