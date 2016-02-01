@@ -65,7 +65,7 @@ export function parseErrorStack(err) {
                     libFiles.set(fileName, file);
 
                     try {
-                        let fileNameMap = fileName + '.map';
+                        let fileNameMap = `${fileName}.map`;
                         const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
                         if (match && match[1] && match[1][0] === '/') {
                             fileNameMap = path.resolve(dirname, match[1]);
@@ -158,6 +158,7 @@ export function parseErrorStack(err) {
  */
 export function log(err) {
     /* global logger */
+    /* eslint-disable no-console */
     if (typeof err !== 'object') {
         (global.logger && logger.error || console.error)(err.message || err);
     } else {

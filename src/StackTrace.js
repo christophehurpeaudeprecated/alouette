@@ -9,7 +9,7 @@ export default class StackTrace {
 
     toString() {
         let str = '';
-        this.render(string => str += string + '\n');
+        this.render(string => str += `${string}\n`);
         return str;
     }
 

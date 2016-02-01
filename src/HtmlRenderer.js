@@ -18,13 +18,13 @@ export default class HtmlRenderer {
             filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
         }
 
-        return '<a download href="' + this.options.fileProtocol + '://' + escape(realFilePath || filePath)
-               + (lineNumber && '?' + lineNumber + (columnNumber && ':' + columnNumber)) + '">';
+        return `<a download href="${this.options.fileProtocol}://${escape(realFilePath || filePath)}`
+               + `${!lineNumber ? '' : `?${lineNumber}${!columnNumber ? '' : `:${columnNumber}`}`}">`;
     }
 
     replaceAppInFilePath(filePath) {
         if (this.openLocalFile.generatedPath) {
-            filePath = 'APP/' + filePath.substr(this.openLocalFile.generatedPath.length);
+            filePath = `APP/${filePath.substr(this.openLocalFile.generatedPath.length)}`;
         }
 
         return filePath;
@@ -32,7 +32,7 @@ export default class HtmlRenderer {
 
     render(error) {
         let str = '<div style="text-align: left">';
-        str += '<h4>' + error.name + '</h4>' + '\n';
+        str += `<h4>${error.name}</h4>\n`;
         if (error.message) {
             str += '<pre style="background:#FFF;color:#222;border:0;font-size:1em;white-space:pre-wrap;word-wrap:break-word">';
             str += escape(error.message);
@@ -42,7 +42,7 @@ export default class HtmlRenderer {
         str += '<h5 style="background:#FFDDAA;color:#333;border:1px solid #E07308;padding:1px 2px;">Call Stack:</h5>' + '\n';
 
         if (!this.options.production) {
-            str += '<pre style="background:#FFF;color:#222;border:0">' + this.renderStack(error) + '</pre>';
+            str += `<pre style="background:#FFF;color:#222;border:0">${this.renderStack(error)}</pre>`;
         }
 
         return str;
@@ -70,14 +70,14 @@ export default class HtmlRenderer {
                         + 'onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
             }
 
-            str += '#' + i + ' ';
+            str += `#${i} `;
             if (item.fileName && item.fileName.startsWith('/')) {
                 str += this.openLocalFile(item.fileName, item.lineNumber, item.columnNumber, item.realFileName);
             }
 
             if (!item.native) {
-                str += this.replaceAppInFilePath(item.realFileName || item.fileName)
-                                + ':' + item.lineNumber + ':' + item.columnNumber;
+                str += this.replaceAppInFilePath(item.realFileName || item.fileName);
+                str += `:${item.lineNumber}:${item.columnNumber}`;
             }
 
             if (item.fileName) {
@@ -87,7 +87,7 @@ export default class HtmlRenderer {
             if (item.functionName) {
                 str += item.functionName;
             } else if (item.typeName) {
-                str += item.typeName + '.' + (item.methodName || '<anonymous>');
+                str += `${item.typeName}.${item.methodName || '<anonymous>'}`;
             }
 
             if (item.native) {
@@ -105,8 +105,8 @@ export default class HtmlRenderer {
                                 item.compiledColumnNumber, item.realCompiledFileName);
                     }
 
-                    str += this.replaceAppInFilePath(item.realCompiledFileName) + ':' +
-                           item.compiledLineNumber + ':' + item.compiledColumnNumber;
+                    str += this.replaceAppInFilePath(item.realCompiledFileName);
+                    str += `:${item.compiledLineNumber}:${item.compiledColumnNumber}`;
                     if (item.realCompiledFileName && item.realCompiledFileName.startsWith('/')) {
                         str += '</a>';
                     }
@@ -183,14 +183,12 @@ export default class HtmlRenderer {
     }
 
     line(withLineNumbers, lineNumber, attributes, contentLine) {
-        attributes.style = (attributes.style || '')
-                + 'white-space:pre-wrap;'
-                + (withLineNumbers ? 'padding-left:20px;' : '');
+        attributes.style = `${attributes.style || ''}white-space:pre-wrap;`
+            + `${withLineNumbers ? 'padding-left:20px;' : ''}`;
 
         if (withLineNumbers) {
-            contentLine = '<i style="color:#AAA;font-size:7pt;position:absolute;left:1px;padding-top:1px;">'
-                            + lineNumber + '</i>'
-                            + contentLine;
+            contentLine = `<i style="color:#AAA;font-size:7pt;position:absolute;left:1px;padding-top:1px;">`
+                            + `${lineNumber}</i>${contentLine}`;
         }
 
         return this.tag('div', attributes, contentLine);
@@ -200,13 +198,13 @@ export default class HtmlRenderer {
         attributes = attributes || {};
         let str = '';
         for (let key in attributes) {
-            str += ' ' + key;
+            str += ` ${key}`;
             if (attributes[key]) {
-                str += '="' + (attributes[key] === true ? key : escape(attributes[key])) + '"';
+                str += `="${attributes[key] === true ? key : escape(attributes[key])}"`;
             }
         }
 
-        return '<' + tagName + str + (content == null ? '/>' :
-                        ('>' + (contentEscape ? escape(content) : content) + '</' + tagName + '>'));
+        return `<${tagName}${str}${content == null ? '/' :
+                    `>${contentEscape ? escape(content) : content}</${tagName}` }>`;
     }
 }

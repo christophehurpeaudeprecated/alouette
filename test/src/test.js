@@ -2,13 +2,13 @@
 import { strictEqual, lessThan, greaterThanOrEqual } from 'proclaim';
 import { parseErrorStack } from '../../lib/index.js';
 
-test('should have parsed the stack trace', function() {
+test('should have parsed the stack trace', () => {
     try {
-        (function() {
+        (function () {
             /* jshint ignore:start*//*eslint-disable */
             unknownFunction();
             /* jshint ignore:end *//*eslint-enable */
-        })();
+        }());
     } catch (err) {
         // console.log(err.stack);
         let stack = parseErrorStack(err);

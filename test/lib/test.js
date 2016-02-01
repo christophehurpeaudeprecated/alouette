@@ -1,20 +1,23 @@
-/* global test */
 'use strict';
 
 var _proclaim = require('proclaim');
 
-var _libIndexJs = require('../../lib/index.js');
+var _index = require('../../lib/index.js');
 
-test('should have parsed the stack trace', /** @function */function () {
+/* global test */
+
+test('should have parsed the stack trace', () => {
     try {
-        ( /** @function */function () {
+        ( /**
+           * @function
+          */function () {
             /* jshint ignore:start*/ /*eslint-disable */
             unknownFunction();
             /* jshint ignore:end */ /*eslint-enable */
         })();
     } catch (err) {
         // console.log(err.stack);
-        let stack = (0, _libIndexJs.parseErrorStack)(err);
+        let stack = (0, _index.parseErrorStack)(err);
         // console.log('========');
         // console.log(stack.toString());
         let firstItem = stack.items[0];

@@ -6,7 +6,7 @@ export default class ParsedError {
     }
 
     toString() {
-        let str = this.name + ': ' + this.message + '\n';
+        let str = `${this.name}: ${this.message}\n`;
         str += this.stack.toString();
 
         if (this.previous) {
