@@ -30,6 +30,6 @@
   "devDependencies": {
     "mocha": "^2.4.5",
     "proclaim": "^3.4.0",
-    "springbokjs-library": "^14.0.1"
+    "springbokjs-library": "^15.0.0"
   }
 }
