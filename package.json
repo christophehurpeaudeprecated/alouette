@@ -24,7 +24,7 @@
   "dependencies": {
     "escape-html": "^1.0.3",
     "eshighlight-fb": "^1.0.0",
-    "source-map": "^0.5.3",
+    "source-map": "^0.5.4",
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
