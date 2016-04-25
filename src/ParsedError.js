@@ -1,11 +1,16 @@
 import StackTrace from './StackTrace';
 
-export default class ParsedError {
+export default class ParsedError extends Error {
     originalError: Error;
     stackTrace: StackTrace;
 
-    constructor(err) {
+    constructor(err: Error, stackTrace: StackTrace) {
+        super(err.message);
         this.originalError = err;
+        this.stackTrace = stackTrace;
+
+        // http://stackoverflow.com/questions/35392675/how-to-override-error-stack-getter
+        this.stack = this.toString();
     }
 
     get name() {
@@ -20,16 +25,12 @@ export default class ParsedError {
         return this.originalError.stack;
     }
 
-    get stack() {
-        return this.toString();
-    }
-
     toString() {
         if (this._toStringCache) {
             return this._toStringCache;
         }
 
-        let str = `${this.name}: ${this.message}\n`;
+        let str = `ParsedError: ${this.name}: ${this.message}\n`;
         str += this.stackTrace.toString();
 
         if (this.previous) {

@@ -25,8 +25,7 @@ export function setPathMapping(currentPath, sourcePath) {
  * @return {ParsedError}
  */
 export function parse(err) {
-    let parsedError = new ParsedError(err);
-    parsedError.stackTrace = exports.parseErrorStack(err);
+    let parsedError = new ParsedError(err, exports.parseErrorStack(err));
 
     if (err.previous) {
         parsedError.previous = parse(err.previous);

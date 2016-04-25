@@ -54,7 +54,11 @@ export default class StackTraceItem {
             str += ' [native]';
         } else {
             const fullPath = `${this.realFileName}:${this.lineNumber}:${this.columnNumber}`;
-            str += ` (${fullPath})`;
+            if (this.functionName || this.typeName) {
+                str += ` (${fullPath})`;
+            } else {
+                str += fullPath;
+            }
 
             if (this.compiledFileName && this.compiledFileName !== this.realFileName) {
                 const compiledPath = `${this.compiledFileName}:${this.compiledLineNumber}:${this.compiledColumnNumber}`;
