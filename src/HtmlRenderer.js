@@ -49,7 +49,7 @@ export default class HtmlRenderer {
     }
 
     renderStack(error) {
-        let stackTrace = error.stack instanceof StackTrace ? error.stack : parseErrorStack(error);
+        let stackTrace = error.stackTrace instanceof StackTrace ? error.stackTrace : parseErrorStack(error);
 
         let str = `<style>.string{ color: #EC7600; }
 .keyword, .null{ font-weight: bold; color: #93C763; }

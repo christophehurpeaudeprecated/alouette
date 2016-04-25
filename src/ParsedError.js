@@ -1,4 +1,9 @@
+import StackTrace from './StackTrace';
+
 export default class ParsedError {
+    originalError: Error;
+    stackTrace: StackTrace;
+
     constructor(err) {
         this.originalError = err;
     }
@@ -15,9 +20,17 @@ export default class ParsedError {
         return this.originalError.stack;
     }
 
+    get stack() {
+        return this.toString();
+    }
+
     toString() {
+        if (this._toStringCache) {
+            return this._toStringCache;
+        }
+
         let str = `${this.name}: ${this.message}\n`;
-        str += this.stack.toString();
+        str += this.stackTrace.toString();
 
         if (this.previous) {
             str += '\n';
@@ -25,6 +38,6 @@ export default class ParsedError {
             str += this.previous.toString();
         }
 
-        return str;
+        return this._toStringCache = str;
     }
 }

@@ -26,7 +26,7 @@ export function setPathMapping(currentPath, sourcePath) {
  */
 export function parse(err) {
     let parsedError = new ParsedError(err);
-    parsedError.stack = exports.parseErrorStack(err);
+    parsedError.stackTrace = exports.parseErrorStack(err);
 
     if (err.previous) {
         parsedError.previous = parse(err.previous);
@@ -149,20 +149,4 @@ export function parseErrorStack(err) {
     });
 
     return finalStack;
-}
-
-/**
- * Parse then log an error with logger.error
- *
- * @param {Error} err
- */
-export function log(err) {
-    /* global logger */
-    /* eslint-disable no-console */
-    if (typeof err !== 'object') {
-        (global.logger && logger.error || console.error)(err.message || err);
-    } else {
-        let parsedError = exports.parse(err);
-        (global.logger && logger.error || console.error)(parsedError.toString());
-    }
 }

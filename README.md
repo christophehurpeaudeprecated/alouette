@@ -9,13 +9,13 @@ Parse an error with its stack trace, apply source maps and render it in console 
 ### For console
 
 ```js
-import { parse as errorParse } from 'alouette';
-// es5: var errorParser = require('alouette').parse;
+import { parse as parseError } from 'alouette';
+// es5: var parseError = require('alouette').parse;
 
 try {
     //...
 } catch (err) {
-    console.error(errorParse(err).toString());
+    console.error(parseError(err).toString());
 }
 ```
 
@@ -26,7 +26,7 @@ import HtmlStackRenderer from 'alouette/lib/HtmlRenderer';
 // es5: var HtmlStackRenderer = require('alouette/lib/HtmlRenderer');
 const htmlStackRenderer = new HtmlStackRenderer();
 
-function(req, res) {
+function (req, res) {
     try {
         //...
     } catch (err) {
