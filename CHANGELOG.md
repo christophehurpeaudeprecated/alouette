@@ -1,3 +1,7 @@
+### v5.0.0
+
+- [`a0a1ddb`](https://github.com/christophehurpeau/alouette/commit/a0a1ddbf23b0947798d30d211e4ede44fabfbec8) ParsedError.stack calls ParsedError.toString() (Christophe Hurpeau)
+
 ### v4.0.0
 
 - [`0721301`](https://github.com/christophehurpeau/alouette/commit/0721301aaa8dda1c6e6e4a5095fc383ebb44a262) StackTrace.toArray (Christophe Hurpeau)

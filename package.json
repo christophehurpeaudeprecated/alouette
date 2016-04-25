@@ -6,7 +6,7 @@
     "stacktrace",
     "babel"
   ],
-  "version": "4.0.0",
+  "version": "5.0.0",
   "homepage": "https://github.com/christophehurpeau/alouette#readme",
   "license": "MIT",
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
