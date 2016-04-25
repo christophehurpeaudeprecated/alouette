@@ -1,4 +1,8 @@
+import StackTraceItem from './StackTraceItem';
+
 export default class StackTrace {
+    items: Array<StackTraceItem>;
+
     constructor() {
         this.items = [];
     }
@@ -7,13 +11,11 @@ export default class StackTrace {
         return this.items.forEach(...arguments);
     }
 
-    toString() {
-        let str = '';
-        this.render(string => str += `${string}\n`);
-        return str;
+    toArray() {
+        return this.items.map(item => item.toString());
     }
 
-    render(log) {
-        this.forEach(line => line.render(log));
+    toString() {
+        return this.toArray().join('\n');
     }
 }

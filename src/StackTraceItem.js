@@ -42,7 +42,7 @@ export default class StackTraceItem {
         return this.fileName;
     }
 
-    render(log) {
+    toString() {
         let str = '    at ';
         if (this.functionName) {
             str += this.functionName;
@@ -61,7 +61,6 @@ export default class StackTraceItem {
                 str += ` (compiled= ${compiledPath})`;
             }
         }
-
-        log(str);
+        return str;
     }
 }

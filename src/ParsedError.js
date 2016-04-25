@@ -1,8 +1,18 @@
 export default class ParsedError {
     constructor(err) {
-        this.name = err.name;
-        this.message = err.message;
-        this.originalStack = err.stack;
+        this.originalError = err;
+    }
+
+    get name() {
+        return this.originalError.name;
+    }
+
+    get message() {
+        return this.originalError.message;
+    }
+
+    get originalStack() {
+        return this.originalError.stack;
     }
 
     toString() {
