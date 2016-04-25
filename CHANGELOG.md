@@ -1,3 +1,7 @@
+### v4.0.0
+
+- [`0721301`](https://github.com/christophehurpeau/alouette/commit/0721301aaa8dda1c6e6e4a5095fc383ebb44a262) StackTrace.toArray (Christophe Hurpeau)
+
 ### v3.4.0
 
 - [`023171b`](https://github.com/christophehurpeau/alouette/commit/023171bf42a261810d12eae6c71d1c4ac2f7e043) upgrade dependencies, lint (Christophe Hurpeau)
