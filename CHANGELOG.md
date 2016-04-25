@@ -1,3 +1,7 @@
+### v5.1.0
+
+- [`9922eeb`](https://github.com/christophehurpeau/alouette/commit/9922eebb335bd42f51940e991073e9b202797347) fixes and ParsedError extends Error (Christophe Hurpeau)
+
 ### v5.0.0
 
 - [`a0a1ddb`](https://github.com/christophehurpeau/alouette/commit/a0a1ddbf23b0947798d30d211e4ede44fabfbec8) ParsedError.stack calls ParsedError.toString() (Christophe Hurpeau)
