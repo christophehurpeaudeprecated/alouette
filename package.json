@@ -28,7 +28,7 @@
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
-    "mocha": "^2.4.5",
+    "mocha": "^2.5.0",
     "proclaim": "^3.4.0",
     "springbokjs-library": "^14.0.1"
   }
