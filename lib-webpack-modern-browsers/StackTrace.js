@@ -1,7 +1,6 @@
 import StackTraceItem from './StackTraceItem';
 
 export default class StackTrace {
-    items: Array<StackTraceItem>;
 
     constructor() {
         this.items = [];
@@ -19,3 +18,4 @@ export default class StackTrace {
         return this.toArray().join('\n');
     }
 }
+//# sourceMappingURL=StackTrace.js.map

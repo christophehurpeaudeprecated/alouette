@@ -1,6 +1,25 @@
-import ParsedError from './ParsedError';
-import StackTrace from './StackTrace';
-import StackTraceItem from './StackTraceItem';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.setPathMapping = setPathMapping;
+exports.parse = parse;
+exports.parseErrorStack = parseErrorStack;
+
+var _ParsedError = require('./ParsedError');
+
+var _ParsedError2 = _interopRequireDefault(_ParsedError);
+
+var _StackTrace = require('./StackTrace');
+
+var _StackTrace2 = _interopRequireDefault(_StackTrace);
+
+var _StackTraceItem = require('./StackTraceItem');
+
+var _StackTraceItem2 = _interopRequireDefault(_StackTraceItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const stackTrace = require('stack-trace');
 const fs = require('fs');
@@ -15,7 +34,7 @@ let sourceMapping;
  * @param {String} currentPath
  * @param {String} sourcePath
  */
-export function setPathMapping(currentPath, sourcePath) {
+function setPathMapping(currentPath, sourcePath) {
     sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });
 }
 
@@ -25,8 +44,8 @@ export function setPathMapping(currentPath, sourcePath) {
  * @param  {Error} err
  * @return {ParsedError}
  */
-export function parse(err) {
-    let parsedError = new ParsedError(err, exports.parseErrorStack(err));
+function parse(err) {
+    let parsedError = new _ParsedError2.default(err, exports.parseErrorStack(err));
 
     if (err.previous) {
         parsedError.previous = parse(err.previous);
@@ -41,14 +60,14 @@ export function parse(err) {
  * @param  {Error} err
  * @return {StackTrace}
  */
-export function parseErrorStack(err) {
-    let finalStack = new StackTrace();
+function parseErrorStack(err) {
+    let finalStack = new _StackTrace2.default();
     let stack = stackTrace.parse(err);
 
     const libFiles = new Map();
     const sourceFiles = new Map();
 
-    stack.forEach((line) => {
+    stack.forEach(line => {
         const fileName = line.fileName;
         let file;
 
@@ -65,7 +84,7 @@ export function parseErrorStack(err) {
                     libFiles.set(fileName, file);
 
                     try {
-                        let fileNameMap = `${fileName}.map`;
+                        let fileNameMap = `${ fileName }.map`;
                         const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
                         if (match && match[1] && match[1][0] === '/') {
                             fileNameMap = path.resolve(dirname, match[1]);
@@ -80,8 +99,7 @@ export function parseErrorStack(err) {
                         } else {
                             file.sourceRoot = path.dirname(fileName);
                         }
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                 } catch (e) {
                     libFiles.set(fileName, file = false);
                 }
@@ -113,12 +131,11 @@ export function parseErrorStack(err) {
                                 let contents;
                                 try {
                                     contents = fs.readFileSync(originalFilePath).toString();
-                                } catch (err) {
-                                }
+                                } catch (err) {}
 
                                 Object.defineProperty(originalFile, 'contents', { value: contents });
                                 return contents;
-                            },
+                            }
                         });
                     }
                 }
@@ -141,12 +158,13 @@ export function parseErrorStack(err) {
             line.file = {
                 fileName: file.fileName,
                 filePath: file.fileName,
-                contents: file.contents,
+                contents: file.contents
             };
         }
 
-        finalStack.items.push(new StackTraceItem(line, sourceMapping));
+        finalStack.items.push(new _StackTraceItem2.default(line, sourceMapping));
     });
 
     return finalStack;
 }
+//# sourceMappingURL=index.js.map

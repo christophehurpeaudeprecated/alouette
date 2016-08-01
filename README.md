@@ -1,10 +1,23 @@
-alouette  [![NPM version][npm-image]][npm-url] [![Drone.io Status][droneio-image]][droneio-url]
-============================
+# alouette [![NPM version][npm-image]][npm-url]
 
 Parse an error with its stack trace, apply source maps and render it in console or in html
 
-## Use
+[![Build Status][build-status-image]][build-status-url] [![Dependency Status][daviddm-image]][daviddm-url]
+ [![Doclets Link][doclets-image]][doclets-url]
 
+## Install
+
+```sh
+npm install --save alouette
+```
+
+
+## API
+
+[https://christophehurpeau.github.io/alouette/docs](http://christophehurpeau.github.io/alouette/docs)
+
+
+## Use
 
 ### For console
 
@@ -56,9 +69,12 @@ const htmlStackRenderer = new HtmlStackRenderer({ fileProtocol: 'openlocalfile' 
 You can modify /usr/bin/openlocalfile to change the editor.
 
 
-[npm-image]: https://img.shields.io/npm/v/alouette.svg?style=flat
+[npm-image]: https://img.shields.io/npm/v/alouette.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/alouette
-[droneio-image]: https://drone.io/github.com/christophehurpeau/alouette/status.png
-[droneio-url]: https://drone.io/github.com/christophehurpeau/alouette/latest
+[daviddm-image]: https://david-dm.org/christophehurpeau/alouette.svg?style=flat-square
+[daviddm-url]: https://david-dm.org/christophehurpeau/alouette
+[build-status-image]: https://img.shields.io/circleci/project/christophehurpeau/alouette/master.svg?style=flat-square
+[build-status-url]: https://circleci.com/gh/christophehurpeau/alouette
 
-See the [auto-generated docs](http://christophehurpeau.github.io/alouette/docs/global.html)
+[doclets-image]: https://img.shields.io/badge/doclets.io-master-green.svg?style=flat-square
+[doclets-url]: https://doclets.io/christophehurpeau/alouette/master
