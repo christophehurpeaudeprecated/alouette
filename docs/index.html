@@ -1,171 +1,107 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>springbokjs-errors Index</title>
+    <meta charset="utf-8">
+    <title>Index</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
+    
+    
+    <script>
+    var config = {"monospaceLinks":false,"cleverLinks":false,"applicationName":"alouette","default":{}};
+    </script>
+    
 
-	<!--[if lt IE 9]>
-	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
-
-	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
-
+    
 </head>
-
 <body>
+<div id="wrap" class="clearfix">
+    
+<div class="navigation">
+    <h3 class="applicationName"><a href="index.html">alouette</a></h3>
 
-<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
-<div class="container">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">springbokjs-errors</a>
-	</div>
-	<div class="navbar-collapse">
-		<ul class="nav navbar-nav">
-			
-			<li class="dropdown">
-				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
-				<ul class="dropdown-menu ">
-					<li><a href="global.html#log">log</a></li><li><a href="global.html#parse">parse</a></li><li><a href="global.html#parseErrorStack">parseErrorStack</a></li><li><a href="global.html#setPathMapping">setPathMapping</a></li>
-				</ul>
-			</li>
-			
-		</ul>
-	</div>
+    <div class="search">
+        <input id="search" type="text" class="form-control input-sm" placeholder="Search Documentations">
+    </div>
+    <ul class="list">
+    
+    </ul>
 </div>
+    <div class="main">
+        <h1 class="page-title" data-filename="index.html">Index</h1>
+        
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article class="readme"><h1>alouette <a target="_blank" href="https://npmjs.org/package/alouette"><img src="https://img.shields.io/npm/v/alouette.svg?style=flat-square" alt="NPM version"></a></h1><p>Parse an error with its stack trace, apply source maps and render it in console or in html</p>
+<p><a target="_blank" href="https://circleci.com/gh/christophehurpeau/alouette"><img src="https://img.shields.io/circleci/project/christophehurpeau/alouette/master.svg?style=flat-square" alt="Build Status"></a> <a target="_blank" href="https://david-dm.org/christophehurpeau/alouette"><img src="https://david-dm.org/christophehurpeau/alouette.svg?style=flat-square" alt="Dependency Status"></a>
+ <a target="_blank" href="https://doclets.io/christophehurpeau/alouette/master"><img src="https://img.shields.io/badge/doclets.io-master-green.svg?style=flat-square" alt="Doclets Link"></a></p>
+<h2>Install</h2><pre class="prettyprint source lang-sh"><code>npm install --save alouette</code></pre><h2>API</h2><p><a target="_blank" href="http://christophehurpeau.github.io/alouette/docs">https://christophehurpeau.github.io/alouette/docs</a></p>
+<h2>Use</h2><h3>For console</h3><pre class="prettyprint source lang-js"><code>import { parse as parseError } from 'alouette';
+// es5: var parseError = require('alouette').parse;
+
+try {
+    //...
+} catch (err) {
+    console.error(parseError(err).toString());
+}</code></pre><h3>Html rendering</h3><pre class="prettyprint source lang-js"><code>import HtmlStackRenderer from 'alouette/lib/HtmlRenderer';
+// es5: var HtmlStackRenderer = require('alouette/lib/HtmlRenderer');
+const htmlStackRenderer = new HtmlStackRenderer();
+
+function (req, res) {
+    try {
+        //...
+    } catch (err) {
+        res.send(500, htmlStackRenderer.render(err));
+    }
+}</code></pre><h3>Open local files</h3><p>You can use <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/locallink/">this firefox extension</a> to open in a new tab.</p>
+<p>To open in your editor, you can follow this below: (only works with linux)</p>
+<pre class="prettyprint source"><code>sudo wget https://raw.github.com/christophehurpeau/ppa/master/openlocalfile/openlocalfile -o /usr/bin/openlocalfile
+sudo wget https://raw.github.com/christophehurpeau/ppa/master/openlocalfile/openlocalfile.desktop -o /usr/share/applications/openlocalfile.desktop
+sudo xdg-mime default openlocalfile.desktop x-scheme-handler/openlocalfile</code></pre><p>And pass the <code>fileProtocol</code> option:</p>
+<pre class="prettyprint source lang-js"><code>const htmlStackRenderer = new HtmlStackRenderer({ fileProtocol: 'openlocalfile' });</code></pre><p>You can modify /usr/bin/openlocalfile to change the editor.</p></article>
+    </section>
+
+
+
+
+
+
+        
+
+        <footer>
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Aug 01 2016 21:29:27 GMT+0000 (UTC)
+        </footer>
+    </div>
 </div>
-
-
-<div class="container">
-<div class="row">
-
-	
-	<div class="col-md-8">
-	
-		<div id="main">
-    		<h1 class="page-title">Index</h1>
-			
-
-	
-	<span class="page-title">Index</span>
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-		</div>
-	</div>
-
-	<div class="clearfix"></div>
-
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3"></div>
-		</div>
-	
-
-</div>
-</div>
-
-
-<footer>
-
-
-<span class="jsdoc-message">
-	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a>
-	on 2015-03-14T18:59:32+00:00 using the <a
-	href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
-</span>
-</footer>
-
-<!--<script src="scripts/sunlight.js"></script>-->
-<script src="scripts/docstrap.lib.js"></script>
-<script src="scripts/bootstrap-dropdown.js"></script>
-<script src="scripts/toc.js"></script>
-
-<script>
-$( function () {
-	$( "[id*='$']" ).each( function () {
-		var $this = $( this );
-
-		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
-	} );
-
-	$( "#toc" ).toc( {
-		anchorName  : function ( i, heading, prefix ) {
-			return $( heading ).attr( "id" ) || ( prefix + i );
-		},
-		selectors   : "h1,h2,h3,h4",
-		showAndHide : false,
-		scrollTo    : "100px"
-	} );
-
-	$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
-	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-	$( '.dropdown-toggle' ).dropdown();
-	//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
-
-	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
-		var $this = $( this );
-
-		var example = $this.find( "code" );
-		exampleText = example.html();
-		var lang = /{@lang (.*?)}/.exec( exampleText );
-		if ( lang && lang[1] ) {
-			exampleText = exampleText.replace( lang[0], "" );
-			example.html( exampleText );
-			lang = lang[1];
-		} else {
-			lang = "javascript";
-		}
-
-		if ( lang ) {
-
-			$this
-			.addClass( "sunlight-highlight-" + lang )
-			.addClass( "linenums" )
-			.html( example.html() );
-
-		}
-	} );
-
-	Sunlight.highlightAll( {
-		lineNumbers : true,
-		showMenu : true,
-		enableDoclinks : true
-	} );
-} );
-</script>
-
-
-
-<!--Navigation and Symbol Display-->
-
-
-<!--Google Analytics-->
-
-
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script src="scripts/main.js"></script>
 </body>
 </html>
