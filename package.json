@@ -51,7 +51,7 @@
     "babel-preset-es2015-node6": "^0.2.0",
     "babel-preset-es2015-webpack": "^6.4.2",
     "babel-preset-flow": "^1.0.0",
-    "babel-preset-jsdoc": "^0.1.0",
+    "babel-preset-jsdoc": "^0.1.1",
     "babel-preset-modern-browsers": "^5.1.0",
     "babel-preset-modern-browsers-stage-1": "^1.0.0",
     "babel-preset-stage-1": "^6.5.0",
