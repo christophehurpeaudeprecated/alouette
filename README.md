@@ -3,7 +3,6 @@
 Parse an error with its stack trace, apply source maps and render it in console or in html
 
 [![Build Status][build-status-image]][build-status-url] [![Dependency Status][daviddm-image]][daviddm-url]
- [![Doclets Link][doclets-image]][doclets-url]
 
 ## Install
 

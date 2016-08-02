@@ -1,7 +1,4 @@
 {
-    "opts": {
-        "template": "node_modules/jaguarjs-jsdoc"
-    },
     "templates" : {
         "applicationName" : "alouette"
     }

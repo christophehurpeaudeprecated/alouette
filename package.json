@@ -51,7 +51,8 @@
     "babel-preset-es2015-node6": "^0.2.0",
     "babel-preset-es2015-webpack": "^6.4.2",
     "babel-preset-flow": "^1.0.0",
-    "babel-preset-modern-browsers": "^5.0.2",
+    "babel-preset-jsdoc": "^0.1.0",
+    "babel-preset-modern-browsers": "^5.1.0",
     "babel-preset-modern-browsers-stage-1": "^1.0.0",
     "babel-preset-stage-1": "^6.5.0",
     "eslint": "^3.2.2",
@@ -59,10 +60,9 @@
     "eslint-config-pob": "^6.1.4",
     "eslint-plugin-import": "^1.12.0",
     "istanbul": "^0.4.4",
-    "jaguarjs-jsdoc": "github:christophehurpeau/jaguarjs-jsdoc#0e577602ac327a694d4f619cb37c1476c523261e",
     "jsdoc": "^3.4.0",
     "mocha": "^3.0.0",
-    "pob-babel": "^4.0.1",
+    "pob-babel": "^5.0.0",
     "pob-release": "^2.0.5",
     "xunit-file": "^1.0.0"
   }

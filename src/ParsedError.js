@@ -13,15 +13,15 @@ export default class ParsedError extends Error {
         this.stack = this.toString();
     }
 
-    get name() {
+    get name(): string {
         return this.originalError.name;
     }
 
-    get message() {
+    get message(): string {
         return this.originalError.message;
     }
 
-    get originalStack() {
+    get originalStack(): string {
         return this.originalError.stack;
     }
 
