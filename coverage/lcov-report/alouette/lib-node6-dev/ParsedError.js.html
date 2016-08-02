@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10.94% </span>
+        <span class="strong">13.16% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/64</span>
+        <span class='fraction'>10/76</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.88% </span>
+        <span class="strong">5.26% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/51</span>
+        <span class='fraction'>3/57</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">14.29% </span>
+        <span class="strong">10% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/7</span>
+        <span class='fraction'>1/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10.17% </span>
+        <span class="strong">12.68% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/59</span>
+        <span class='fraction'>9/71</span>
       </div>
     </div>
   </div>
@@ -163,7 +163,31 @@
 118
 119
 120
-121</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -195,12 +219,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -315,15 +363,39 @@ class ParsedError extends Error {
     }
 &nbsp;
     get name<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        return this.originalError.name;</span>
+<span class="fstat-no" title="function not covered" >        function _ref(_id) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!(typeof _id === 'string')) {</span>
+<span class="cstat-no" title="statement not covered" >                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id));</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return _id;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return _ref(this.originalError.name);</span>
     }
 &nbsp;
     get message<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        return this.originalError.message;</span>
+<span class="fstat-no" title="function not covered" >        function _ref2(_id2) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!(typeof _id2 === 'string')) {</span>
+<span class="cstat-no" title="statement not covered" >                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id2));</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return _id2;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return _ref2(this.originalError.message);</span>
     }
 &nbsp;
     get originalStack<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        return this.originalError.stack;</span>
+<span class="fstat-no" title="function not covered" >        function _ref3(_id3) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!(typeof _id3 === 'string')) {</span>
+<span class="cstat-no" title="statement not covered" >                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id3));</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return _id3;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return _ref3(this.originalError.stack);</span>
     }
 &nbsp;
     toString<span class="fstat-no" title="function not covered" >() {</span>
@@ -409,7 +481,7 @@ exports.default = ParsedError;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Aug 01 2016 21:29:28 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 02 2016 19:00:29 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../prettify.js"></script>

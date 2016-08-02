@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: HtmlRenderer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: HtmlRenderer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// jscs:disable maximumLineLength
+
+import escape from 'escape-html';
+import highlight from 'eshighlight-fb';
+import { parseErrorStack } from './index';
+import StackTrace from './StackTrace';
+
+export default class HtmlRenderer {
+    /**
+     * @param options
+    */constructor(options) {
+        this.options = Object.assign({
+            fileProtocol: 'file'
+        }, options);
+    }
+
+    /**
+     * @ignore
+    * @param filePath
+    * @param lineNumber
+    * @param columnNumber
+    * @param realFilePath
+    */
+    openLocalFile(filePath, lineNumber, columnNumber, realFilePath) {
+        if (this.openLocalFile.generatedPath &amp;&amp; this.openLocalFile.sourcePath &amp;&amp; filePath.startsWith(this.openLocalFile.generatedPath)) {
+            filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
+        }
+
+        return `&lt;a download href="${ this.options.fileProtocol }://${ escape(realFilePath || filePath) }` + `${ !lineNumber ? '' : `?${ lineNumber }${ !columnNumber ? '' : `:${ columnNumber }` }` }">`;
+    }
+
+    /**
+     * @ignore
+    * @param filePath
+    */
+    replaceAppInFilePath(filePath) {
+        if (this.openLocalFile.generatedPath) {
+            filePath = `APP/${ filePath.substr(this.openLocalFile.generatedPath.length) }`;
+        }
+
+        return filePath;
+    }
+
+    /**
+     * @ignore
+    * @param error
+    */
+    render(error) {
+        let str = '&lt;div style="text-align: left">';
+        str += `&lt;h4>${ error.name }&lt;/h4>\n`;
+        if (error.message) {
+            str += '&lt;pre style="background:#FFF;color:#222;border:0;font-size:1em;white-space:pre-wrap;word-wrap:break-word">';
+            str += escape(error.message);
+            str += '&lt;/pre>';
+        }
+
+        str += '&lt;h5 style="background:#FFDDAA;color:#333;border:1px solid #E07308;padding:1px 2px;">Call Stack:&lt;/h5>\n';
+
+        if (!this.options.production) {
+            str += `&lt;pre style="background:#FFF;color:#222;border:0">${ this.renderStack(error) }&lt;/pre>`;
+        }
+
+        return str;
+    }
+
+    /**
+     * @ignore
+    * @param error
+    */
+    renderStack(error) {
+        let stackTrace = error.stackTrace instanceof StackTrace ? error.stackTrace : parseErrorStack(error);
+
+        let str = `&lt;style>.string{ color: #EC7600; }
+.keyword, .null{ font-weight: bold; color: #93C763; }
+.numeric{ color: #FACD22; }
+.line-comment{ color: #66747B; }
+.identifier{ }
+.control-flow{ color: #93C763; }
+.azerty1{ color: #66747B; }
+.azerty2{ color: #678CB1; }
+.azerty5{ color: #F1F2F3; }
+.azerty6{ color: #8AC763; }
+.azerty7{ color: #E0E2E4; }
+.azerty9{ color: purple; }
+&lt;/style>`;
+        stackTrace.forEach((item, i) => {
+            if (item.file &amp;&amp; item.file.contents || item.compiledFileName) {
+                str += '&lt;span>&lt;a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" ' + 'onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
+            }
+
+            str += `#${ i } `;
+            if (item.fileName &amp;&amp; item.fileName.startsWith('/')) {
+                str += this.openLocalFile(item.fileName, item.lineNumber, item.columnNumber, item.realFileName);
+            }
+
+            if (!item.native) {
+                str += this.replaceAppInFilePath(item.realFileName || item.fileName);
+                str += `:${ item.lineNumber }:${ item.columnNumber }`;
+            }
+
+            if (item.fileName) {
+                str += '&lt;/a> ';
+            }
+
+            if (item.functionName) {
+                str += item.functionName;
+            } else if (item.typeName) {
+                str += `${ item.typeName }.${ item.methodName || '&lt;anonymous>' }`;
+            }
+
+            if (item.native) {
+                str += ' [native]';
+            }
+
+            if (item.file &amp;&amp; item.file.contents || item.compiledFileName) {
+                str += '&lt;/a>&lt;/span>';
+                str += '&lt;div style="display:none">';
+                if (item.compiledFileName) {
+                    str += '&lt;div style="margin-top: 5px">';
+                    str += '&lt;b>Compiled path :&lt;/b>&lt;br />';
+                    if (item.realCompiledFileName &amp;&amp; item.realCompiledFileName.startsWith('/')) {
+                        str += this.openLocalFile(item.compiledFileName, item.compiledLineNumber, item.compiledColumnNumber, item.realCompiledFileName);
+                    }
+
+                    str += this.replaceAppInFilePath(item.realCompiledFileName);
+                    str += `:${ item.compiledLineNumber }:${ item.compiledColumnNumber }`;
+                    if (item.realCompiledFileName &amp;&amp; item.realCompiledFileName.startsWith('/')) {
+                        str += '&lt;/a>';
+                    }
+
+                    str += '&lt;/div>';
+                }
+
+                if (item.file &amp;&amp; item.file.contents) {
+                    str += '&lt;div style="margin-top: 5px">';
+                    str += '&lt;b>File content :&lt;/b>&lt;br />';
+                    str += this.highlightLine(item.file.contents, item.lineNumber, item.columnNumber);
+                    str += '&lt;/div>';
+                }
+
+                str += '&lt;/div>';
+            }
+
+            str += '\n';
+        });
+
+        return str;
+    }
+
+    /**
+     * @ignore
+    * @param contents
+    * @param lineNumber
+    */
+    highlightLine(contents, lineNumber /* , columnNumber */) {
+        let style = 'background:#3F1F1F;';
+        let withLineNumbers = true;
+        let minmax = 4;
+
+        let hcontents;
+        try {
+            hcontents = highlight(contents);
+        } catch (err) {
+            hcontents = escape(contents);
+        }
+
+        hcontents = hcontents.split(/\r\n|\n\r|\n|\r/);
+
+        let ok = lineNumber &lt;= hcontents.length;
+        let firstLine;
+        let start;
+        let lineContent;
+        let end;
+
+        if (ok) {
+            firstLine = Math.max(0, minmax ? lineNumber - 1 - minmax : 0);
+            start = hcontents.slice(firstLine, lineNumber - 1);
+            lineContent = lineNumber === 0 ? '' : hcontents[lineNumber - 1];
+            end = hcontents.slice(lineNumber, lineNumber + minmax);
+        } else {
+            start = hcontents;
+        }
+
+        /* if (withLineNumbers) {
+            // $withLineNumbers = '%'.strlen((string)($ok ? $line+$minmax : $minmax+1)).'d';
+        } */
+
+        let content = this.lines(withLineNumbers, ok ? firstLine + 1 : 1, start);
+        if (ok) {
+            let attributes = { style: style };
+            content += this.line(withLineNumbers, lineNumber, attributes, lineContent);
+            content += this.lines(withLineNumbers, lineNumber + 1, end);
+        }
+
+        let preAttrs = { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' };
+        return this.tag('pre', preAttrs, content, false);
+    }
+
+    /**
+     * @ignore
+    * @param withLineNumbers
+    * @param startNumber
+    * @param _lines
+    */
+    lines(withLineNumbers, startNumber, _lines) {
+        let content = '';
+        _lines.forEach(line => {
+            content += this.line(withLineNumbers, startNumber++, {}, line);
+        });
+        return content;
+    }
+
+    /**
+     * @ignore
+    * @param withLineNumbers
+    * @param lineNumber
+    * @param attributes
+    * @param contentLine
+    */
+    line(withLineNumbers, lineNumber, attributes, contentLine) {
+        attributes.style = `${ attributes.style || '' }white-space:pre-wrap;` + `${ withLineNumbers ? 'padding-left:20px;' : '' }`;
+
+        if (withLineNumbers) {
+            contentLine = '&lt;i style="color:#AAA;font-size:7pt;position:absolute;left:1px;padding-top:1px;">' + `${ lineNumber }&lt;/i>${ contentLine }`;
+        }
+
+        return this.tag('div', attributes, contentLine);
+    }
+
+    /**
+     * @ignore
+    * @param tagName
+    * @param attributes
+    * @param content
+    * @param contentEscape
+    */
+    tag(tagName, attributes, content, contentEscape) {
+        attributes = attributes || {};
+        let str = '';
+        Object.keys(attributes).forEach(key => {
+            str += ` ${ key }`;
+            if (attributes[key]) {
+                str += `="${ attributes[key] === true ? key : escape(attributes[key]) }"`;
+            }
+        });
+
+        return `&lt;${ tagName }${ str }${ content == null ? '/' : `>${ contentEscape ? escape(content) : content }&lt;/${ tagName }` }>`;
+    }
+}
+//# sourceMappingURL=HtmlRenderer.js.map</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="HtmlRenderer.html">HtmlRenderer</a></li><li><a href="ParsedError.html">ParsedError</a></li><li><a href="StackTraceItem.html">StackTraceItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#message">message</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#originalStack">originalStack</a></li><li><a href="global.html#parse">parse</a></li><li><a href="global.html#parseErrorStack">parseErrorStack</a></li><li><a href="global.html#setPathMapping">setPathMapping</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 02 2016 19:00:28 GMT+0000 (UTC)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

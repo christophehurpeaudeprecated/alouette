@@ -1,44 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Index</title>
-    
-    
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
-    <script src="scripts/jquery.min.js"></script>
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
-    
-    
-    <script>
-    var config = {"monospaceLinks":false,"cleverLinks":false,"applicationName":"alouette","default":{}};
-    </script>
-    
-
-    
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
-<body>
-<div id="wrap" class="clearfix">
-    
-<div class="navigation">
-    <h3 class="applicationName"><a href="index.html">alouette</a></h3>
 
-    <div class="search">
-        <input id="search" type="text" class="form-control input-sm" placeholder="Search Documentations">
-    </div>
-    <ul class="list">
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
     
-    </ul>
-</div>
-    <div class="main">
-        <h1 class="page-title" data-filename="index.html">Index</h1>
-        
+
 
 
     
@@ -53,16 +35,18 @@
 
 
 
+
+
     
 
 
 
 
     <section>
-        <article class="readme"><h1>alouette <a target="_blank" href="https://npmjs.org/package/alouette"><img src="https://img.shields.io/npm/v/alouette.svg?style=flat-square" alt="NPM version"></a></h1><p>Parse an error with its stack trace, apply source maps and render it in console or in html</p>
-<p><a target="_blank" href="https://circleci.com/gh/christophehurpeau/alouette"><img src="https://img.shields.io/circleci/project/christophehurpeau/alouette/master.svg?style=flat-square" alt="Build Status"></a> <a target="_blank" href="https://david-dm.org/christophehurpeau/alouette"><img src="https://david-dm.org/christophehurpeau/alouette.svg?style=flat-square" alt="Dependency Status"></a>
- <a target="_blank" href="https://doclets.io/christophehurpeau/alouette/master"><img src="https://img.shields.io/badge/doclets.io-master-green.svg?style=flat-square" alt="Doclets Link"></a></p>
-<h2>Install</h2><pre class="prettyprint source lang-sh"><code>npm install --save alouette</code></pre><h2>API</h2><p><a target="_blank" href="http://christophehurpeau.github.io/alouette/docs">https://christophehurpeau.github.io/alouette/docs</a></p>
+        <article><h1>alouette <a href="https://npmjs.org/package/alouette"><img src="https://img.shields.io/npm/v/alouette.svg?style=flat-square" alt="NPM version"></a></h1><p>Parse an error with its stack trace, apply source maps and render it in console or in html</p>
+<p><a href="https://circleci.com/gh/christophehurpeau/alouette"><img src="https://img.shields.io/circleci/project/christophehurpeau/alouette/master.svg?style=flat-square" alt="Build Status"></a> <a href="https://david-dm.org/christophehurpeau/alouette"><img src="https://david-dm.org/christophehurpeau/alouette.svg?style=flat-square" alt="Dependency Status"></a>
+ <a href="https://doclets.io/christophehurpeau/alouette/master"><img src="https://img.shields.io/badge/doclets.io-master-green.svg?style=flat-square" alt="Doclets Link"></a></p>
+<h2>Install</h2><pre class="prettyprint source lang-sh"><code>npm install --save alouette</code></pre><h2>API</h2><p><a href="http://christophehurpeau.github.io/alouette/docs">https://christophehurpeau.github.io/alouette/docs</a></p>
 <h2>Use</h2><h3>For console</h3><pre class="prettyprint source lang-js"><code>import { parse as parseError } from 'alouette';
 // es5: var parseError = require('alouette').parse;
 
@@ -80,7 +64,7 @@ function (req, res) {
     } catch (err) {
         res.send(500, htmlStackRenderer.render(err));
     }
-}</code></pre><h3>Open local files</h3><p>You can use <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/locallink/">this firefox extension</a> to open in a new tab.</p>
+}</code></pre><h3>Open local files</h3><p>You can use <a href="https://addons.mozilla.org/en-US/firefox/addon/locallink/">this firefox extension</a> to open in a new tab.</p>
 <p>To open in your editor, you can follow this below: (only works with linux)</p>
 <pre class="prettyprint source"><code>sudo wget https://raw.github.com/christophehurpeau/ppa/master/openlocalfile/openlocalfile -o /usr/bin/openlocalfile
 sudo wget https://raw.github.com/christophehurpeau/ppa/master/openlocalfile/openlocalfile.desktop -o /usr/share/applications/openlocalfile.desktop
@@ -93,15 +77,19 @@ sudo xdg-mime default openlocalfile.desktop x-scheme-handler/openlocalfile</code
 
 
 
-        
-
-        <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Aug 01 2016 21:29:27 GMT+0000 (UTC)
-        </footer>
-    </div>
 </div>
-<script>prettyPrint();</script>
-<script src="scripts/linenumber.js"></script>
-<script src="scripts/main.js"></script>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="HtmlRenderer.html">HtmlRenderer</a></li><li><a href="ParsedError.html">ParsedError</a></li><li><a href="StackTraceItem.html">StackTraceItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#message">message</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#originalStack">originalStack</a></li><li><a href="global.html#parse">parse</a></li><li><a href="global.html#parseErrorStack">parseErrorStack</a></li><li><a href="global.html#setPathMapping">setPathMapping</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 02 2016 19:00:28 GMT+0000 (UTC)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
 </body>
 </html>
