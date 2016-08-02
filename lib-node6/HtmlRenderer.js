@@ -29,6 +29,9 @@ class HtmlRenderer {
         }, options);
     }
 
+    /**
+     * @ignore
+     */
     openLocalFile(filePath, lineNumber, columnNumber, realFilePath) {
         if (this.openLocalFile.generatedPath && this.openLocalFile.sourcePath && filePath.startsWith(this.openLocalFile.generatedPath)) {
             filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
@@ -37,6 +40,9 @@ class HtmlRenderer {
         return `<a download href="${ this.options.fileProtocol }://${ (0, _escapeHtml2.default)(realFilePath || filePath) }` + `${ !lineNumber ? '' : `?${ lineNumber }${ !columnNumber ? '' : `:${ columnNumber }` }` }">`;
     }
 
+    /**
+     * @ignore
+     */
     replaceAppInFilePath(filePath) {
         if (this.openLocalFile.generatedPath) {
             filePath = `APP/${ filePath.substr(this.openLocalFile.generatedPath.length) }`;
@@ -45,6 +51,9 @@ class HtmlRenderer {
         return filePath;
     }
 
+    /**
+     * @ignore
+     */
     render(error) {
         let str = '<div style="text-align: left">';
         str += `<h4>${ error.name }</h4>\n`;
@@ -63,6 +72,9 @@ class HtmlRenderer {
         return str;
     }
 
+    /**
+     * @ignore
+     */
     renderStack(error) {
         let stackTrace = error.stackTrace instanceof _StackTrace2.default ? error.stackTrace : (0, _index.parseErrorStack)(error);
 
@@ -143,6 +155,9 @@ class HtmlRenderer {
         return str;
     }
 
+    /**
+     * @ignore
+     */
     highlightLine(contents, lineNumber /* , columnNumber */) {
         let style = 'background:#3F1F1F;';
         let withLineNumbers = true;
@@ -187,6 +202,9 @@ class HtmlRenderer {
         return this.tag('pre', preAttrs, content, false);
     }
 
+    /**
+     * @ignore
+     */
     lines(withLineNumbers, startNumber, _lines) {
         let content = '';
         _lines.forEach(line => {
@@ -195,6 +213,9 @@ class HtmlRenderer {
         return content;
     }
 
+    /**
+     * @ignore
+     */
     line(withLineNumbers, lineNumber, attributes, contentLine) {
         attributes.style = `${ attributes.style || '' }white-space:pre-wrap;` + `${ withLineNumbers ? 'padding-left:20px;' : '' }`;
 
@@ -205,6 +226,9 @@ class HtmlRenderer {
         return this.tag('div', attributes, contentLine);
     }
 
+    /**
+     * @ignore
+     */
     tag(tagName, attributes, content, contentEscape) {
         attributes = attributes || {};
         let str = '';

@@ -12,8 +12,8 @@ export default class StackTrace {
         }
     }
 
-    forEach(...args) {
-        return this.items.forEach(...args);
+    forEach() {
+        return this.items.forEach(...arguments);
     }
 
     toArray() {

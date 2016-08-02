@@ -12,6 +12,9 @@ export default class HtmlRenderer {
         }, options);
     }
 
+    /**
+     * @ignore
+     */
     openLocalFile(filePath, lineNumber, columnNumber, realFilePath) {
         if (this.openLocalFile.generatedPath && this.openLocalFile.sourcePath && filePath.startsWith(this.openLocalFile.generatedPath)) {
             filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
@@ -20,6 +23,9 @@ export default class HtmlRenderer {
         return `<a download href="${ this.options.fileProtocol }://${ escape(realFilePath || filePath) }` + `${ !lineNumber ? '' : `?${ lineNumber }${ !columnNumber ? '' : `:${ columnNumber }` }` }">`;
     }
 
+    /**
+     * @ignore
+     */
     replaceAppInFilePath(filePath) {
         if (this.openLocalFile.generatedPath) {
             filePath = `APP/${ filePath.substr(this.openLocalFile.generatedPath.length) }`;
@@ -28,6 +34,9 @@ export default class HtmlRenderer {
         return filePath;
     }
 
+    /**
+     * @ignore
+     */
     render(error) {
         var str = '<div style="text-align: left">';
         str += `<h4>${ error.name }</h4>\n`;
@@ -46,6 +55,9 @@ export default class HtmlRenderer {
         return str;
     }
 
+    /**
+     * @ignore
+     */
     renderStack(error) {
         var stackTrace = error.stackTrace instanceof StackTrace ? error.stackTrace : parseErrorStack(error);
 
@@ -126,6 +138,9 @@ export default class HtmlRenderer {
         return str;
     }
 
+    /**
+     * @ignore
+     */
     highlightLine(contents, lineNumber /* , columnNumber */) {
         var style = 'background:#3F1F1F;';
         var withLineNumbers = true;
@@ -170,6 +185,9 @@ export default class HtmlRenderer {
         return this.tag('pre', preAttrs, content, false);
     }
 
+    /**
+     * @ignore
+     */
     lines(withLineNumbers, startNumber, _lines) {
         var content = '';
         _lines.forEach(line => {
@@ -178,6 +196,9 @@ export default class HtmlRenderer {
         return content;
     }
 
+    /**
+     * @ignore
+     */
     line(withLineNumbers, lineNumber, attributes, contentLine) {
         attributes.style = `${ attributes.style || '' }white-space:pre-wrap;` + `${ withLineNumbers ? 'padding-left:20px;' : '' }`;
 
@@ -188,6 +209,9 @@ export default class HtmlRenderer {
         return this.tag('div', attributes, contentLine);
     }
 
+    /**
+     * @ignore
+     */
     tag(tagName, attributes, content, contentEscape) {
         attributes = attributes || {};
         var str = '';

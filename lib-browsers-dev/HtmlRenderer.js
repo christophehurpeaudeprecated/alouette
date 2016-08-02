@@ -33,6 +33,11 @@ var HtmlRenderer = function () {
         }, options);
     }
 
+    /**
+     * @ignore
+     */
+
+
     _createClass(HtmlRenderer, [{
         key: 'openLocalFile',
         value: function openLocalFile(filePath, lineNumber, columnNumber, realFilePath) {
@@ -42,6 +47,11 @@ var HtmlRenderer = function () {
 
             return '<a download href="' + this.options.fileProtocol + '://' + (0, _escapeHtml2.default)(realFilePath || filePath) + ((!lineNumber ? '' : '?' + lineNumber + (!columnNumber ? '' : ':' + columnNumber)) + '">');
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'replaceAppInFilePath',
         value: function replaceAppInFilePath(filePath) {
@@ -51,6 +61,11 @@ var HtmlRenderer = function () {
 
             return filePath;
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'render',
         value: function render(error) {
@@ -70,6 +85,11 @@ var HtmlRenderer = function () {
 
             return str;
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'renderStack',
         value: function renderStack(error) {
@@ -141,6 +161,11 @@ var HtmlRenderer = function () {
 
             return str;
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'highlightLine',
         value: function highlightLine(contents, lineNumber /* , columnNumber */) {
@@ -186,6 +211,11 @@ var HtmlRenderer = function () {
             var preAttrs = { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' };
             return this.tag('pre', preAttrs, content, false);
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'lines',
         value: function lines(withLineNumbers, startNumber, _lines) {
@@ -197,6 +227,11 @@ var HtmlRenderer = function () {
             });
             return content;
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'line',
         value: function line(withLineNumbers, lineNumber, attributes, contentLine) {
@@ -208,6 +243,11 @@ var HtmlRenderer = function () {
 
             return this.tag('div', attributes, contentLine);
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'tag',
         value: function tag(tagName, attributes, content, contentEscape) {

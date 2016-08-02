@@ -6,8 +6,8 @@ export default class StackTrace {
         this.items = [];
     }
 
-    forEach(...args) {
-        return this.items.forEach(...args);
+    forEach() {
+        return this.items.forEach(...arguments);
     }
 
     toArray() {

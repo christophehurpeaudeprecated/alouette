@@ -20,15 +20,39 @@ export default class ParsedError extends Error {
     }
 
     get name() {
-        return this.originalError.name;
+        function _ref(_id) {
+            if (!(typeof _id === 'string')) {
+                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id));
+            }
+
+            return _id;
+        }
+
+        return _ref(this.originalError.name);
     }
 
     get message() {
-        return this.originalError.message;
+        function _ref2(_id2) {
+            if (!(typeof _id2 === 'string')) {
+                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id2));
+            }
+
+            return _id2;
+        }
+
+        return _ref2(this.originalError.message);
     }
 
     get originalStack() {
-        return this.originalError.stack;
+        function _ref3(_id3) {
+            if (!(typeof _id3 === 'string')) {
+                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id3));
+            }
+
+            return _id3;
+        }
+
+        return _ref3(this.originalError.stack);
     }
 
     toString() {
