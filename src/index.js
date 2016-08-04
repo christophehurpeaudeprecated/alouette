@@ -1,10 +1,11 @@
+/* global BROWSER, NODEJS */
+import { readFileSync } from 'fs'; // #if NODEJS
 import ParsedError from './ParsedError';
 import StackTrace from './StackTrace';
 import StackTraceItem from './StackTraceItem';
 
-const stackTrace = require('stack-trace');
-const fs = require('fs');
 const path = require('path');
+const stackTrace = require('stack-trace');
 const sourceMap = require('source-map');
 
 let sourceMapping;
@@ -26,7 +27,7 @@ export function setPathMapping(currentPath, sourcePath) {
  * @return {ParsedError}
  */
 export function parse(err) {
-    let parsedError = new ParsedError(err, exports.parseErrorStack(err));
+    let parsedError = new ParsedError(err, parseErrorStack(err));
 
     if (err.previous) {
         parsedError.previous = parse(err.previous);
@@ -55,11 +56,13 @@ export function parseErrorStack(err) {
         if (fileName && fileName.startsWith('/')) {
             if (libFiles.has(fileName)) {
                 file = libFiles.get(fileName);
+            } else if (BROWSER) {
+                libFiles.set(fileName, file = false);
             } else {
                 file = {};
                 const dirname = path.dirname(fileName);
                 try {
-                    const fileContent = fs.readFileSync(fileName).toString();
+                    const fileContent = readFileSync(fileName).toString();
                     file.fileName = fileName;
                     file.contents = fileContent;
                     libFiles.set(fileName, file);
@@ -71,7 +74,7 @@ export function parseErrorStack(err) {
                             fileNameMap = path.resolve(dirname, match[1]);
                         }
 
-                        const contents = fs.readFileSync(fileNameMap).toString();
+                        const contents = readFileSync(fileNameMap).toString();
                         file.fileNameMap = fileNameMap;
                         file.map = new sourceMap.SourceMapConsumer(contents);
 
@@ -106,20 +109,22 @@ export function parseErrorStack(err) {
                         originalFile.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
                     }
 
-                    if (!originalFile.contents) {
-                        Object.defineProperty(originalFile, 'contents', {
-                            configurable: true,
-                            get: function get() {
-                                let contents;
-                                try {
-                                    contents = fs.readFileSync(originalFilePath).toString();
-                                } catch (err) {
-                                }
+                    if (NODEJS) {
+                        if (!originalFile.contents) {
+                            Object.defineProperty(originalFile, 'contents', {
+                                configurable: true,
+                                get: function get() {
+                                    let contents;
+                                    try {
+                                        contents = readFileSync(originalFilePath).toString();
+                                    } catch (err) {
+                                    }
 
-                                Object.defineProperty(originalFile, 'contents', { value: contents });
-                                return contents;
-                            },
-                        });
+                                    Object.defineProperty(originalFile, 'contents', { value: contents });
+                                    return contents;
+                                },
+                            });
+                        }
                     }
                 }
 
