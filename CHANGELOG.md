@@ -1,3 +1,12 @@
+### v5.2.0
+
+- [`67a3795`](https://github.com/christophehurpeau/alouette/commit/67a3795a021d20a00df3ff442c3462524ff525ae) pob and update dependencies (Christophe Hurpeau)
+- [`598614d`](https://github.com/christophehurpeau/alouette/commit/598614d920cb7fb315fb0e31c4befe6c16367911) doc (Christophe Hurpeau)
+- [`eeee30e`](https://github.com/christophehurpeau/alouette/commit/eeee30e4b85ea3b6373efb2ec86ff3afd260d976) fix index.js (Christophe Hurpeau)
+- [`b495d1a`](https://github.com/christophehurpeau/alouette/commit/b495d1acdbdd2520fbc07180226874838df57621) jsdoc (Christophe Hurpeau)
+- [`34f234d`](https://github.com/christophehurpeau/alouette/commit/34f234d75fd19ffd8ac7bc5e026101c31ac7ad46) build (Christophe Hurpeau)
+- [`cb7de87`](https://github.com/christophehurpeau/alouette/commit/cb7de8775122e4ffce630d2107efe92c25f08265) prepare for browser (Christophe Hurpeau)
+
 ### v5.1.0
 
 - [`9922eeb`](https://github.com/christophehurpeau/alouette/commit/9922eebb335bd42f51940e991073e9b202797347) fixes and ParsedError extends Error (Christophe Hurpeau)
@@ -38,5 +47,3 @@
 
 - [`57601e2`](https://github.com/christophehurpeau/alouette/commit/57601e2b1525973f6d3efae1b507def36af80654) fixes in HtmlRenderer (Christophe Hurpeau)
 - [`343e989`](https://github.com/christophehurpeau/alouette/commit/343e98924776ad2a38b2aeb59fcff3eaf39bc898) fix linters (Christophe Hurpeau)
-
-
