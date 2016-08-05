@@ -48,7 +48,7 @@
     "babel-plugin-import-rename": "^1.0.1",
     "babel-plugin-remove-dead-code": "^1.1.0",
     "babel-plugin-typecheck": "^3.9.0",
-    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015": "^6.13.1",
     "babel-preset-es2015-node6": "^0.2.0",
     "babel-preset-es2015-webpack": "^6.4.2",
     "babel-preset-flow": "^1.0.0",
