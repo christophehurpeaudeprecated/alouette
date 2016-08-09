@@ -1,3 +1,10 @@
+### v5.3.0
+
+- [`b2d4a2c`](https://github.com/christophehurpeau/alouette/commit/b2d4a2cb5b88d5d890c2311542bce8cfb4047769) update dependencies (Christophe Hurpeau)
+- [`d5dab21`](https://github.com/christophehurpeau/alouette/commit/d5dab2199231923c44e192dcb74e734d2086ecc8) codecov (Christophe Hurpeau)
+- [`f8348f7`](https://github.com/christophehurpeau/alouette/commit/f8348f7c350a9aeded22057b28d1d56ccabf8243) update dependencies (Christophe Hurpeau)
+- [`cf9ea8a`](https://github.com/christophehurpeau/alouette/commit/cf9ea8a49209ac2200e567c4976687af561b2b7d) import HtmlRenderer (Christophe Hurpeau)
+
 ### v5.2.0
 
 - [`67a3795`](https://github.com/christophehurpeau/alouette/commit/67a3795a021d20a00df3ff442c3462524ff525ae) pob and update dependencies (Christophe Hurpeau)
