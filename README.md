@@ -34,8 +34,8 @@ try {
 ### Html rendering
 
 ```js
-import HtmlStackRenderer from 'alouette/lib/HtmlRenderer';
-// es5: var HtmlStackRenderer = require('alouette/lib/HtmlRenderer');
+import HtmlStackRenderer from 'alouette/HtmlRenderer';
+// es5: var HtmlStackRenderer = require('alouette/HtmlRenderer');
 const htmlStackRenderer = new HtmlStackRenderer();
 
 function (req, res) {
