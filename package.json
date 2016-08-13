@@ -19,16 +19,16 @@
   "webpack:main-modern-browsers": "./lib-webpack-modern-browsers/index.js",
   "webpack:main-modern-browsers-dev": "./lib-webpack-modern-browsers-dev/index.js",
   "webpack:aliases": {
-    "HtmlRenderer": "./lib-webpack/HtmlRenderer.js"
+    "./HtmlRenderer.js": "./lib-webpack/HtmlRenderer.js"
   },
   "webpack:aliases-dev": {
-    "HtmlRenderer": "./lib-webpack-dev/HtmlRenderer.js"
+    "./HtmlRenderer.js": "./lib-webpack-dev/HtmlRenderer.js"
   },
   "webpack:aliases-modern-browsers": {
-    "HtmlRenderer": "./lib-webpack-modern-browsers/HtmlRenderer.js"
+    "./HtmlRenderer.js": "./lib-webpack-modern-browsers/HtmlRenderer.js"
   },
   "webpack:aliases-modern-browsers-dev": {
-    "HtmlRenderer": "./lib-webpack-dev/HtmlRenderer.js"
+    "./HtmlRenderer.js": "./lib-webpack-modern-browsers-dev/HtmlRenderer.js"
   },
   "scripts": {
     "build": "pob-build",
