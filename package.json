@@ -74,7 +74,7 @@
     "istanbul": "^0.4.4",
     "jsdoc": "^3.4.0",
     "mocha": "^3.0.1",
-    "pob-babel": "^6.0.2",
+    "pob-babel": "^7.1.0",
     "pob-release": "^2.0.5",
     "xunit-file": "^1.0.0"
   }
