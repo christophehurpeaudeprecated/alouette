@@ -1,3 +1,8 @@
+### v5.4.0
+
+- [`9406ae9`](https://github.com/christophehurpeau/alouette/commit/9406ae97a7d103209d132f49f0adb3d471cbbf6e) fix browser aliases (Christophe Hurpeau)
+- [`4349a47`](https://github.com/christophehurpeau/alouette/commit/4349a47a21ff1b3ae845df30c091d4549fddb7d5) update dependencies (Christophe Hurpeau)
+
 ### v5.3.0
 
 - [`b2d4a2c`](https://github.com/christophehurpeau/alouette/commit/b2d4a2cb5b88d5d890c2311542bce8cfb4047769) update dependencies (Christophe Hurpeau)
