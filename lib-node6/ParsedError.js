@@ -3,13 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _StackTrace = require('./StackTrace');
-
-var _StackTrace2 = _interopRequireDefault(_StackTrace);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 class ParsedError extends Error {
 
     constructor(err, stackTrace) {

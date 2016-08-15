@@ -1,4 +1,4 @@
-import StackTraceItem from './StackTraceItem';
+
 
 export default class StackTrace {
 

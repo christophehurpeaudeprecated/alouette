@@ -1,4 +1,4 @@
-import StackTrace from './StackTrace';
+
 
 export default class ParsedError extends Error {
 
