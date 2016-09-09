@@ -17,7 +17,7 @@ let sourceMapping;
  * @param {String} sourcePath
  */
 export function setPathMapping(currentPath, sourcePath) {
-    sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });
+  sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });
 }
 
 /**
@@ -27,13 +27,13 @@ export function setPathMapping(currentPath, sourcePath) {
  * @return {ParsedError}
  */
 export function parse(err) {
-    let parsedError = new ParsedError(err, parseErrorStack(err));
+  let parsedError = new ParsedError(err, parseErrorStack(err));
 
-    if (err.previous) {
-        parsedError.previous = parse(err.previous);
-    }
+  if (err.previous) {
+    parsedError.previous = parse(err.previous);
+  }
 
-    return parsedError;
+  return parsedError;
 }
 
 /**
@@ -43,115 +43,118 @@ export function parse(err) {
  * @return {StackTrace}
  */
 export function parseErrorStack(err) {
-    let finalStack = new StackTrace();
-    let stack = stackTrace.parse(err);
+  let finalStack = new StackTrace();
+  let stack = stackTrace.parse(err);
 
-    const libFiles = new Map();
-    const sourceFiles = new Map();
+  const libFiles = new Map();
+  const sourceFiles = new Map();
 
-    stack.forEach((line) => {
-        const fileName = line.fileName;
-        let file;
+  stack.forEach((line) => {
+    const fileName = line.fileName;
+    let file;
 
-        if (fileName && fileName.startsWith('/')) {
-            if (libFiles.has(fileName)) {
-                file = libFiles.get(fileName);
-            } else if (BROWSER) {
-                libFiles.set(fileName, file = false);
+    if (fileName && fileName.startsWith('/')) {
+      if (libFiles.has(fileName)) {
+        file = libFiles.get(fileName);
+      } else if (BROWSER) {
+        libFiles.set(fileName, file = false);
+      } else {
+        file = {};
+        const dirname = path.dirname(fileName);
+        try {
+          const fileContent = readFileSync(fileName).toString();
+          file.fileName = fileName;
+          file.contents = fileContent;
+          libFiles.set(fileName, file);
+
+          try {
+            let fileNameMap = `${fileName}.map`;
+            const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
+            if (match && match[1] && match[1][0] === '/') {
+              fileNameMap = path.resolve(dirname, match[1]);
+            }
+
+            const contents = readFileSync(fileNameMap).toString();
+            file.fileNameMap = fileNameMap;
+            file.map = new sourceMap.SourceMapConsumer(contents);
+
+            if (file.map.sourceRoot) {
+              file.sourceRoot = path.resolve(dirname, file.map.sourceRoot);
             } else {
-                file = {};
-                const dirname = path.dirname(fileName);
-                try {
-                    const fileContent = readFileSync(fileName).toString();
-                    file.fileName = fileName;
-                    file.contents = fileContent;
-                    libFiles.set(fileName, file);
-
-                    try {
-                        let fileNameMap = `${fileName}.map`;
-                        const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
-                        if (match && match[1] && match[1][0] === '/') {
-                            fileNameMap = path.resolve(dirname, match[1]);
-                        }
-
-                        const contents = readFileSync(fileNameMap).toString();
-                        file.fileNameMap = fileNameMap;
-                        file.map = new sourceMap.SourceMapConsumer(contents);
-
-                        if (file.map.sourceRoot) {
-                            file.sourceRoot = path.resolve(dirname, file.map.sourceRoot);
-                        } else {
-                            file.sourceRoot = path.dirname(fileName);
-                        }
-                    } catch (e) {
-                    }
-                } catch (e) {
-                    libFiles.set(fileName, file = false);
-                }
+              file.sourceRoot = path.dirname(fileName);
             }
+          } catch (e) {
+          }
+        } catch (e) {
+          libFiles.set(fileName, file = false);
         }
+      }
+    }
 
-        if (file && file.map) {
-            const original = file.map.originalPositionFor({ line: line.lineNumber, column: line.columnNumber });
-            let originalFile;
+    if (file && file.map) {
+      const original = file.map.originalPositionFor({
+        line: line.lineNumber,
+        column: line.columnNumber,
+      });
+      let originalFile;
 
-            if (original.source) {
-                const originalFilePath = path.resolve(file.sourceRoot, original.source);
+      if (original.source) {
+        const originalFilePath = path.resolve(file.sourceRoot, original.source);
 
-                if (sourceFiles.has(originalFilePath)) {
-                    originalFile = sourceFiles.get(originalFilePath);
-                } else {
-                    originalFile = { fileName: original.source, filePath: originalFilePath };
-                    sourceFiles.set(originalFilePath, originalFile);
+        if (sourceFiles.has(originalFilePath)) {
+          originalFile = sourceFiles.get(originalFilePath);
+        } else {
+          originalFile = { fileName: original.source, filePath: originalFilePath };
+          sourceFiles.set(originalFilePath, originalFile);
 
-                    if (file.map.sourcesContent) {
-                        const sourceIndex = file.map.sources.indexOf(original.source);
-                        originalFile.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
-                    }
+          if (file.map.sourcesContent) {
+            const sourceIndex = file.map.sources.indexOf(original.source);
+            originalFile.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
+          }
 
-                    if (NODEJS) {
-                        if (!originalFile.contents) {
-                            Object.defineProperty(originalFile, 'contents', {
-                                configurable: true,
-                                get: function get() {
-                                    let contents;
-                                    try {
-                                        contents = readFileSync(originalFilePath).toString();
-                                    } catch (err) {
-                                    }
+          if (NODEJS) {
+            if (!originalFile.contents) {
+              Object.defineProperty(originalFile, 'contents', {
+                configurable: true,
+                get: function get() {
+                  let contents;
+                  try {
+                    contents = readFileSync(originalFilePath).toString();
+                  } catch (err) {
+                  }
 
-                                    Object.defineProperty(originalFile, 'contents', { value: contents });
-                                    return contents;
-                                },
-                            });
-                        }
-                    }
-                }
-
-                line.compiledFileName = line.fileName;
-                line.compiledLineNumber = line.lineNumber;
-                line.compiledColumnNumber = line.columnNumber;
-
-                line.file = originalFile;
-                line.fileName = originalFile.filePath;
-                line.lineNumber = original.line;
-                line.columnNumber = original.column;
-                if (original.name) {
-                    line.methodName = original.name;
-                }
+                  Object.defineProperty(originalFile, 'contents', { value: contents });
+                  return contents;
+                },
+              });
             }
+          }
         }
 
-        if (!line.file && file && file.contents) {
-            line.file = {
-                fileName: file.fileName,
-                filePath: file.fileName,
-                contents: file.contents,
-            };
+        line.compiledFileName = line.fileName;
+        line.compiledLineNumber = line.lineNumber;
+        line.compiledColumnNumber = line.columnNumber;
+
+        line.file = originalFile;
+        line.fileName = originalFile.filePath;
+        line.lineNumber = original.line;
+        line.columnNumber = original.column;
+        if (original.name) {
+          line.methodName = original.name;
         }
+      }
+    }
 
-        finalStack.items.push(new StackTraceItem(line, sourceMapping));
-    });
+    if (!line.file && file && file.contents) {
+      line.file = {
+        fileName: file.fileName,
+        filePath: file.fileName,
+        contents: file.contents,
+      };
+    }
 
-    return finalStack;
+    finalStack.items.push(new StackTraceItem(line, sourceMapping));
+  });
+
+  return finalStack;
 }

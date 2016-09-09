@@ -2,7 +2,12 @@
 
 Parse an error with its stack trace, apply source maps and render it in console or in html
 
-[![Build Status][build-status-image]][build-status-url] [![Dependency Status][daviddm-image]][daviddm-url]
+
+[![Build Status][circleci-status-image]][circleci-status-url]
+[![Travis Status][travisci-status-image]][travisci-status-url]
+[![Build Status][build-status-image]][build-status-url]
+[![Dependency Status][daviddm-image]][daviddm-url]
+[![Coverage percentage][coverage-image]][coverage-url]
 
 ## Install
 
@@ -75,5 +80,9 @@ You can modify /usr/bin/openlocalfile to change the editor.
 [build-status-image]: https://img.shields.io/circleci/project/christophehurpeau/alouette/master.svg?style=flat-square
 [build-status-url]: https://circleci.com/gh/christophehurpeau/alouette
 
-[doclets-image]: https://img.shields.io/badge/doclets.io-master-green.svg?style=flat-square
-[doclets-url]: https://doclets.io/christophehurpeau/alouette/master
+[circleci-status-image]: https://img.shields.io/circleci/project/christophehurpeau/alouette/master.svg?style=flat-square
+[circleci-status-url]: https://circleci.com/gh/christophehurpeau/alouette
+[travisci-status-image]: https://img.shields.io/travisci/project/christophehurpeau/alouette/master.svg?style=flat-square
+[travisci-status-url]: https://travis-ci.org/christophehurpeau/alouette
+[coverage-image]: https://codecov.io/gh/christophehurpeau/alouette/branch/master/graph/badge.svg?style=flat-square
+[coverage-url]: https://codecov.io/gh/christophehurpeau/alouette

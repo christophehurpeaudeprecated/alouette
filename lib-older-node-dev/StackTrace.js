@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -17,114 +17,114 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var StackTrace = function () {
-    function StackTrace() {
-        _classCallCheck(this, StackTrace);
+  function StackTrace() {
+    _classCallCheck(this, StackTrace);
 
-        this.items = [];
+    this.items = [];
 
-        if (!(Array.isArray(this.items) && this.items.every(function (item) {
-            return item instanceof _StackTraceItem2.default;
-        }))) {
-            throw new TypeError('Value of "this.items" violates contract.\n\nExpected:\nArray<StackTraceItem>\n\nGot:\n' + _inspect(this.items));
-        }
+    if (!(Array.isArray(this.items) && this.items.every(function (item) {
+      return item instanceof _StackTraceItem2.default;
+    }))) {
+      throw new TypeError('Value of "this.items" violates contract.\n\nExpected:\nArray<StackTraceItem>\n\nGot:\n' + _inspect(this.items));
     }
+  }
 
-    _createClass(StackTrace, [{
-        key: 'forEach',
-        value: function forEach() {
-            var _items;
+  _createClass(StackTrace, [{
+    key: 'forEach',
+    value: function forEach() {
+      var _items;
 
-            return (_items = this.items).forEach.apply(_items, arguments);
-        }
-    }, {
-        key: 'toArray',
-        value: function toArray() {
-            return this.items.map(function (item) {
-                return item.toString();
-            });
-        }
-    }, {
-        key: 'toString',
-        value: function toString() {
-            return this.toArray().join('\n');
-        }
-    }]);
+      return (_items = this.items).forEach.apply(_items, arguments);
+    }
+  }, {
+    key: 'toArray',
+    value: function toArray() {
+      return this.items.map(function (item) {
+        return item.toString();
+      });
+    }
+  }, {
+    key: 'toString',
+    value: function toString() {
+      return this.toArray().join('\n');
+    }
+  }]);
 
-    return StackTrace;
+  return StackTrace;
 }();
 
 exports.default = StackTrace;
 
 function _inspect(input, depth) {
-    var maxDepth = 4;
-    var maxKeys = 15;
+  var maxDepth = 4;
+  var maxKeys = 15;
 
-    if (depth === undefined) {
-        depth = 0;
-    }
+  if (depth === undefined) {
+    depth = 0;
+  }
 
-    depth += 1;
+  depth += 1;
 
-    if (input === null) {
-        return 'null';
-    } else if (input === undefined) {
-        return 'void';
-    } else if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {
-        return typeof input === 'undefined' ? 'undefined' : _typeof(input);
-    } else if (Array.isArray(input)) {
-        if (input.length > 0) {
-            var _ret = function () {
-                if (depth > maxDepth) return {
-                        v: '[...]'
-                    };
+  if (input === null) {
+    return 'null';
+  } else if (input === undefined) {
+    return 'void';
+  } else if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {
+    return typeof input === 'undefined' ? 'undefined' : _typeof(input);
+  } else if (Array.isArray(input)) {
+    if (input.length > 0) {
+      var _ret = function () {
+        if (depth > maxDepth) return {
+            v: '[...]'
+          };
 
-                var first = _inspect(input[0], depth);
+        var first = _inspect(input[0], depth);
 
-                if (input.every(function (item) {
-                    return _inspect(item, depth) === first;
-                })) {
-                    return {
-                        v: first.trim() + '[]'
-                    };
-                } else {
-                    return {
-                        v: '[' + input.slice(0, maxKeys).map(function (item) {
-                            return _inspect(item, depth);
-                        }).join(', ') + (input.length >= maxKeys ? ', ...' : '') + ']'
-                    };
-                }
-            }();
-
-            if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+        if (input.every(function (item) {
+          return _inspect(item, depth) === first;
+        })) {
+          return {
+            v: first.trim() + '[]'
+          };
         } else {
-            return 'Array';
+          return {
+            v: '[' + input.slice(0, maxKeys).map(function (item) {
+              return _inspect(item, depth);
+            }).join(', ') + (input.length >= maxKeys ? ', ...' : '') + ']'
+          };
         }
+      }();
+
+      if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
     } else {
-        var keys = Object.keys(input);
-
-        if (!keys.length) {
-            if (input.constructor && input.constructor.name && input.constructor.name !== 'Object') {
-                return input.constructor.name;
-            } else {
-                return 'Object';
-            }
-        }
-
-        if (depth > maxDepth) return '{...}';
-        var indent = '  '.repeat(depth - 1);
-        var entries = keys.slice(0, maxKeys).map(function (key) {
-            return (/^([A-Z_$][A-Z0-9_$]*)$/i.test(key) ? key : JSON.stringify(key)) + ': ' + _inspect(input[key], depth) + ';';
-        }).join('\n  ' + indent);
-
-        if (keys.length >= maxKeys) {
-            entries += '\n  ' + indent + '...';
-        }
-
-        if (input.constructor && input.constructor.name && input.constructor.name !== 'Object') {
-            return input.constructor.name + ' {\n  ' + indent + entries + '\n' + indent + '}';
-        } else {
-            return '{\n  ' + indent + entries + '\n' + indent + '}';
-        }
+      return 'Array';
     }
+  } else {
+    var keys = Object.keys(input);
+
+    if (!keys.length) {
+      if (input.constructor && input.constructor.name && input.constructor.name !== 'Object') {
+        return input.constructor.name;
+      } else {
+        return 'Object';
+      }
+    }
+
+    if (depth > maxDepth) return '{...}';
+    var indent = '  '.repeat(depth - 1);
+    var entries = keys.slice(0, maxKeys).map(function (key) {
+      return (/^([A-Z_$][A-Z0-9_$]*)$/i.test(key) ? key : JSON.stringify(key)) + ': ' + _inspect(input[key], depth) + ';';
+    }).join('\n  ' + indent);
+
+    if (keys.length >= maxKeys) {
+      entries += '\n  ' + indent + '...';
+    }
+
+    if (input.constructor && input.constructor.name && input.constructor.name !== 'Object') {
+      return input.constructor.name + ' {\n  ' + indent + entries + '\n' + indent + '}';
+    } else {
+      return '{\n  ' + indent + entries + '\n' + indent + '}';
+    }
+  }
 }
 //# sourceMappingURL=StackTrace.js.map
