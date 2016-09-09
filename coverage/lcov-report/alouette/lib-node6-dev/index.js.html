@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">82.56% </span>
+        <span class="strong">83.72% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>71/86</span>
+        <span class='fraction'>72/86</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.5% </span>
+        <span class="strong">80% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>31/40</span>
+        <span class='fraction'>32/40</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">40% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>2/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">82.35% </span>
+        <span class="strong">83.53% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>70/85</span>
+        <span class='fraction'>71/85</span>
       </div>
     </div>
   </div>
@@ -217,7 +217,10 @@
 172
 173
 174
-175</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+175
+176
+177
+178</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -330,6 +333,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">12×</span>
 <span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
@@ -373,7 +379,7 @@
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -394,7 +400,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
 &nbsp;
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.setPathMapping = setPathMapping;
 exports.parse = parse;
@@ -431,7 +437,7 @@ let sourceMapping;
  * @param {String} sourcePath
  */
 <span class="fstat-no" title="function not covered" >function setPathMapping(currentPath, sourcePath) {</span>
-<span class="cstat-no" title="statement not covered" >    sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });</span>
+<span class="cstat-no" title="statement not covered" >  sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });</span>
 }
 &nbsp;
 /**
@@ -441,13 +447,13 @@ let sourceMapping;
  * @return {ParsedError}
  */
 <span class="fstat-no" title="function not covered" >function parse(err) {</span>
-<span class="cstat-no" title="statement not covered" >    let parsedError = new _ParsedError2.default(err, parseErrorStack(err));</span>
+<span class="cstat-no" title="statement not covered" >  let parsedError = new _ParsedError2.default(err, parseErrorStack(err));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (err.previous) {</span>
-<span class="cstat-no" title="statement not covered" >        parsedError.previous = parse(err.previous);</span>
-    }
+<span class="cstat-no" title="statement not covered" >  if (err.previous) {</span>
+<span class="cstat-no" title="statement not covered" >    parsedError.previous = parse(err.previous);</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return parsedError;</span>
+<span class="cstat-no" title="statement not covered" >  return parsedError;</span>
 }
 &nbsp;
 /**
@@ -457,113 +463,116 @@ let sourceMapping;
  * @return {StackTrace}
  */
 function parseErrorStack(err) {
-    let finalStack = new _StackTrace2.default();
-    let stack = stackTrace.parse(err);
+  let finalStack = new _StackTrace2.default();
+  let stack = stackTrace.parse(err);
 &nbsp;
-    const libFiles = new Map();
-    const sourceFiles = new Map();
+  const libFiles = new Map();
+  const sourceFiles = new Map();
 &nbsp;
-    stack.forEach(line =&gt; {
-        const fileName = line.fileName;
-        let file;
+  stack.forEach(line =&gt; {
+    const fileName = line.fileName;
+    let file;
 &nbsp;
-        if (fileName &amp;&amp; fileName.startsWith('/')) {
-            if (libFiles.has(fileName)) {
-                file = libFiles.get(fileName);
-            } else {
-                    file = {};
-                    const dirname = path.dirname(fileName);
-                    try {
-                        const fileContent = (0, _fs.readFileSync)(fileName).toString();
-                        file.fileName = fileName;
-                        file.contents = fileContent;
-                        libFiles.set(fileName, file);
+    if (fileName &amp;&amp; fileName.startsWith('/')) {
+      if (libFiles.has(fileName)) {
+        file = libFiles.get(fileName);
+      } else {
+          file = {};
+          const dirname = path.dirname(fileName);
+          try {
+            const fileContent = (0, _fs.readFileSync)(fileName).toString();
+            file.fileName = fileName;
+            file.contents = fileContent;
+            libFiles.set(fileName, file);
 &nbsp;
-                        try {
-                            let fileNameMap = `${ fileName }.map`;
-                            const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
-                            <span class="missing-if-branch" title="if path not taken" >I</span>if (match &amp;&amp; match[1] &amp;&amp; match[1][0] === '/') {
-<span class="cstat-no" title="statement not covered" >                                fileNameMap = path.resolve(dirname, match[1]);</span>
-                            }
+            try {
+              let fileNameMap = `${ fileName }.map`;
+              const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
+              <span class="missing-if-branch" title="if path not taken" >I</span>if (match &amp;&amp; match[1] &amp;&amp; match[1][0] === '/') {
+<span class="cstat-no" title="statement not covered" >                fileNameMap = path.resolve(dirname, match[1]);</span>
+              }
 &nbsp;
-                            const contents = (0, _fs.readFileSync)(fileNameMap).toString();
-                            file.fileNameMap = fileNameMap;
-                            file.map = new sourceMap.SourceMapConsumer(contents);
+              const contents = (0, _fs.readFileSync)(fileNameMap).toString();
+              file.fileNameMap = fileNameMap;
+              file.map = new sourceMap.SourceMapConsumer(contents);
 &nbsp;
-                            <span class="missing-if-branch" title="if path not taken" >I</span>if (file.map.sourceRoot) {
-<span class="cstat-no" title="statement not covered" >                                file.sourceRoot = path.resolve(dirname, file.map.sourceRoot);</span>
-                            } else {
-                                file.sourceRoot = path.dirname(fileName);
-                            }
-                        } catch (e) {}
-                    } catch (e) {
-<span class="cstat-no" title="statement not covered" >                        libFiles.set(fileName, file = false);</span>
-                    }
-                }
+              <span class="missing-if-branch" title="if path not taken" >I</span>if (file.map.sourceRoot) {
+<span class="cstat-no" title="statement not covered" >                file.sourceRoot = path.resolve(dirname, file.map.sourceRoot);</span>
+              } else {
+                file.sourceRoot = path.dirname(fileName);
+              }
+            } catch (e) {}
+          } catch (e) {
+<span class="cstat-no" title="statement not covered" >            libFiles.set(fileName, file = false);</span>
+          }
         }
+    }
 &nbsp;
-        if (file &amp;&amp; file.map) {
-            const original = file.map.originalPositionFor({ line: line.lineNumber, column: line.columnNumber });
-            let originalFile;
+    if (file &amp;&amp; file.map) {
+      const original = file.map.originalPositionFor({
+        line: line.lineNumber,
+        column: line.columnNumber
+      });
+      let originalFile;
 &nbsp;
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (original.source) {
-                const originalFilePath = path.resolve(file.sourceRoot, original.source);
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (original.source) {
+        const originalFilePath = path.resolve(file.sourceRoot, original.source);
 &nbsp;
-                if (sourceFiles.has(originalFilePath)) {
-                    originalFile = sourceFiles.get(originalFilePath);
-                } else {
-                    originalFile = { fileName: original.source, filePath: originalFilePath };
-                    sourceFiles.set(originalFilePath, originalFile);
+        if (sourceFiles.has(originalFilePath)) {
+          originalFile = sourceFiles.get(originalFilePath);
+        } else {
+          originalFile = { fileName: original.source, filePath: originalFilePath };
+          sourceFiles.set(originalFilePath, originalFile);
 &nbsp;
-                    <span class="missing-if-branch" title="else path not taken" >E</span>if (file.map.sourcesContent) {
-                        const sourceIndex = file.map.sources.indexOf(original.source);
-                        originalFile.contents = sourceIndex !== -1 &amp;&amp; file.map.sourcesContent[sourceIndex];
-                    }
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (file.map.sourcesContent) {
+            const sourceIndex = file.map.sources.indexOf(original.source);
+            originalFile.contents = sourceIndex !== -1 &amp;&amp; file.map.sourcesContent[sourceIndex];
+          }
 &nbsp;
-                    {
-                        <span class="missing-if-branch" title="if path not taken" >I</span>if (!originalFile.contents) {
-<span class="cstat-no" title="statement not covered" >                            Object.defineProperty(originalFile, 'contents', {</span>
-                                configurable: true,
-                                get: <span class="fstat-no" title="function not covered" >function get() {</span>
-<span class="cstat-no" title="statement not covered" >                                    let contents;</span>
-<span class="cstat-no" title="statement not covered" >                                    try {</span>
-<span class="cstat-no" title="statement not covered" >                                        contents = (0, _fs.readFileSync)(originalFilePath).toString();</span>
-                                    } catch (err) {}
+          {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!originalFile.contents) {
+<span class="cstat-no" title="statement not covered" >              Object.defineProperty(originalFile, 'contents', {</span>
+                configurable: true,
+                get: <span class="fstat-no" title="function not covered" >function get() {</span>
+<span class="cstat-no" title="statement not covered" >                  let contents;</span>
+<span class="cstat-no" title="statement not covered" >                  try {</span>
+<span class="cstat-no" title="statement not covered" >                    contents = (0, _fs.readFileSync)(originalFilePath).toString();</span>
+                  } catch (err) {}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                                    Object.defineProperty(originalFile, 'contents', { value: contents });</span>
-<span class="cstat-no" title="statement not covered" >                                    return contents;</span>
-                                }
-                            });
-                        }
-                    }
+<span class="cstat-no" title="statement not covered" >                  Object.defineProperty(originalFile, 'contents', { value: contents });</span>
+<span class="cstat-no" title="statement not covered" >                  return contents;</span>
                 }
-&nbsp;
-                line.compiledFileName = line.fileName;
-                line.compiledLineNumber = line.lineNumber;
-                line.compiledColumnNumber = line.columnNumber;
-&nbsp;
-                line.file = originalFile;
-                line.fileName = originalFile.filePath;
-                line.lineNumber = original.line;
-                line.columnNumber = original.column;
-                <span class="missing-if-branch" title="if path not taken" >I</span>if (original.name) {
-<span class="cstat-no" title="statement not covered" >                    line.methodName = original.name;</span>
-                }
+              });
             }
+          }
         }
 &nbsp;
-        if (!line.file &amp;&amp; file &amp;&amp; file.contents) {
-            line.file = {
-                fileName: file.fileName,
-                filePath: file.fileName,
-                contents: file.contents
-            };
+        line.compiledFileName = line.fileName;
+        line.compiledLineNumber = line.lineNumber;
+        line.compiledColumnNumber = line.columnNumber;
+&nbsp;
+        line.file = originalFile;
+        line.fileName = originalFile.filePath;
+        line.lineNumber = original.line;
+        line.columnNumber = original.column;
+        if (original.name) {
+          line.methodName = original.name;
         }
+      }
+    }
 &nbsp;
-        finalStack.items.push(new _StackTraceItem2.default(line, sourceMapping));
-    });
+    if (!line.file &amp;&amp; file &amp;&amp; file.contents) {
+      line.file = {
+        fileName: file.fileName,
+        filePath: file.fileName,
+        contents: file.contents
+      };
+    }
 &nbsp;
-    return finalStack;
+    finalStack.items.push(new _StackTraceItem2.default(line, sourceMapping));
+  });
+&nbsp;
+  return finalStack;
 }
 //# sourceMappingURL=index.js.map</pre></td></tr>
 </table></pre>
@@ -571,7 +580,7 @@ function parseErrorStack(err) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Aug 15 2016 13:40:27 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 09 2016 21:08:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../prettify.js"></script>

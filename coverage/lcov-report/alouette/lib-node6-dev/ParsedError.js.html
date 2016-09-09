@@ -334,7 +334,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
 &nbsp;
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 &nbsp;
 var _StackTrace = require('./StackTrace');
@@ -345,135 +345,135 @@ function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? ob
 &nbsp;
 class ParsedError extends Error {
 &nbsp;
-    constructor<span class="fstat-no" title="function not covered" >(err, stackTrace) {</span>
-<span class="cstat-no" title="statement not covered" >        if (!(err instanceof Error)) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new TypeError('Value of argument "err" violates contract.\n\nExpected:\nError\n\nGot:\n' + _inspect(err));</span>
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (!(stackTrace instanceof _StackTrace2.default)) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new TypeError('Value of argument "stackTrace" violates contract.\n\nExpected:\nStackTrace\n\nGot:\n' + _inspect(stackTrace));</span>
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        super(err.message);</span>
-<span class="cstat-no" title="statement not covered" >        this.originalError = err;</span>
-<span class="cstat-no" title="statement not covered" >        this.stackTrace = stackTrace;</span>
-&nbsp;
-        // http://stackoverflow.com/questions/35392675/how-to-override-error-stack-getter
-<span class="cstat-no" title="statement not covered" >        this.stack = this.toString();</span>
+  constructor<span class="fstat-no" title="function not covered" >(err, stackTrace) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!(err instanceof Error)) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new TypeError('Value of argument "err" violates contract.\n\nExpected:\nError\n\nGot:\n' + _inspect(err));</span>
     }
 &nbsp;
-    get name<span class="fstat-no" title="function not covered" >() {</span>
-<span class="fstat-no" title="function not covered" >        function _ref(_id) {</span>
-<span class="cstat-no" title="statement not covered" >            if (!(typeof _id === 'string')) {</span>
-<span class="cstat-no" title="statement not covered" >                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id));</span>
-            }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            return _id;</span>
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        return _ref(this.originalError.name);</span>
+<span class="cstat-no" title="statement not covered" >    if (!(stackTrace instanceof _StackTrace2.default)) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new TypeError('Value of argument "stackTrace" violates contract.\n\nExpected:\nStackTrace\n\nGot:\n' + _inspect(stackTrace));</span>
     }
 &nbsp;
-    get message<span class="fstat-no" title="function not covered" >() {</span>
-<span class="fstat-no" title="function not covered" >        function _ref2(_id2) {</span>
-<span class="cstat-no" title="statement not covered" >            if (!(typeof _id2 === 'string')) {</span>
-<span class="cstat-no" title="statement not covered" >                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id2));</span>
-            }
+<span class="cstat-no" title="statement not covered" >    super(err.message);</span>
+<span class="cstat-no" title="statement not covered" >    this.originalError = err;</span>
+<span class="cstat-no" title="statement not covered" >    this.stackTrace = stackTrace;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return _id2;</span>
-        }
+    // http://stackoverflow.com/questions/35392675/how-to-override-error-stack-getter
+<span class="cstat-no" title="statement not covered" >    this.stack = this.toString();</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return _ref2(this.originalError.message);</span>
+  get name<span class="fstat-no" title="function not covered" >() {</span>
+<span class="fstat-no" title="function not covered" >    function _ref(_id) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!(typeof _id === 'string')) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id));</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return _id;</span>
     }
 &nbsp;
-    get originalStack<span class="fstat-no" title="function not covered" >() {</span>
-<span class="fstat-no" title="function not covered" >        function _ref3(_id3) {</span>
-<span class="cstat-no" title="statement not covered" >            if (!(typeof _id3 === 'string')) {</span>
-<span class="cstat-no" title="statement not covered" >                throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id3));</span>
-            }
+<span class="cstat-no" title="statement not covered" >    return _ref(this.originalError.name);</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return _id3;</span>
-        }
+  get message<span class="fstat-no" title="function not covered" >() {</span>
+<span class="fstat-no" title="function not covered" >    function _ref2(_id2) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!(typeof _id2 === 'string')) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id2));</span>
+      }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return _ref3(this.originalError.stack);</span>
+<span class="cstat-no" title="statement not covered" >      return _id2;</span>
     }
 &nbsp;
-    toString<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        if (this._toStringCache) {</span>
-<span class="cstat-no" title="statement not covered" >            return this._toStringCache;</span>
-        }
+<span class="cstat-no" title="statement not covered" >    return _ref2(this.originalError.message);</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        let str = `ParsedError: ${ this.name }: ${ this.message }\n`;</span>
-<span class="cstat-no" title="statement not covered" >        str += this.stackTrace.toString();</span>
+  get originalStack<span class="fstat-no" title="function not covered" >() {</span>
+<span class="fstat-no" title="function not covered" >    function _ref3(_id3) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!(typeof _id3 === 'string')) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id3));</span>
+      }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (this.previous) {</span>
-<span class="cstat-no" title="statement not covered" >            str += '\n';</span>
-<span class="cstat-no" title="statement not covered" >            str += 'PREVIOUS: ';</span>
-<span class="cstat-no" title="statement not covered" >            str += this.previous.toString();</span>
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        return this._toStringCache = str;</span>
+<span class="cstat-no" title="statement not covered" >      return _id3;</span>
     }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return _ref3(this.originalError.stack);</span>
+  }
+&nbsp;
+  toString<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >    if (this._toStringCache) {</span>
+<span class="cstat-no" title="statement not covered" >      return this._toStringCache;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let str = `ParsedError: ${ this.name }: ${ this.message }\n`;</span>
+<span class="cstat-no" title="statement not covered" >    str += this.stackTrace.toString();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (this.previous) {</span>
+<span class="cstat-no" title="statement not covered" >      str += '\n';</span>
+<span class="cstat-no" title="statement not covered" >      str += 'PREVIOUS: ';</span>
+<span class="cstat-no" title="statement not covered" >      str += this.previous.toString();</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return this._toStringCache = str;</span>
+  }
 }
 exports.default = ParsedError;
 &nbsp;
 <span class="fstat-no" title="function not covered" >function _inspect(input, depth) {</span>
-<span class="cstat-no" title="statement not covered" >    const maxDepth = 4;</span>
-<span class="cstat-no" title="statement not covered" >    const maxKeys = 15;</span>
+<span class="cstat-no" title="statement not covered" >  const maxDepth = 4;</span>
+<span class="cstat-no" title="statement not covered" >  const maxKeys = 15;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (depth === undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        depth = 0;</span>
-    }
+<span class="cstat-no" title="statement not covered" >  if (depth === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    depth = 0;</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    depth += 1;</span>
+<span class="cstat-no" title="statement not covered" >  depth += 1;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (input === null) {</span>
-<span class="cstat-no" title="statement not covered" >        return 'null';</span>
-    } else <span class="cstat-no" title="statement not covered" >if (input === undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        return 'void';</span>
-    } else <span class="cstat-no" title="statement not covered" >if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {</span>
-<span class="cstat-no" title="statement not covered" >        return typeof input;</span>
-    } else <span class="cstat-no" title="statement not covered" >if (Array.isArray(input)) {</span>
-<span class="cstat-no" title="statement not covered" >        if (input.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >            if (depth &gt; maxDepth) <span class="cstat-no" title="statement not covered" >return '[...]';</span></span>
+<span class="cstat-no" title="statement not covered" >  if (input === null) {</span>
+<span class="cstat-no" title="statement not covered" >    return 'null';</span>
+  } else <span class="cstat-no" title="statement not covered" >if (input === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    return 'void';</span>
+  } else <span class="cstat-no" title="statement not covered" >if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {</span>
+<span class="cstat-no" title="statement not covered" >    return typeof input;</span>
+  } else <span class="cstat-no" title="statement not covered" >if (Array.isArray(input)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (input.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      if (depth &gt; maxDepth) <span class="cstat-no" title="statement not covered" >return '[...]';</span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            const first = _inspect(input[0], depth);</span>
+<span class="cstat-no" title="statement not covered" >      const first = _inspect(input[0], depth);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if (input.every(item =&gt; <span class="cstat-no" title="statement not covered" >_inspect(item, depth) === first)</span>) {</span>
-<span class="cstat-no" title="statement not covered" >                return first.trim() + '[]';</span>
-            } else {
-<span class="cstat-no" title="statement not covered" >                return '[' + input.slice(0, maxKeys).map(item =&gt; <span class="cstat-no" title="statement not covered" >_inspect(item, depth))</span>.join(', ') + (input.length &gt;= maxKeys ? ', ...' : '') + ']';</span>
-            }
-        } else {
-<span class="cstat-no" title="statement not covered" >            return 'Array';</span>
-        }
+<span class="cstat-no" title="statement not covered" >      if (input.every(item =&gt; <span class="cstat-no" title="statement not covered" >_inspect(item, depth) === first)</span>) {</span>
+<span class="cstat-no" title="statement not covered" >        return first.trim() + '[]';</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        return '[' + input.slice(0, maxKeys).map(item =&gt; <span class="cstat-no" title="statement not covered" >_inspect(item, depth))</span>.join(', ') + (input.length &gt;= maxKeys ? ', ...' : '') + ']';</span>
+      }
     } else {
-<span class="cstat-no" title="statement not covered" >        const keys = Object.keys(input);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (!keys.length) {</span>
-<span class="cstat-no" title="statement not covered" >            if (input.constructor &amp;&amp; input.constructor.name &amp;&amp; input.constructor.name !== 'Object') {</span>
-<span class="cstat-no" title="statement not covered" >                return input.constructor.name;</span>
-            } else {
-<span class="cstat-no" title="statement not covered" >                return 'Object';</span>
-            }
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (depth &gt; maxDepth) <span class="cstat-no" title="statement not covered" >return '{...}';</span></span>
-<span class="cstat-no" title="statement not covered" >        const indent = '  '.repeat(depth - 1);</span>
-<span class="cstat-no" title="statement not covered" >        let entries = keys.slice(0, maxKeys).map(key =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            return (/^([A-Z_$][A-Z0-9_$]*)$/i.test(key) ? key : JSON.stringify(key)) + ': ' + _inspect(input[key], depth) + ';';</span>
-        }).join('\n  ' + indent);
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (keys.length &gt;= maxKeys) {</span>
-<span class="cstat-no" title="statement not covered" >            entries += '\n  ' + indent + '...';</span>
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (input.constructor &amp;&amp; input.constructor.name &amp;&amp; input.constructor.name !== 'Object') {</span>
-<span class="cstat-no" title="statement not covered" >            return input.constructor.name + ' {\n  ' + indent + entries + '\n' + indent + '}';</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >            return '{\n  ' + indent + entries + '\n' + indent + '}';</span>
-        }
+<span class="cstat-no" title="statement not covered" >      return 'Array';</span>
     }
+  } else {
+<span class="cstat-no" title="statement not covered" >    const keys = Object.keys(input);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!keys.length) {</span>
+<span class="cstat-no" title="statement not covered" >      if (input.constructor &amp;&amp; input.constructor.name &amp;&amp; input.constructor.name !== 'Object') {</span>
+<span class="cstat-no" title="statement not covered" >        return input.constructor.name;</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        return 'Object';</span>
+      }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (depth &gt; maxDepth) <span class="cstat-no" title="statement not covered" >return '{...}';</span></span>
+<span class="cstat-no" title="statement not covered" >    const indent = '  '.repeat(depth - 1);</span>
+<span class="cstat-no" title="statement not covered" >    let entries = keys.slice(0, maxKeys).map(key =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return (/^([A-Z_$][A-Z0-9_$]*)$/i.test(key) ? key : JSON.stringify(key)) + ': ' + _inspect(input[key], depth) + ';';</span>
+    }).join('\n  ' + indent);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (keys.length &gt;= maxKeys) {</span>
+<span class="cstat-no" title="statement not covered" >      entries += '\n  ' + indent + '...';</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (input.constructor &amp;&amp; input.constructor.name &amp;&amp; input.constructor.name !== 'Object') {</span>
+<span class="cstat-no" title="statement not covered" >      return input.constructor.name + ' {\n  ' + indent + entries + '\n' + indent + '}';</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      return '{\n  ' + indent + entries + '\n' + indent + '}';</span>
+    }
+  }
 }
 //# sourceMappingURL=ParsedError.js.map</pre></td></tr>
 </table></pre>
@@ -481,7 +481,7 @@ exports.default = ParsedError;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Aug 15 2016 13:40:27 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 09 2016 21:08:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../prettify.js"></script>

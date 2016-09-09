@@ -194,75 +194,75 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
 &nbsp;
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 class StackTraceItem {
-    constructor(item, sourceMapping) {
-        this.fileName = item.fileName;
-        this.lineNumber = item.lineNumber;
-        this.columnNumber = item.columnNumber;
-        this.functionName = item.functionName;
-        this.typeName = item.typeName;
-        this.methodName = item.methodName;
-        this.native = item.native;
-        this.file = item.file;
+  constructor(item, sourceMapping) {
+    this.fileName = item.fileName;
+    this.lineNumber = item.lineNumber;
+    this.columnNumber = item.columnNumber;
+    this.functionName = item.functionName;
+    this.typeName = item.typeName;
+    this.methodName = item.methodName;
+    this.native = item.native;
+    this.file = item.file;
 &nbsp;
-        this.compiledFileName = item.compiledFileName;
-        this.compiledLineNumber = item.compiledLineNumber;
-        this.compiledColumnNumber = item.compiledColumnNumber;
+    this.compiledFileName = item.compiledFileName;
+    this.compiledLineNumber = item.compiledLineNumber;
+    this.compiledColumnNumber = item.compiledColumnNumber;
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (sourceMapping &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >item.fileName </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >item.fileName.startsWith(sourceMapping.current))</span> {
-<span class="cstat-no" title="statement not covered" >            this.realFileName = sourceMapping.source + item.fileName.substr(sourceMapping.current.length);</span>
-<span class="cstat-no" title="statement not covered" >            if (this.compiledFileName) {</span>
-<span class="cstat-no" title="statement not covered" >                this.realCompiledFileName = sourceMapping.source + item.fileName.substr(sourceMapping.current.length);</span>
-            }
-        } else {
-            this.realFileName = item.fileName;
-            this.realCompiledFileName = item.compiledFileName;
-        }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (sourceMapping &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >item.fileName </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >item.fileName.startsWith(sourceMapping.current))</span> {
+<span class="cstat-no" title="statement not covered" >      this.realFileName = sourceMapping.source + item.fileName.substr(sourceMapping.current.length);</span>
+<span class="cstat-no" title="statement not covered" >      if (this.compiledFileName) {</span>
+<span class="cstat-no" title="statement not covered" >        this.realCompiledFileName = sourceMapping.source + item.fileName.substr(sourceMapping.current.length);</span>
+      }
+    } else {
+      this.realFileName = item.fileName;
+      this.realCompiledFileName = item.compiledFileName;
+    }
+  }
+&nbsp;
+  getFileName<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >    return this.fileName;</span>
+  }
+&nbsp;
+  getLineNumber<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >    return this.line;</span>
+  }
+&nbsp;
+  getColumnNumber<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >    return this.column + 1;</span>
+  }
+&nbsp;
+  getScriptNameOrSourceURL<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >    return this.fileName;</span>
+  }
+&nbsp;
+  toString<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >    let str = '    at ';</span>
+<span class="cstat-no" title="statement not covered" >    if (this.functionName) {</span>
+<span class="cstat-no" title="statement not covered" >      str += this.functionName;</span>
+    } else <span class="cstat-no" title="statement not covered" >if (this.typeName) {</span>
+<span class="cstat-no" title="statement not covered" >      str += `${ this.typeName }.${ this.methodName || '&lt;anonymous&gt;' }`;</span>
     }
 &nbsp;
-    getFileName<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        return this.fileName;</span>
+<span class="cstat-no" title="statement not covered" >    if (this.native) {</span>
+<span class="cstat-no" title="statement not covered" >      str += ' [native]';</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      const fullPath = `${ this.realFileName }:${ this.lineNumber }:${ this.columnNumber }`;</span>
+<span class="cstat-no" title="statement not covered" >      if (this.functionName || this.typeName) {</span>
+<span class="cstat-no" title="statement not covered" >        str += ` (${ fullPath })`;</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        str += fullPath;</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (this.compiledFileName &amp;&amp; this.compiledFileName !== this.realFileName) {</span>
+<span class="cstat-no" title="statement not covered" >        const compiledPath = `${ this.compiledFileName }:${ this.compiledLineNumber }:${ this.compiledColumnNumber }`;</span>
+<span class="cstat-no" title="statement not covered" >        str += ` (compiled= ${ compiledPath })`;</span>
+      }
     }
-&nbsp;
-    getLineNumber<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        return this.line;</span>
-    }
-&nbsp;
-    getColumnNumber<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        return this.column + 1;</span>
-    }
-&nbsp;
-    getScriptNameOrSourceURL<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        return this.fileName;</span>
-    }
-&nbsp;
-    toString<span class="fstat-no" title="function not covered" >() {</span>
-<span class="cstat-no" title="statement not covered" >        let str = '    at ';</span>
-<span class="cstat-no" title="statement not covered" >        if (this.functionName) {</span>
-<span class="cstat-no" title="statement not covered" >            str += this.functionName;</span>
-        } else <span class="cstat-no" title="statement not covered" >if (this.typeName) {</span>
-<span class="cstat-no" title="statement not covered" >            str += `${ this.typeName }.${ this.methodName || '&lt;anonymous&gt;' }`;</span>
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (this.native) {</span>
-<span class="cstat-no" title="statement not covered" >            str += ' [native]';</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >            const fullPath = `${ this.realFileName }:${ this.lineNumber }:${ this.columnNumber }`;</span>
-<span class="cstat-no" title="statement not covered" >            if (this.functionName || this.typeName) {</span>
-<span class="cstat-no" title="statement not covered" >                str += ` (${ fullPath })`;</span>
-            } else {
-<span class="cstat-no" title="statement not covered" >                str += fullPath;</span>
-            }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            if (this.compiledFileName &amp;&amp; this.compiledFileName !== this.realFileName) {</span>
-<span class="cstat-no" title="statement not covered" >                const compiledPath = `${ this.compiledFileName }:${ this.compiledLineNumber }:${ this.compiledColumnNumber }`;</span>
-<span class="cstat-no" title="statement not covered" >                str += ` (compiled= ${ compiledPath })`;</span>
-            }
-        }
-<span class="cstat-no" title="statement not covered" >        return str;</span>
-    }
+<span class="cstat-no" title="statement not covered" >    return str;</span>
+  }
 }
 exports.default = StackTraceItem;
 //# sourceMappingURL=StackTraceItem.js.map</pre></td></tr>
@@ -271,7 +271,7 @@ exports.default = StackTraceItem;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Aug 15 2016 13:40:27 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 09 2016 21:08:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../prettify.js"></script>
