@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.setPathMapping = setPathMapping;
-exports.parse = parse;
 exports.parseErrorStack = parseErrorStack;
+exports.parse = parse;
 
 var _fs = require('fs');
 
@@ -24,8 +24,7 @@ var _StackTraceItem2 = _interopRequireDefault(_StackTraceItem);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* global BROWSER, NODEJS */
-const path = require('path'); //defines: #if NODEJS = true
-
+const path = require('path');
 const stackTrace = require('stack-trace');
 const sourceMap = require('source-map');
 
@@ -39,22 +38,6 @@ let sourceMapping;
  */
 function setPathMapping(currentPath, sourcePath) {
   sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });
-}
-
-/**
- * Parse an error and extract its stack trace
- *
- * @param  {Error} err
- * @return {ParsedError}
- */
-function parse(err) {
-  let parsedError = new _ParsedError2.default(err, parseErrorStack(err));
-
-  if (err.previous) {
-    parsedError.previous = parse(err.previous);
-  }
-
-  return parsedError;
 }
 
 /**
@@ -78,6 +61,7 @@ function parseErrorStack(err) {
       if (libFiles.has(fileName)) {
         file = libFiles.get(fileName);
       } else {
+        {
           file = {};
           const dirname = path.dirname(fileName);
           try {
@@ -87,7 +71,7 @@ function parseErrorStack(err) {
             libFiles.set(fileName, file);
 
             try {
-              let fileNameMap = `${ fileName }.map`;
+              let fileNameMap = `${fileName}.map`;
               const match = /\/\/[#@]\s*sourceMappingURL=(.*)\s*$/m.exec(fileContent);
               if (match && match[1] && match[1][0] === '/') {
                 fileNameMap = path.resolve(dirname, match[1]);
@@ -107,6 +91,7 @@ function parseErrorStack(err) {
             libFiles.set(fileName, file = false);
           }
         }
+      }
     }
 
     if (file && file.map) {
@@ -130,21 +115,19 @@ function parseErrorStack(err) {
             originalFile.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
           }
 
-          {
-            if (!originalFile.contents) {
-              Object.defineProperty(originalFile, 'contents', {
-                configurable: true,
-                get: function get() {
-                  let contents;
-                  try {
-                    contents = (0, _fs.readFileSync)(originalFilePath).toString();
-                  } catch (err) {}
+          if (!originalFile.contents) {
+            Object.defineProperty(originalFile, 'contents', {
+              configurable: true,
+              get: function get() {
+                let contents;
+                try {
+                  contents = (0, _fs.readFileSync)(originalFilePath).toString();
+                } catch (err) {}
 
-                  Object.defineProperty(originalFile, 'contents', { value: contents });
-                  return contents;
-                }
-              });
-            }
+                Object.defineProperty(originalFile, 'contents', { value: contents });
+                return contents;
+              }
+            });
           }
         }
 
@@ -174,5 +157,21 @@ function parseErrorStack(err) {
   });
 
   return finalStack;
+}
+
+/**
+ * Parse an error and extract its stack trace
+ *
+ * @param  {Error} err
+ * @return {ParsedError}
+ */
+function parse(err) {
+  let parsedError = new _ParsedError2.default(err, parseErrorStack(err));
+
+  if (err.previous) {
+    parsedError.previous = parse(err.previous);
+  }
+
+  return parsedError;
 }
 //# sourceMappingURL=index.js.map

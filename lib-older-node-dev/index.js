@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.setPathMapping = setPathMapping;
-exports.parse = parse;
 exports.parseErrorStack = parseErrorStack;
+exports.parse = parse;
 
 var _fs = require('fs');
 
@@ -24,12 +24,11 @@ var _StackTraceItem2 = _interopRequireDefault(_StackTraceItem);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* global BROWSER, NODEJS */
-var path = require('path'); //defines: #if NODEJS = true
-
+var path = require('path');
 var stackTrace = require('stack-trace');
 var sourceMap = require('source-map');
 
-var sourceMapping = undefined;
+var sourceMapping = void 0;
 
 /**
  * Set path mapping, for instance when you have a vm or docker
@@ -39,22 +38,6 @@ var sourceMapping = undefined;
  */
 function setPathMapping(currentPath, sourcePath) {
   sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });
-}
-
-/**
- * Parse an error and extract its stack trace
- *
- * @param  {Error} err
- * @return {ParsedError}
- */
-function parse(err) {
-  var parsedError = new _ParsedError2.default(err, parseErrorStack(err));
-
-  if (err.previous) {
-    parsedError.previous = parse(err.previous);
-  }
-
-  return parsedError;
 }
 
 /**
@@ -72,12 +55,13 @@ function parseErrorStack(err) {
 
   stack.forEach(function (line) {
     var fileName = line.fileName;
-    var file = undefined;
+    var file = void 0;
 
     if (fileName && fileName.startsWith('/')) {
       if (libFiles.has(fileName)) {
         file = libFiles.get(fileName);
       } else {
+        {
           file = {};
           var dirname = path.dirname(fileName);
           try {
@@ -107,63 +91,58 @@ function parseErrorStack(err) {
             libFiles.set(fileName, file = false);
           }
         }
+      }
     }
 
     if (file && file.map) {
-      (function () {
-        var original = file.map.originalPositionFor({
-          line: line.lineNumber,
-          column: line.columnNumber
-        });
-        var originalFile = undefined;
+      var original = file.map.originalPositionFor({
+        line: line.lineNumber,
+        column: line.columnNumber
+      });
+      var originalFile = void 0;
 
-        if (original.source) {
-          (function () {
-            var originalFilePath = path.resolve(file.sourceRoot, original.source);
+      if (original.source) {
+        var originalFilePath = path.resolve(file.sourceRoot, original.source);
 
-            if (sourceFiles.has(originalFilePath)) {
-              originalFile = sourceFiles.get(originalFilePath);
-            } else {
-              originalFile = { fileName: original.source, filePath: originalFilePath };
-              sourceFiles.set(originalFilePath, originalFile);
+        if (sourceFiles.has(originalFilePath)) {
+          originalFile = sourceFiles.get(originalFilePath);
+        } else {
+          originalFile = { fileName: original.source, filePath: originalFilePath };
+          sourceFiles.set(originalFilePath, originalFile);
 
-              if (file.map.sourcesContent) {
-                var sourceIndex = file.map.sources.indexOf(original.source);
-                originalFile.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
+          if (file.map.sourcesContent) {
+            var sourceIndex = file.map.sources.indexOf(original.source);
+            originalFile.contents = sourceIndex !== -1 && file.map.sourcesContent[sourceIndex];
+          }
+
+          if (!originalFile.contents) {
+            Object.defineProperty(originalFile, 'contents', {
+              configurable: true,
+              get: function get() {
+                var contents = void 0;
+                try {
+                  contents = (0, _fs.readFileSync)(originalFilePath).toString();
+                } catch (err) {}
+
+                Object.defineProperty(originalFile, 'contents', { value: contents });
+                return contents;
               }
-
-              {
-                if (!originalFile.contents) {
-                  Object.defineProperty(originalFile, 'contents', {
-                    configurable: true,
-                    get: function get() {
-                      var contents = undefined;
-                      try {
-                        contents = (0, _fs.readFileSync)(originalFilePath).toString();
-                      } catch (err) {}
-
-                      Object.defineProperty(originalFile, 'contents', { value: contents });
-                      return contents;
-                    }
-                  });
-                }
-              }
-            }
-
-            line.compiledFileName = line.fileName;
-            line.compiledLineNumber = line.lineNumber;
-            line.compiledColumnNumber = line.columnNumber;
-
-            line.file = originalFile;
-            line.fileName = originalFile.filePath;
-            line.lineNumber = original.line;
-            line.columnNumber = original.column;
-            if (original.name) {
-              line.methodName = original.name;
-            }
-          })();
+            });
+          }
         }
-      })();
+
+        line.compiledFileName = line.fileName;
+        line.compiledLineNumber = line.lineNumber;
+        line.compiledColumnNumber = line.columnNumber;
+
+        line.file = originalFile;
+        line.fileName = originalFile.filePath;
+        line.lineNumber = original.line;
+        line.columnNumber = original.column;
+        if (original.name) {
+          line.methodName = original.name;
+        }
+      }
     }
 
     if (!line.file && file && file.contents) {
@@ -178,5 +157,21 @@ function parseErrorStack(err) {
   });
 
   return finalStack;
+}
+
+/**
+ * Parse an error and extract its stack trace
+ *
+ * @param  {Error} err
+ * @return {ParsedError}
+ */
+function parse(err) {
+  var parsedError = new _ParsedError2.default(err, parseErrorStack(err));
+
+  if (err.previous) {
+    parsedError.previous = parse(err.previous);
+  }
+
+  return parsedError;
 }
 //# sourceMappingURL=index.js.map

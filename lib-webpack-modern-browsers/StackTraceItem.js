@@ -41,26 +41,26 @@ export default class StackTraceItem {
   }
 
   toString() {
-    var str = '    at ';
+    let str = '    at ';
     if (this.functionName) {
       str += this.functionName;
     } else if (this.typeName) {
-      str += `${ this.typeName }.${ this.methodName || '<anonymous>' }`;
+      str += `${this.typeName}.${this.methodName || '<anonymous>'}`;
     }
 
     if (this.native) {
       str += ' [native]';
     } else {
-      var fullPath = `${ this.realFileName }:${ this.lineNumber }:${ this.columnNumber }`;
+      const fullPath = `${this.realFileName}:${this.lineNumber}:${this.columnNumber}`;
       if (this.functionName || this.typeName) {
-        str += ` (${ fullPath })`;
+        str += ` (${fullPath})`;
       } else {
         str += fullPath;
       }
 
       if (this.compiledFileName && this.compiledFileName !== this.realFileName) {
-        var compiledPath = `${ this.compiledFileName }:${ this.compiledLineNumber }:${ this.compiledColumnNumber }`;
-        str += ` (compiled= ${ compiledPath })`;
+        const compiledPath = `${this.compiledFileName}:${this.compiledLineNumber}:${this.compiledColumnNumber}`;
+        str += ` (compiled= ${compiledPath})`;
       }
     }
     return str;

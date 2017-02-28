@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* eslint max-len: 'off', class-methods-use-this: 'off' */
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* eslint-disable max-len, max-lines */
 
 var _escapeHtml = require('escape-html');
 
@@ -113,7 +113,7 @@ var HtmlRenderer = function () {
       var str = '<style>.string{ color: #EC7600; }\n.keyword, .null{ font-weight: bold; color: #93C763; }\n.numeric{ color: #FACD22; }\n.line-comment{ color: #66747B; }\n.identifier{ }\n.control-flow{ color: #93C763; }\n.azerty1{ color: #66747B; }\n.azerty2{ color: #678CB1; }\n.azerty5{ color: #F1F2F3; }\n.azerty6{ color: #8AC763; }\n.azerty7{ color: #E0E2E4; }\n.azerty9{ color: purple; }\n</style>';
       stackTrace.forEach(function (item, i) {
         if (item.file && item.file.contents || item.compiledFileName) {
-          str += '<span><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
+          str += '<span><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\\\'none\\\'?\\\'block\\\':\\\'none\\\';">';
         }
 
         str += '#' + i + ' ';
@@ -182,11 +182,10 @@ var HtmlRenderer = function () {
   }, {
     key: 'highlightLine',
     value: function highlightLine(contents, lineNumber /* , columnNumber */) {
-      var style = 'background:#3F1F1F;';
       var withLineNumbers = true;
       var minmax = 4;
 
-      var hcontents = undefined;
+      var hcontents = void 0;
       try {
         hcontents = (0, _eshighlightFb2.default)(contents);
       } catch (err) {
@@ -196,10 +195,10 @@ var HtmlRenderer = function () {
       hcontents = hcontents.split(/\r\n|\n\r|\n|\r/);
 
       var ok = lineNumber <= hcontents.length;
-      var firstLine = undefined;
-      var start = undefined;
-      var lineContent = undefined;
-      var end = undefined;
+      var firstLine = void 0;
+      var start = void 0;
+      var lineContent = void 0;
+      var end = void 0;
 
       if (ok) {
         firstLine = Math.max(0, lineNumber - 1 - minmax);
@@ -216,13 +215,11 @@ var HtmlRenderer = function () {
 
       var content = this.lines(withLineNumbers, ok ? firstLine + 1 : 1, start);
       if (ok) {
-        var attributes = { style: style };
-        content += this.line(withLineNumbers, lineNumber, attributes, lineContent);
+        content += this.line(withLineNumbers, lineNumber, { style: 'background:#3F1F1F;' }, lineContent);
         content += this.lines(withLineNumbers, lineNumber + 1, end);
       }
 
-      var preAttrs = { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' };
-      return tag('pre', preAttrs, content, false);
+      return tag('pre', { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' }, content, false);
     }
 
     /**

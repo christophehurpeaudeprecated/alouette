@@ -1,4 +1,4 @@
-import StackTraceItem from './StackTraceItem';
+
 
 export default class StackTrace {
 
@@ -6,12 +6,14 @@ export default class StackTrace {
     this.items = [];
   }
 
-  forEach() {
-    return this.items.forEach(...arguments);
+  forEach(...args) {
+    return this.items.forEach(...args);
   }
 
   toArray() {
-    return this.items.map(item => item.toString());
+    return this.items.map(function (item) {
+      return item.toString();
+    });
   }
 
   toString() {

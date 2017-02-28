@@ -1,4 +1,4 @@
-/* eslint max-len: 'off', class-methods-use-this: 'off' */
+/* eslint-disable max-len, max-lines */
 
 import escape from 'escape-html';
 import highlight from 'eshighlight-fb';
@@ -194,7 +194,7 @@ export default class HtmlRenderer {
 
     let content = this.lines(withLineNumbers, ok ? firstLine + 1 : 1, start);
     if (ok) {
-      let attributes = { style: style };
+      let attributes = { style };
       content += this.line(withLineNumbers, lineNumber, attributes, lineContent);
       content += this.lines(withLineNumbers, lineNumber + 1, end);
     }

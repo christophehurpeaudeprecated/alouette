@@ -1,5 +1,5 @@
 /* global BROWSER, NODEJS */
-import { readFileSync } from 'fs'; // #if NODEJS
+import { readFileSync } from 'fs';
 import ParsedError from './ParsedError';
 import StackTrace from './StackTrace';
 import StackTraceItem from './StackTraceItem';
@@ -18,22 +18,6 @@ let sourceMapping;
  */
 export function setPathMapping(currentPath, sourcePath) {
   sourceMapping = Object.freeze({ current: currentPath, source: sourcePath });
-}
-
-/**
- * Parse an error and extract its stack trace
- *
- * @param  {Error} err
- * @return {ParsedError}
- */
-export function parse(err) {
-  let parsedError = new ParsedError(err, parseErrorStack(err));
-
-  if (err.previous) {
-    parsedError.previous = parse(err.previous);
-  }
-
-  return parsedError;
 }
 
 /**
@@ -157,4 +141,20 @@ export function parseErrorStack(err) {
   });
 
   return finalStack;
+}
+
+/**
+ * Parse an error and extract its stack trace
+ *
+ * @param  {Error} err
+ * @return {ParsedError}
+ */
+export function parse(err) {
+  let parsedError = new ParsedError(err, parseErrorStack(err));
+
+  if (err.previous) {
+    parsedError.previous = parse(err.previous);
+  }
+
+  return parsedError;
 }

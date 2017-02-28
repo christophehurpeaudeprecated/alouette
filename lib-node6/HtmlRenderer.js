@@ -20,19 +20,19 @@ var _StackTrace2 = _interopRequireDefault(_StackTrace);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint max-len: 'off', class-methods-use-this: 'off' */
+/* eslint-disable max-len, max-lines */
 
 function tag(tagName, attributes, content, contentEscape) {
   attributes = attributes || {};
   let str = '';
   Object.keys(attributes).forEach(key => {
-    str += ` ${ key }`;
+    str += ` ${key}`;
     if (attributes[key]) {
-      str += `="${ attributes[key] === true ? key : (0, _escapeHtml2.default)(attributes[key]) }"`;
+      str += `="${attributes[key] === true ? key : (0, _escapeHtml2.default)(attributes[key])}"`;
     }
   });
 
-  return `<${ tagName }${ str }${ content == null ? '/' : `>${ contentEscape ? (0, _escapeHtml2.default)(content) : content }</${ tagName }` }>`;
+  return `<${tagName}${str}${content == null ? '/' : `>${contentEscape ? (0, _escapeHtml2.default)(content) : content}</${tagName}`}>`;
 }
 
 class HtmlRenderer {
@@ -50,7 +50,7 @@ class HtmlRenderer {
       filePath = this.openLocalFile.sourcePath + filePath.substr(this.openLocalFile.generatedPath.length);
     }
 
-    return `<a download href="${ this.options.fileProtocol }://${ (0, _escapeHtml2.default)(realFilePath || filePath) }` + `${ !lineNumber ? '' : `?${ lineNumber }${ !columnNumber ? '' : `:${ columnNumber }` }` }">`;
+    return `<a download href="${this.options.fileProtocol}://${(0, _escapeHtml2.default)(realFilePath || filePath)}` + `${!lineNumber ? '' : `?${lineNumber}${!columnNumber ? '' : `:${columnNumber}`}`}">`;
   }
 
   /**
@@ -58,7 +58,7 @@ class HtmlRenderer {
    */
   replaceAppInFilePath(filePath) {
     if (this.openLocalFile.generatedPath) {
-      filePath = `APP/${ filePath.substr(this.openLocalFile.generatedPath.length) }`;
+      filePath = `APP/${filePath.substr(this.openLocalFile.generatedPath.length)}`;
     }
 
     return filePath;
@@ -69,7 +69,7 @@ class HtmlRenderer {
    */
   render(error) {
     let str = '<div style="text-align: left">';
-    str += `<h4>${ error.name }</h4>\n`;
+    str += `<h4>${error.name}</h4>\n`;
     if (error.message) {
       str += '<pre style="background:#FFF;color:#222;border:0;font-size:1em;white-space:pre-wrap;word-wrap:break-word">';
       str += (0, _escapeHtml2.default)(error.message);
@@ -79,7 +79,7 @@ class HtmlRenderer {
     str += '<h5 style="background:#FFDDAA;color:#333;border:1px solid #E07308;padding:1px 2px;">Call Stack:</h5>\n';
 
     if (!this.options.production) {
-      str += `<pre style="background:#FFF;color:#222;border:0">${ this.renderStack(error) }</pre>`;
+      str += `<pre style="background:#FFF;color:#222;border:0">${this.renderStack(error)}</pre>`;
     }
 
     return str;
@@ -106,17 +106,17 @@ class HtmlRenderer {
 </style>`;
     stackTrace.forEach((item, i) => {
       if (item.file && item.file.contents || item.compiledFileName) {
-        str += '<span><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\'none\'?\'block\':\'none\';">';
+        str += '<span><a href="javascript:;" style="color:#CC7A00;text-decoration:none;outline:none;" onclick="var el=this.parentNode.nextElementSibling; el.style.display=el.style.display==\\\'none\\\'?\\\'block\\\':\\\'none\\\';">';
       }
 
-      str += `#${ i } `;
+      str += `#${i} `;
       if (item.fileName && item.fileName.startsWith('/')) {
         str += this.openLocalFile(item.fileName, item.lineNumber, item.columnNumber, item.realFileName);
       }
 
       if (!item.native) {
         str += this.replaceAppInFilePath(item.realFileName || item.fileName);
-        str += `:${ item.lineNumber }:${ item.columnNumber }`;
+        str += `:${item.lineNumber}:${item.columnNumber}`;
       }
 
       if (item.fileName) {
@@ -126,7 +126,7 @@ class HtmlRenderer {
       if (item.functionName) {
         str += item.functionName;
       } else if (item.typeName) {
-        str += `${ item.typeName }.${ item.methodName || '<anonymous>' }`;
+        str += `${item.typeName}.${item.methodName || '<anonymous>'}`;
       }
 
       if (item.native) {
@@ -144,7 +144,7 @@ class HtmlRenderer {
           }
 
           str += this.replaceAppInFilePath(item.realCompiledFileName);
-          str += `:${ item.compiledLineNumber }:${ item.compiledColumnNumber }`;
+          str += `:${item.compiledLineNumber}:${item.compiledColumnNumber}`;
           if (item.realCompiledFileName && item.realCompiledFileName.startsWith('/')) {
             str += '</a>';
           }
@@ -172,7 +172,6 @@ class HtmlRenderer {
    * @ignore
    */
   highlightLine(contents, lineNumber /* , columnNumber */) {
-    let style = 'background:#3F1F1F;';
     let withLineNumbers = true;
     let minmax = 4;
 
@@ -206,13 +205,11 @@ class HtmlRenderer {
 
     let content = this.lines(withLineNumbers, ok ? firstLine + 1 : 1, start);
     if (ok) {
-      let attributes = { style: style };
-      content += this.line(withLineNumbers, lineNumber, attributes, lineContent);
+      content += this.line(withLineNumbers, lineNumber, { style: 'background:#3F1F1F;' }, lineContent);
       content += this.lines(withLineNumbers, lineNumber + 1, end);
     }
 
-    let preAttrs = { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' };
-    return tag('pre', preAttrs, content, false);
+    return tag('pre', { style: 'background:#0F0F0F;color:#E0E2E4;border:0;padding:0;position:relative;' }, content, false);
   }
 
   /**
@@ -230,10 +227,10 @@ class HtmlRenderer {
    * @ignore
    */
   line(withLineNumbers, lineNumber, attributes, contentLine) {
-    attributes.style = `${ attributes.style || '' }white-space:pre-wrap;` + `${ withLineNumbers ? 'padding-left:20px;' : '' }`;
+    attributes.style = `${attributes.style || ''}white-space:pre-wrap;` + `${withLineNumbers ? 'padding-left:20px;' : ''}`;
 
     if (withLineNumbers) {
-      contentLine = '<i style="color:#AAA;font-size:7pt;position:absolute;left:1px;padding-top:1px;">' + `${ lineNumber }</i>${ contentLine }`;
+      contentLine = '<i style="color:#AAA;font-size:7pt;position:absolute;left:1px;padding-top:1px;">' + `${lineNumber}</i>${contentLine}`;
     }
 
     return tag('div', attributes, contentLine);
