@@ -1,3 +1,12 @@
+<a name="5.5.0"></a>
+# [5.5.0](https://github.com/christophehurpeau/alouette/compare/v5.4.0...v5.5.0) (2017-02-28)
+
+
+### Features
+
+* pob upgrade ([bca06ef](https://github.com/christophehurpeau/alouette/commit/bca06ef))
+
+
 ### v5.4.0
 
 - [`9406ae9`](https://github.com/christophehurpeau/alouette/commit/9406ae97a7d103209d132f49f0adb3d471cbbf6e) fix browser aliases (Christophe Hurpeau)
