@@ -1,5 +1,7 @@
 # alouette [![NPM version][npm-image]][npm-url]
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/christophehurpeau/alouette.svg)](https://greenkeeper.io/)
+
 Parse an error with its stack trace, apply source maps and render it in console or in html
 
 [![Build Status][circleci-status-image]][circleci-status-url]
