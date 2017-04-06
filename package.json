@@ -1,6 +1,6 @@
 {
   "name": "alouette",
-  "version": "5.5.0",
+  "version": "6.0.0",
   "description": "Parse an error with its stack trace, apply source maps and render it in console or in html",
   "keywords": [
     "error",
